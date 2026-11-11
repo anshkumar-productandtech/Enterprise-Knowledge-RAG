@@ -1,6 +1,6 @@
 # Corpus check
 
-Run: 2026-11-11T14:56:08Z, commit 886e552
+Run: 2026-11-11T15:06:24Z, commit 1582d0e
 
 ## Handbook clone
 ```
@@ -28,15 +28,7 @@ Pages per configured section:
     105  handbook/legal
 
 50 questions (45 answerable), 733 pages in corpus
-
-3 problem(s):
-  - g07: fact no longer on the page: 'Paid Caregiver Sick Time'
-      closest line: You may not extend paid parental leave through the use of Paid [Caregiver Sick Time](/handbook/people-group/time-off-and-absence/time-off-types/#caregiver-sick-time), unless you have a family member with a serious health
-  - e07: fact no longer on the page: 'Job Grades 8 and 9'
-      closest line: Incident Manager responsibilities are expected of Engineering Management and Staff+ Engineer job families in the Development and Infrastructure departments. Previously, Incident Manager responsibilities were fulfilled by
-  - s02: fact no longer on the page: 'Personal Data Exception'
-      closest line: While Personal Data is classified as Orange, there is an exception for GitLab Team Member names, their work email addresses, and their GitLab usernames, which are classified as Yellow. These two Personal Data elements ar
-VALIDATION FAILED
+Golden set matches the corpus.
 ```
 
 ## Corpus size per chunking setup (dry run, nothing embedded)
