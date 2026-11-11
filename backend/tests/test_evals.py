@@ -118,3 +118,11 @@ def test_later_experiments_inherit_the_best_chunk_size(tmp_path, monkeypatch):
 
     (tmp_path / "c.json").write_text(json.dumps(result(384, 0.9, 0.9, label="MOCK RUN")))
     assert rx.best_chunk(plan) is None  # mock numbers never drive a decision
+
+
+def test_fact_matching_sees_through_markdown_links_and_emphasis():
+    from scripts.validate_golden_set import _plain
+
+    page = "You may not use Paid [Caregiver Sick Time](/handbook/time-off/#caregiver), unless **approved**."
+    assert _plain("Paid Caregiver Sick Time") in _plain(page)
+    assert _plain("unless approved") in _plain(page)

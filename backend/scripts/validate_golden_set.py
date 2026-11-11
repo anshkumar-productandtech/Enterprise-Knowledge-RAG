@@ -35,6 +35,8 @@ def load_golden(path: Path | None = None) -> list[dict]:
 
 
 def _plain(text: str) -> str:
+    """Lowercase, with markdown links reduced to their text and emphasis marks removed."""
+    text = re.sub(r"\[([^\]]*)\]\([^)]*\)", r"\1", text)
     return re.sub(r"[\s*_`]+", " ", text.lower())
 
 
