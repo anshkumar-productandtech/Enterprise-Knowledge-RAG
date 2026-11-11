@@ -1,0 +1,575 @@
+/*
+  Handbook assistant
+
+  The idea: a policy answer read like an annotated page. The answer is set in a
+  reading serif; its sources sit in the margin beside it; and the link between a
+  claim and its passage is drawn with a highlighter, the way you would mark up
+  a printed handbook. The highlighter yellow is the only loud thing on the page.
+
+  Public Sans (built for plain government documents) carries the interface.
+  Source Serif 4 carries the answers.
+*/
+
+:root {
+  --paper: #eef1f4;
+  --sheet: #ffffff;
+  --ink: #17233a;
+  --ink-soft: #566176;
+  --rule: #d3d9e2;
+  --mark: #ffe269;
+  --mark-edge: #e3b900;
+  --seal: #0b6e6e;
+  --alert: #a3301e;
+
+  --ui: "Public Sans Variable", "Public Sans", system-ui, sans-serif;
+  --reading: "Source Serif 4 Variable", "Source Serif 4", Georgia, serif;
+
+  /* type scale, ratio 1.2 on a 17px base */
+  --t-small: 0.8125rem;
+  --t-ui: 0.9375rem;
+  --t-body: 1.0625rem;
+  --t-question: 1.275rem;
+  --t-title: 1.53rem;
+
+  --measure: 62ch;
+  --margin-col: 19rem;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--ui);
+  font-size: var(--t-ui);
+  line-height: 1.5;
+}
+
+button,
+textarea,
+input {
+  font: inherit;
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 2px solid var(--seal);
+  outline-offset: 2px;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* ------------------------------------------------------------------ frame */
+
+.shell {
+  min-height: 100dvh;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  max-width: calc(var(--measure) + var(--margin-col) + 9rem);
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.masthead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem 2rem;
+  padding: 1.75rem 0 1.25rem;
+  border-bottom: 1px solid var(--rule);
+}
+
+.masthead h1 {
+  margin: 0;
+  font-size: var(--t-title);
+  font-weight: 650;
+  letter-spacing: -0.015em;
+  line-height: 1.15;
+}
+
+/* ------------------------------------------------------------------ roles */
+
+.roles {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  min-width: 0;
+}
+
+.roles legend {
+  padding: 0;
+  margin-bottom: 0.4rem;
+  font-size: var(--t-small);
+  color: var(--ink-soft);
+}
+
+.roles-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.375rem;
+}
+
+.roles label {
+  position: relative;
+  padding: 0.3rem 0.7rem;
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  background: var(--sheet);
+  cursor: pointer;
+  line-height: 1.3;
+}
+
+.roles label:hover {
+  border-color: var(--seal);
+}
+
+.roles label.is-selected {
+  background: var(--seal);
+  border-color: var(--seal);
+  color: #fff;
+  font-weight: 600;
+}
+
+.roles input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.roles label:has(input:focus-visible) {
+  outline: 2px solid var(--seal);
+  outline-offset: 2px;
+}
+
+.roles-note {
+  margin: 0.4rem 0 0;
+  font-size: var(--t-small);
+  color: var(--ink-soft);
+}
+
+/* ----------------------------------------------------------------- thread */
+
+.thread {
+  padding: 2.5rem 0 2rem;
+}
+
+.notice {
+  margin: 0 0 2rem;
+  padding: 0.75rem 1rem;
+  max-width: var(--measure);
+  border-left: 3px solid var(--alert);
+  background: var(--sheet);
+}
+
+.welcome {
+  max-width: var(--measure);
+}
+
+.welcome h2 {
+  margin: 0 0 0.9rem;
+  font-family: var(--reading);
+  font-size: clamp(1.6rem, 1.1rem + 2vw, 2.2rem);
+  font-weight: 500;
+  line-height: 1.18;
+  letter-spacing: -0.012em;
+  text-wrap: balance;
+}
+
+.welcome p {
+  margin: 0 0 1.5rem;
+  color: var(--ink-soft);
+  font-size: var(--t-body);
+  max-width: 56ch;
+}
+
+.starters {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--rule);
+}
+
+.starters li {
+  border-bottom: 1px solid var(--rule);
+}
+
+.starters button {
+  display: block;
+  width: 100%;
+  padding: 0.8rem 0.25rem;
+  border: 0;
+  background: none;
+  text-align: left;
+  font-size: var(--t-body);
+  cursor: pointer;
+}
+
+.starters button:hover:not(:disabled) span,
+.starters button:focus-visible span {
+  background: linear-gradient(transparent 52%, var(--mark) 52%, var(--mark) 94%, transparent 94%);
+}
+
+.welcome .hint {
+  margin: 1.1rem 0 0;
+  font-size: var(--t-ui);
+}
+
+/* --------------------------------------------------------------- exchange */
+
+.exchange {
+  display: grid;
+  grid-template-columns: minmax(0, var(--measure)) minmax(0, var(--margin-col));
+  column-gap: 3.5rem;
+  align-items: start;
+  padding-bottom: 2.5rem;
+  margin-bottom: 2.5rem;
+  border-bottom: 1px solid var(--rule);
+}
+
+.exchange:last-of-type {
+  border-bottom: 0;
+  margin-bottom: 0;
+}
+
+.question {
+  margin: 0 0 0.9rem;
+  font-size: var(--t-question);
+  font-weight: 650;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+
+.progress {
+  margin: 0;
+  color: var(--ink-soft);
+}
+
+.answer {
+  font-family: var(--reading);
+  font-size: var(--t-body);
+  line-height: 1.62;
+}
+
+.answer p,
+.answer ul,
+.answer ol {
+  margin: 0 0 0.85rem;
+}
+
+.answer ul,
+.answer ol {
+  padding-left: 1.3rem;
+}
+
+.answer li + li {
+  margin-top: 0.3rem;
+}
+
+.answer.is-refusal {
+  font-family: var(--ui);
+  font-size: var(--t-ui);
+  line-height: 1.5;
+  padding: 0.85rem 1rem;
+  background: var(--sheet);
+  border: 1px dashed var(--rule);
+  border-radius: 6px;
+}
+
+.answer.is-refusal p {
+  margin: 0;
+}
+
+.caret {
+  display: inline-block;
+  width: 0.5em;
+  height: 1.05em;
+  margin-left: 0.1em;
+  vertical-align: text-bottom;
+  background: var(--mark);
+}
+
+/* The citation: a highlighter dab with the passage number on it. */
+.cite {
+  display: inline-block;
+  min-width: 1.45em;
+  margin: 0 0.12em;
+  padding: 0 0.3em;
+  border: 0;
+  border-radius: 3px;
+  background: var(--mark);
+  font-family: var(--ui);
+  font-size: 0.72em;
+  font-weight: 700;
+  line-height: 1.55;
+  vertical-align: 0.18em;
+  cursor: pointer;
+  transition: background-color 120ms ease;
+}
+
+.cite:hover,
+.cite:focus-visible {
+  background: var(--mark-edge);
+}
+
+.warning {
+  margin: 0.25rem 0 0.75rem;
+  padding: 0.5rem 0.75rem;
+  border-left: 3px solid var(--alert);
+  background: var(--sheet);
+}
+
+.receipt {
+  margin: 0.5rem 0 0;
+  font-size: var(--t-small);
+  color: var(--ink-soft);
+}
+
+.failure {
+  padding: 0.85rem 1rem;
+  border-left: 3px solid var(--alert);
+  background: var(--sheet);
+}
+
+.failure p {
+  margin: 0 0 0.6rem;
+}
+
+.failure button {
+  padding: 0.3rem 0.8rem;
+  border: 1px solid var(--ink);
+  border-radius: 4px;
+  background: none;
+  cursor: pointer;
+}
+
+/* ---------------------------------------------------------------- sources */
+
+.sources {
+  font-size: var(--t-small);
+  padding-top: 0.35rem;
+}
+
+.sources h3 {
+  margin: 0 0 0.6rem;
+  font-size: var(--t-small);
+  font-weight: 600;
+  color: var(--ink-soft);
+}
+
+.sources ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.source {
+  display: grid;
+  grid-template-columns: 1.5rem minmax(0, 1fr);
+  gap: 0.6rem;
+  padding: 0.65rem 0.6rem;
+  margin: 0 -0.6rem;
+  border-radius: 4px;
+  transition: background-color 120ms ease;
+}
+
+.source.is-active {
+  background: var(--mark);
+}
+
+.source-n {
+  display: grid;
+  place-items: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 3px;
+  background: var(--mark);
+  font-weight: 700;
+}
+
+.source.is-active .source-n {
+  background: var(--sheet);
+}
+
+.source a {
+  color: var(--ink);
+  font-size: var(--t-ui);
+  font-weight: 600;
+  line-height: 1.3;
+  text-decoration-color: var(--rule);
+  text-underline-offset: 0.18em;
+}
+
+.source a:hover {
+  text-decoration-color: var(--ink);
+}
+
+.source p {
+  margin: 0.2rem 0 0;
+}
+
+.source-heading {
+  color: var(--ink-soft);
+}
+
+.source-snippet {
+  font-family: var(--reading);
+  font-size: 0.875rem;
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.source-access {
+  color: var(--seal);
+  font-weight: 600;
+}
+
+.source.is-active .source-access,
+.source.is-active .source-heading {
+  color: var(--ink);
+}
+
+.sources details {
+  margin-top: 0.5rem;
+  padding-top: 0.6rem;
+  border-top: 1px solid var(--rule);
+}
+
+.sources summary {
+  color: var(--ink-soft);
+  cursor: pointer;
+}
+
+.sources details .source-n {
+  background: none;
+  border: 1px solid var(--rule);
+  font-weight: 500;
+}
+
+/* ------------------------------------------------------------------- dock */
+
+.dock {
+  position: sticky;
+  bottom: 0;
+  padding: 0.75rem 0 1rem;
+  background: linear-gradient(transparent, var(--paper) 1.25rem);
+}
+
+.composer {
+  display: flex;
+  gap: 0.5rem;
+  align-items: stretch;
+  max-width: calc(var(--measure) + 2rem);
+  padding: 0.4rem;
+  border: 1px solid var(--ink);
+  border-radius: 8px;
+  background: var(--sheet);
+}
+
+.composer:focus-within {
+  outline: 2px solid var(--seal);
+  outline-offset: 2px;
+}
+
+.composer textarea {
+  flex: 1;
+  min-width: 0;
+  padding: 0.5rem 0.6rem;
+  border: 0;
+  background: none;
+  resize: none;
+  font-size: var(--t-body);
+  line-height: 1.4;
+  field-sizing: content;
+  max-height: 8rem;
+}
+
+.composer textarea:focus {
+  outline: none;
+}
+
+.composer textarea::placeholder {
+  color: var(--ink-soft);
+  opacity: 0.85;
+}
+
+.composer button {
+  padding: 0 1.15rem;
+  min-height: 2.5rem;
+  border: 0;
+  border-radius: 5px;
+  background: var(--ink);
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.composer button:disabled {
+  background: var(--rule);
+  color: var(--ink-soft);
+  cursor: default;
+}
+
+.disclosure {
+  margin: 0.6rem 0 0;
+  max-width: calc(var(--measure) + 2rem);
+  font-size: 0.75rem;
+  line-height: 1.45;
+  color: var(--ink-soft);
+}
+
+/* ------------------------------------------------------------- responsive */
+
+@media (max-width: 62rem) {
+  .exchange {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .sources {
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--rule);
+  }
+}
+
+@media (max-width: 36rem) {
+  .shell {
+    padding: 0 1rem;
+  }
+
+  .masthead {
+    padding-top: 1.25rem;
+  }
+
+  .thread {
+    padding-top: 1.75rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}

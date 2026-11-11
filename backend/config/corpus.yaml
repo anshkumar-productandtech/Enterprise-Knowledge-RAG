@@ -1,0 +1,81 @@
+# What gets indexed, and who is allowed to read it.
+#
+# The GitLab handbook is public. The access groups below are SIMULATED so the
+# assistant can demonstrate department-restricted content. Say so in the case study.
+
+site_url: https://handbook.gitlab.com
+
+# Paths relative to HANDBOOK_CONTENT_DIR. Start small: every page here is embedded
+# once per chunking experiment. `python -m scripts.ingest --dry-run` prints the
+# token count and estimated cost before anything is sent to an API.
+include:
+  - handbook/people-group/time-off-and-absence
+  - handbook/people-group/learning-and-development
+  - handbook/people-group/acceptable-use-policy
+  - handbook/people-policies
+  - handbook/total-rewards
+  - handbook/entity
+  - handbook/finance
+  - handbook/engineering/infrastructure-platforms/incident-management
+  - handbook/engineering/infrastructure/incident-management
+  - handbook/security
+  - handbook/sales
+  - handbook/legal
+
+# Longest matching prefix wins, so a specific page can be opened up inside a
+# restricted section (expenses is a Finance page that every employee needs).
+access_rules:
+  - prefix: handbook/finance/expenses
+    group: general
+  - prefix: handbook/finance/spending-company-money
+    group: general
+  - prefix: handbook/finance
+    group: finance
+  - prefix: handbook/people-group
+    group: general
+  - prefix: handbook/people-policies
+    group: general
+  - prefix: handbook/total-rewards
+    group: general
+  - prefix: handbook/entity
+    group: general
+  - prefix: handbook/engineering
+    group: engineering
+  - prefix: handbook/security
+    group: security
+  - prefix: handbook/sales
+    group: sales
+  - prefix: handbook/legal
+    group: legal
+
+# Deny by default: a page that matches no rule lands in a group that only
+# `admin` can read, instead of silently becoming visible to everyone.
+default_group: restricted
+
+# Demo personas. In production the role comes from the signed-in user's
+# identity (SSO group / JWT claim), never from a field the browser sends.
+roles:
+  employee:
+    label: Employee
+    description: Company-wide policies only
+    groups: [general]
+  engineer:
+    label: Engineer
+    description: Adds engineering and security runbooks
+    groups: [general, engineering, security]
+  finance_analyst:
+    label: Finance analyst
+    description: Adds procurement and accounting
+    groups: [general, finance]
+  sales_rep:
+    label: Sales rep
+    description: Adds sales process and commissions
+    groups: [general, sales]
+  legal_counsel:
+    label: Legal counsel
+    description: Adds legal and compliance
+    groups: [general, legal]
+  admin:
+    label: Admin
+    description: Everything, used for evaluation
+    groups: [general, engineering, security, finance, sales, legal, restricted]

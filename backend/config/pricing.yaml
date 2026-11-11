@@ -1,0 +1,30 @@
+# USD prices used for the cost-per-query metric.
+#
+# Fill in the models you actually run, from the provider's own pricing page, and
+# note the date. A model that is missing or null here makes cost show as
+# "not configured" instead of a wrong number.
+#
+# The filled-in values below were read from third-party pricing trackers on
+# 2026-11-11, not from the providers directly. Confirm before you publish a
+# cost figure. Promotional prices expire.
+
+llm:
+  mock: { input_per_mtok: 0, output_per_mtok: 0 }
+  gpt-6-luna: { input_per_mtok: 0.10, output_per_mtok: 0.50 } # unverified, see note above
+  gpt-6.1-sol: { input_per_mtok: 2.00, output_per_mtok: 10.00 } # unverified, see note above
+  claude-haiku-5-5: { input_per_mtok: null, output_per_mtok: null }
+  claude-sonnet-5-5: { input_per_mtok: null, output_per_mtok: null }
+  gemini-3.7-flash: { input_per_mtok: null, output_per_mtok: null }
+
+embedding:
+  mock: { per_mtok: 0 }
+  text-embedding-3-small: { per_mtok: null }
+  voyage-4-lite: { per_mtok: 0.02 } # unverified, see note above
+  voyage-4: { per_mtok: 0.06 } # unverified, see note above
+  gemini-embedding-2-preview: { per_mtok: null }
+  BAAI/bge-small-en-v1.5: { per_mtok: 0 } # open source, runs on your own CPU; compute is not counted
+
+rerank:
+  # Cohere bills per search (one query with up to 100 documents).
+  rerank-v3.5: { per_search: null }
+  Xenova/ms-marco-MiniLM-L-12-v2: { per_search: 0 } # open source, runs on your own CPU

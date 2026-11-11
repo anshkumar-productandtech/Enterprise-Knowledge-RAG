@@ -1,0 +1,56 @@
+# The experiment table for the case study. Each row changes one thing against
+# the row it builds on, so every gain (or loss) can be attributed.
+#
+# Workflow:
+#   1. python -m evals.run_experiments --retrieval-only --ingest-missing
+#        cheap pass: no answer model, no judge. Fills hit rate, MRR, access leaks.
+#   2. python -m evals.run_experiments --only 0-baseline <winner>
+#        full pass with answers and judge scores for the rows worth paying for.
+#   3. Copy the winning row's settings into backend/.env (the serving config).
+#
+# Chunk sizes are capped by the embedding model. The default open-source model
+# (bge-small) reads at most 512 of its own tokens, and its tokenizer produces
+# more tokens than the one used for chunking, so 384 is the largest size tested.
+
+defaults:
+  chunk_size: 256
+  chunk_overlap: 32
+  chunker: sentence
+  search_mode: vector
+  rerank: false
+  top_k: 5
+  candidate_k: 20
+
+# After these rows have results, every later row inherits the chunk size with the
+# best hit rate (ties broken by MRR), unless it sets its own. That keeps "one
+# change per row" true without editing this file between passes.
+chunk_sweep: [0-baseline, 1a-chunks-128, 1b-chunks-384]
+
+experiments:
+  - name: 0-baseline
+    note: Vector search only, 256-token chunks. The "first RAG bot".
+
+  - name: 1a-chunks-128
+    note: Smaller chunks. More precise matches, less context per chunk.
+    chunk_size: 128
+    chunk_overlap: 16
+
+  - name: 1b-chunks-384
+    note: Larger chunks. More context per chunk, a more diluted embedding, higher prompt cost.
+    chunk_size: 384
+    chunk_overlap: 48
+
+  - name: 2-hybrid
+    note: Add keyword search and fuse with reciprocal rank fusion. Helps exact terms (tool names, amounts).
+    search_mode: hybrid
+
+  - name: 3-hybrid-rerank
+    note: Rerank the top 20 candidates down to 5. Needs RERANK_PROVIDER set.
+    search_mode: hybrid
+    rerank: true
+
+  - name: 4-heading-aware
+    note: Split on markdown headings first and embed the heading path with each chunk.
+    chunker: markdown
+    search_mode: hybrid
+    rerank: true

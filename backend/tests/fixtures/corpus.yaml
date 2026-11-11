@@ -1,0 +1,34 @@
+# Access policy for the fictional test corpus in tests/fixtures/content.
+site_url: https://handbook.example.test
+
+include:
+  - handbook/people
+  - handbook/finance
+  - handbook/engineering
+  - handbook/misc
+
+access_rules:
+  - prefix: handbook/finance/expenses
+    group: general
+  - prefix: handbook/finance
+    group: finance
+  - prefix: handbook/people
+    group: general
+  - prefix: handbook/engineering
+    group: engineering
+
+default_group: restricted
+
+roles:
+  employee:
+    label: Employee
+    groups: [general]
+  engineer:
+    label: Engineer
+    groups: [general, engineering]
+  finance_analyst:
+    label: Finance analyst
+    groups: [general, finance]
+  admin:
+    label: Admin
+    groups: [general, engineering, finance, restricted]

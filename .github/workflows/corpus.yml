@@ -1,0 +1,77 @@
+# Clones the public handbook, checks the golden set against it, and sizes the
+# corpus for each chunking setup. Needs no API key. The report is committed to
+# ci-reports/corpus-check.md so the evidence lives in the repository.
+name: corpus-check
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - backend/config/corpus.yaml
+      - backend/evals/golden_set.jsonl
+      - backend/scripts/**
+      - backend/eka/corpus.py
+      - .github/workflows/corpus.yml
+
+permissions:
+  contents: write
+
+concurrency:
+  group: corpus-check
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+          cache: pip
+          cache-dependency-path: backend/requirements.txt
+      - run: pip install -r backend/requirements.txt
+      - name: Clone, validate, size
+        working-directory: backend
+        env:
+          DATABASE_URL: postgresql://unused:unused@localhost:5432/unused
+          EMBED_PROVIDER: local
+          EMBED_MODEL: BAAI/bge-small-en-v1.5
+        run: |
+          mkdir -p ../ci-reports
+          {
+            echo "# Corpus check"
+            echo
+            echo "Run: $(date -u +%Y-%m-%dT%H:%M:%SZ), commit ${GITHUB_SHA::7}"
+            echo
+            echo "## Handbook clone"
+            echo '```'
+            bash scripts/fetch_handbook.sh || echo "FETCH FAILED"
+            echo '```'
+            echo
+            echo "## Golden set against this snapshot"
+            echo '```'
+            python -m scripts.validate_golden_set || echo "VALIDATION FAILED"
+            echo '```'
+            echo
+            echo "## Corpus size per chunking setup (dry run, nothing embedded)"
+            for setup in "256 32 sentence" "128 16 sentence" "384 48 sentence" "256 32 markdown"; do
+              set -- $setup
+              echo
+              echo "### ${1}-token chunks, ${3} splitter"
+              echo '```json'
+              python -m scripts.ingest --dry-run --chunk-size "$1" --chunk-overlap "$2" --chunker "$3" || echo "DRY RUN FAILED"
+              echo '```'
+            done
+          } 2>&1 | grep -v -i "warning" | tee ../ci-reports/corpus-check.md
+      - name: Commit the report
+        if: always()
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add ci-reports
+          git commit -m "Corpus check report" || exit 0
+          git pull --rebase origin main
+          git push

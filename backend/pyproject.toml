@@ -1,0 +1,13 @@
+[project]
+name = "enterprise-knowledge-assistant"
+version = "0.1.0"
+description = "RAG assistant over a company handbook with citations, role-based access and an eval harness"
+requires-python = ">=3.11"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+filterwarnings = ["ignore::DeprecationWarning", "ignore::UserWarning"]
+
+[tool.ruff]
+line-length = 110

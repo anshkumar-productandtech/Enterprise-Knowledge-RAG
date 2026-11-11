@@ -1,0 +1,15 @@
+# Local Postgres with pgvector, for development without a Supabase project.
+#   docker compose up -d
+services:
+  db:
+    image: pgvector/pgvector:pg16
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres   # local development only
+      POSTGRES_DB: eka
+    ports:
+      - "127.0.0.1:5433:5432"       # bound to localhost only
+    volumes:
+      - eka_pgdata:/var/lib/postgresql/data
+volumes:
+  eka_pgdata:
