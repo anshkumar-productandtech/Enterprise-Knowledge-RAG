@@ -1,0 +1,345 @@
+
+== 0-baseline: Vector search only, 256-token chunks. The "first RAG bot".
+   building index...
+[0;93m2026-11-11 15:06:56.709006411 [W:onnxruntime:Default, device_discovery.cc:95 GetPciBusId] Skipping pci_bus_id for PCI path at "/sys/devices/LNXSYSTM:00/LNXSYBUS:00/ACPI0004:00/MSFT1000:00/5620e0c7-8062-4dce-aeb7-520c7ef76171" because filename "5620e0c7-8062-4dce-aeb7-520c7ef76171" did not match expected pattern of [0-9a-f]+:[0-9a-f]+:[0-9a-f]+[.][0-9a-f]+[m
+Fetching 5 files:  60%|██████    | 3/5 [00:00<00:00, 25.75it/s]Fetching 5 files: 100%|██████████| 5/5 [00:01<00:00,  3.87it/s]
+   indexed 9280 chunks from 733 pages
+  [1/50] g01 hit=True
+  [2/50] g02 hit=True
+  [3/50] g03 hit=True
+  [4/50] g04 hit=True
+  [5/50] g05 hit=True
+  [6/50] g06 hit=True
+  [7/50] g07 hit=True
+  [8/50] g08 hit=True
+  [9/50] g09 hit=True
+  [10/50] g10 hit=True
+  [11/50] g11 hit=True
+  [12/50] g12 hit=True
+  [13/50] g13 hit=True
+  [14/50] g14 hit=False
+  [15/50] g15 hit=True
+  [16/50] g16 hit=True
+  [17/50] g17 hit=True
+  [18/50] g18 hit=False
+  [19/50] g19 hit=True
+  [20/50] g20 hit=True
+  [21/50] g21 hit=True
+  [22/50] g22 hit=False
+  [23/50] e01 hit=True
+  [24/50] e02 hit=True
+  [25/50] e03 hit=True
+  [26/50] e04 hit=False
+  [27/50] e05 hit=True
+  [28/50] e06 hit=True
+  [29/50] e07 hit=True
+  [30/50] e08 hit=True
+  [31/50] s01 hit=True
+  [32/50] s02 hit=True
+  [33/50] s03 hit=True
+  [34/50] s04 hit=True
+  [35/50] s05 hit=False
+  [36/50] s06 hit=True
+  [37/50] f01 hit=True
+  [38/50] f02 hit=True
+  [39/50] f03 hit=True
+  [40/50] f04 hit=False
+  [41/50] f05 hit=True
+  [42/50] f06 hit=True
+  [43/50] x01 hit=True
+  [44/50] x02 hit=True
+  [45/50] x03 hit=True
+  [46/50] u01 hit=False
+  [47/50] u02 hit=False
+  [48/50] u03 hit=False
+  [49/50] u04 hit=False
+  [50/50] u05 hit=False
+   {"questions": 50, "answerable": 45, "hit_rate": 0.8667, "all_sources_rate": 0.8444, "mrr": 0.6544, "retrieval_ms_p50": 9.6, "retrieval_ms_p95": 15.6}
+
+== 1a-chunks-128: Smaller chunks. More precise matches, less context per chunk.
+   building index...
+   indexed 19589 chunks from 733 pages
+  [1/50] g01 hit=False
+  [2/50] g02 hit=True
+  [3/50] g03 hit=True
+  [4/50] g04 hit=True
+  [5/50] g05 hit=False
+  [6/50] g06 hit=False
+  [7/50] g07 hit=True
+  [8/50] g08 hit=True
+  [9/50] g09 hit=True
+  [10/50] g10 hit=True
+  [11/50] g11 hit=True
+  [12/50] g12 hit=True
+  [13/50] g13 hit=True
+  [14/50] g14 hit=True
+  [15/50] g15 hit=True
+  [16/50] g16 hit=True
+  [17/50] g17 hit=True
+  [18/50] g18 hit=True
+  [19/50] g19 hit=True
+  [20/50] g20 hit=True
+  [21/50] g21 hit=True
+  [22/50] g22 hit=False
+  [23/50] e01 hit=True
+  [24/50] e02 hit=True
+  [25/50] e03 hit=True
+  [26/50] e04 hit=True
+  [27/50] e05 hit=True
+  [28/50] e06 hit=True
+  [29/50] e07 hit=True
+  [30/50] e08 hit=True
+  [31/50] s01 hit=True
+  [32/50] s02 hit=True
+  [33/50] s03 hit=True
+  [34/50] s04 hit=True
+  [35/50] s05 hit=True
+  [36/50] s06 hit=True
+  [37/50] f01 hit=True
+  [38/50] f02 hit=True
+  [39/50] f03 hit=True
+  [40/50] f04 hit=False
+  [41/50] f05 hit=True
+  [42/50] f06 hit=True
+  [43/50] x01 hit=True
+  [44/50] x02 hit=True
+  [45/50] x03 hit=True
+  [46/50] u01 hit=False
+  [47/50] u02 hit=False
+  [48/50] u03 hit=False
+  [49/50] u04 hit=False
+  [50/50] u05 hit=False
+   {"questions": 50, "answerable": 45, "hit_rate": 0.8889, "all_sources_rate": 0.8667, "mrr": 0.6952, "retrieval_ms_p50": 9.4, "retrieval_ms_p95": 13.6}
+
+== 1b-chunks-384: Larger chunks. More context per chunk, a more diluted embedding, higher prompt cost.
+   building index...
+   indexed 6155 chunks from 733 pages
+  [1/50] g01 hit=False
+  [2/50] g02 hit=True
+  [3/50] g03 hit=True
+  [4/50] g04 hit=True
+  [5/50] g05 hit=True
+  [6/50] g06 hit=False
+  [7/50] g07 hit=False
+  [8/50] g08 hit=True
+  [9/50] g09 hit=True
+  [10/50] g10 hit=True
+  [11/50] g11 hit=True
+  [12/50] g12 hit=True
+  [13/50] g13 hit=True
+  [14/50] g14 hit=True
+  [15/50] g15 hit=True
+  [16/50] g16 hit=True
+  [17/50] g17 hit=False
+  [18/50] g18 hit=False
+  [19/50] g19 hit=True
+  [20/50] g20 hit=True
+  [21/50] g21 hit=True
+  [22/50] g22 hit=False
+  [23/50] e01 hit=True
+  [24/50] e02 hit=False
+  [25/50] e03 hit=True
+  [26/50] e04 hit=True
+  [27/50] e05 hit=True
+  [28/50] e06 hit=True
+  [29/50] e07 hit=True
+  [30/50] e08 hit=True
+  [31/50] s01 hit=True
+  [32/50] s02 hit=False
+  [33/50] s03 hit=True
+  [34/50] s04 hit=True
+  [35/50] s05 hit=False
+  [36/50] s06 hit=True
+  [37/50] f01 hit=True
+  [38/50] f02 hit=True
+  [39/50] f03 hit=True
+  [40/50] f04 hit=False
+  [41/50] f05 hit=True
+  [42/50] f06 hit=True
+  [43/50] x01 hit=True
+  [44/50] x02 hit=True
+  [45/50] x03 hit=True
+  [46/50] u01 hit=False
+  [47/50] u02 hit=False
+  [48/50] u03 hit=False
+  [49/50] u04 hit=False
+  [50/50] u05 hit=False
+   {"questions": 50, "answerable": 45, "hit_rate": 0.7778, "all_sources_rate": 0.7556, "mrr": 0.6204, "retrieval_ms_p50": 34.7, "retrieval_ms_p95": 39.3}
+
+== 2-hybrid: Add keyword search and fuse with reciprocal rank fusion. Helps exact terms (tool names, amounts).
+  [1/50] g01 hit=False
+  [2/50] g02 hit=True
+  [3/50] g03 hit=True
+  [4/50] g04 hit=True
+  [5/50] g05 hit=True
+  [6/50] g06 hit=True
+  [7/50] g07 hit=True
+  [8/50] g08 hit=True
+  [9/50] g09 hit=True
+  [10/50] g10 hit=True
+  [11/50] g11 hit=True
+  [12/50] g12 hit=True
+  [13/50] g13 hit=True
+  [14/50] g14 hit=True
+  [15/50] g15 hit=True
+  [16/50] g16 hit=True
+  [17/50] g17 hit=True
+  [18/50] g18 hit=True
+  [19/50] g19 hit=True
+  [20/50] g20 hit=False
+  [21/50] g21 hit=True
+  [22/50] g22 hit=True
+  [23/50] e01 hit=True
+  [24/50] e02 hit=True
+  [25/50] e03 hit=True
+  [26/50] e04 hit=True
+  [27/50] e05 hit=True
+  [28/50] e06 hit=True
+  [29/50] e07 hit=True
+  [30/50] e08 hit=True
+  [31/50] s01 hit=True
+  [32/50] s02 hit=True
+  [33/50] s03 hit=True
+  [34/50] s04 hit=True
+  [35/50] s05 hit=True
+  [36/50] s06 hit=True
+  [37/50] f01 hit=True
+  [38/50] f02 hit=True
+  [39/50] f03 hit=True
+  [40/50] f04 hit=False
+  [41/50] f05 hit=True
+  [42/50] f06 hit=True
+  [43/50] x01 hit=True
+  [44/50] x02 hit=True
+  [45/50] x03 hit=True
+  [46/50] u01 hit=False
+  [47/50] u02 hit=False
+  [48/50] u03 hit=False
+  [49/50] u04 hit=False
+  [50/50] u05 hit=False
+   {"questions": 50, "answerable": 45, "hit_rate": 0.9333, "all_sources_rate": 0.9111, "mrr": 0.7704, "retrieval_ms_p50": 30.4, "retrieval_ms_p95": 61.6}
+
+== 3-hybrid-rerank: Rerank the top 20 candidates down to 5. Needs RERANK_PROVIDER set.
+Fetching 5 files:   0%|          | 0/5 [00:00<?, ?it/s]Fetching 5 files:  60%|██████    | 3/5 [00:00<00:00, 29.25it/s]Fetching 5 files: 100%|██████████| 5/5 [00:01<00:00,  2.67it/s]
+  [1/50] g01 hit=False
+  [2/50] g02 hit=True
+  [3/50] g03 hit=False
+  [4/50] g04 hit=True
+  [5/50] g05 hit=True
+  [6/50] g06 hit=True
+  [7/50] g07 hit=True
+  [8/50] g08 hit=True
+  [9/50] g09 hit=True
+  [10/50] g10 hit=True
+  [11/50] g11 hit=True
+  [12/50] g12 hit=True
+  [13/50] g13 hit=True
+  [14/50] g14 hit=True
+  [15/50] g15 hit=True
+  [16/50] g16 hit=True
+  [17/50] g17 hit=True
+  [18/50] g18 hit=True
+  [19/50] g19 hit=True
+  [20/50] g20 hit=True
+  [21/50] g21 hit=True
+  [22/50] g22 hit=True
+  [23/50] e01 hit=True
+  [24/50] e02 hit=True
+  [25/50] e03 hit=True
+  [26/50] e04 hit=True
+  [27/50] e05 hit=True
+  [28/50] e06 hit=True
+  [29/50] e07 hit=True
+  [30/50] e08 hit=True
+  [31/50] s01 hit=True
+  [32/50] s02 hit=True
+  [33/50] s03 hit=True
+  [34/50] s04 hit=True
+  [35/50] s05 hit=True
+  [36/50] s06 hit=True
+  [37/50] f01 hit=True
+  [38/50] f02 hit=True
+  [39/50] f03 hit=True
+  [40/50] f04 hit=False
+  [41/50] f05 hit=True
+  [42/50] f06 hit=True
+  [43/50] x01 hit=True
+  [44/50] x02 hit=True
+  [45/50] x03 hit=True
+  [46/50] u01 hit=False
+  [47/50] u02 hit=False
+  [48/50] u03 hit=False
+  [49/50] u04 hit=False
+  [50/50] u05 hit=False
+   {"questions": 50, "answerable": 45, "hit_rate": 0.9333, "all_sources_rate": 0.9111, "mrr": 0.8156, "retrieval_ms_p50": 653.5, "retrieval_ms_p95": 1167.3}
+
+== 4-heading-aware: Split on markdown headings first and embed the heading path with each chunk.
+   building index...
+   indexed 24728 chunks from 733 pages
+  [1/50] g01 hit=False
+  [2/50] g02 hit=True
+  [3/50] g03 hit=True
+  [4/50] g04 hit=True
+  [5/50] g05 hit=True
+  [6/50] g06 hit=True
+  [7/50] g07 hit=True
+  [8/50] g08 hit=True
+  [9/50] g09 hit=True
+  [10/50] g10 hit=True
+  [11/50] g11 hit=True
+  [12/50] g12 hit=True
+  [13/50] g13 hit=True
+  [14/50] g14 hit=True
+  [15/50] g15 hit=True
+  [16/50] g16 hit=True
+  [17/50] g17 hit=True
+  [18/50] g18 hit=True
+  [19/50] g19 hit=True
+  [20/50] g20 hit=True
+  [21/50] g21 hit=True
+  [22/50] g22 hit=True
+  [23/50] e01 hit=True
+  [24/50] e02 hit=True
+  [25/50] e03 hit=True
+  [26/50] e04 hit=True
+  [27/50] e05 hit=True
+  [28/50] e06 hit=True
+  [29/50] e07 hit=True
+  [30/50] e08 hit=True
+  [31/50] s01 hit=True
+  [32/50] s02 hit=True
+  [33/50] s03 hit=True
+  [34/50] s04 hit=True
+  [35/50] s05 hit=True
+  [36/50] s06 hit=True
+  [37/50] f01 hit=True
+  [38/50] f02 hit=True
+  [39/50] f03 hit=True
+  [40/50] f04 hit=False
+  [41/50] f05 hit=True
+  [42/50] f06 hit=True
+  [43/50] x01 hit=False
+  [44/50] x02 hit=True
+  [45/50] x03 hit=True
+  [46/50] u01 hit=False
+  [47/50] u02 hit=False
+  [48/50] u03 hit=False
+  [49/50] u04 hit=False
+  [50/50] u05 hit=False
+   {"questions": 50, "answerable": 45, "hit_rate": 0.9333, "all_sources_rate": 0.9111, "mrr": 0.8222, "retrieval_ms_p50": 641.4, "retrieval_ms_p95": 840.3}
+
+<!-- real run | last updated 2026-11-11T16:08:10+00:00 -->
+| Experiment | Chunk | Search | Rerank | Hit@5 | MRR | Faithful | Correct | Pass rate | Refusal acc | Retrieval p95 ms | Answer p95 ms | $/query | ACL leaks |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 0-baseline | 256 sentence | vector | no | 87% | 0.654 | n/a | n/a | n/a | n/a | 16 | n/a | n/a | 0 |
+| 1a-chunks-128 | 128 sentence | vector | no | 89% | 0.695 | n/a | n/a | n/a | n/a | 14 | n/a | n/a | 0 |
+| 1b-chunks-384 | 384 sentence | vector | no | 78% | 0.620 | n/a | n/a | n/a | n/a | 39 | n/a | n/a | 0 |
+| 2-hybrid | 128 sentence | hybrid | no | 93% | 0.770 | n/a | n/a | n/a | n/a | 62 | n/a | n/a | 0 |
+| 3-hybrid-rerank | 128 sentence | hybrid | yes | 93% | 0.816 | n/a | n/a | n/a | n/a | 1167 | n/a | n/a | 0 |
+| 4-heading-aware | 128 markdown | hybrid | yes | 93% | 0.822 | n/a | n/a | n/a | n/a | 840 | n/a | n/a | 0 |
+
+Measured on 50 golden questions; 5 chunks go to the model. Embeddings: local/BAAI/bge-small-en-v1.5. Reranker: local/Xenova/ms-marco-MiniLM-L-12-v2. Answer model: none. Judge: none. Rows showing n/a for answer metrics were run retrieval-only.
+
+Corpus: repo:   https://gitlab.com/gitlab-com/content-sites/handbook.git, commit: 76aef42d3c4a4248628bff82106d52c7e98a6602, date:   2026-11-11T14:57:42+01:00.
+
+Chunk size carried into the later rows: 128 tokens (best hit rate in the chunk sweep).
