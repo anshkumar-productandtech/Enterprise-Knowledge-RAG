@@ -1,14 +1,14 @@
 # Corpus check
 
-Run: 2026-11-11T15:06:24Z, commit 1582d0e
+Run: 2026-11-11T16:10:21Z, commit fe5c10a
 
 ## Handbook clone
 ```
 Cloning into '/home/runner/work/Enterprise-Knowledge-RAG/Enterprise-Knowledge-RAG/backend/data/handbook'...
 repo:   https://gitlab.com/gitlab-com/content-sites/handbook.git
-commit: 76aef42d3c4a4248628bff82106d52c7e98a6602
-date:   2026-11-11T14:57:42+01:00
-Markdown pages: 4201
+commit: 9f754e31e74abd0f43292fe7be0c27886e0ef211
+date:   2026-11-11T15:33:17Z
+Markdown pages: 4199
 Next: python -m scripts.validate_golden_set && python -m scripts.ingest --dry-run
 ```
 
