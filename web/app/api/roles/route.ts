@@ -1,6 +1,7 @@
 import { backendFetch, messageForStatus } from "@/lib/backend";
 
 export const dynamic = "force-dynamic";
+export const maxDuration = 60; // seconds; a sleeping free-tier backend can take a while to wake
 
 export async function GET() {
   try {

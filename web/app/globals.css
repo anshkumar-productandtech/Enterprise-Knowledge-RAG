@@ -179,6 +179,10 @@ input {
   background: var(--sheet);
 }
 
+.notice.is-quiet {
+  border-left-color: var(--seal);
+}
+
 .welcome {
   max-width: var(--measure);
 }

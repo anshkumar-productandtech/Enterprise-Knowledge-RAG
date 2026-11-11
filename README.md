@@ -2,9 +2,34 @@
 
 A chat assistant that answers employee questions from a company handbook. Every claim cites the passage it came from, each role only sees the pages it is allowed to open, and when the handbook has no answer the assistant says so instead of guessing.
 
-It runs over the public GitLab handbook, and ships with a 50-question golden test set and an experiment harness that measures what chunk size, hybrid search, reranking and heading-aware chunking each change.
+It runs over the public GitLab handbook, with a 50-question golden test set and an experiment harness that measures what chunk size, hybrid search, reranking and heading-aware chunking each change.
 
 > Demo over public content. The access roles are simulated to show how department-restricted documents would behave. Not affiliated with GitLab.
+
+## Results
+
+Retrieval results are real: measured on 11 November 2026 against handbook commit `76aef42` (733 pages), with open-source models on a GitHub Actions runner. The full files are in [`backend/evals/results/`](backend/evals/results/).
+
+| Experiment | Change from the row it builds on | Right page in top 5 | Right page ranked first | MRR | Retrieval p95 |
+| --- | --- | --- | --- | --- | --- |
+| 0 Baseline | 256-token chunks, vector search | 39 of 45 (87%) | 23 | 0.654 | 16 ms |
+| 1a | 128-token chunks | 40 of 45 (89%) | 26 | 0.695 | 14 ms |
+| 1b | 384-token chunks | 35 of 45 (78%) | 23 | 0.620 | 39 ms |
+| 2 | 128-token chunks + keyword search, fused by rank | 42 of 45 (93%) | 30 | 0.770 | 62 ms |
+| 3 | + reranker (20 candidates down to 5) | 42 of 45 (93%) | 33 | 0.816 | 1,167 ms |
+| 4 | + heading-aware chunking | 42 of 45 (93%) | 34 | 0.822 | 840 ms |
+
+Restricted pages returned to the `employee` role: **0** across 23 restricted questions, in all six configurations.
+
+What this shows, and what it doesn't:
+
+- **Hybrid search was the change that found more pages**: 42 of 45, up from 40 with vector search alone.
+- **Chunk size mattered at the large end.** 384-token chunks found 5 fewer pages than 128. The gap between 128 and 256 is one question, which is noise at this sample size.
+- **The reranker found no additional pages** but ranked the right one first more often (33 against 30), for about 0.6 seconds of extra CPU time per question.
+- **Heading-aware chunking made no measurable difference** and produced 26% more chunks.
+- **Two questions fail in every configuration.** Both lose to pages that discuss the same topic elsewhere: country benefit pages crowd out the global time-off policy, and Sales and Legal pages crowd out Accounts Payable on purchase orders.
+- **These are retrieval numbers only.** "Right page in top 5" does not prove the retrieved chunk contains the answer, and small chunks carry less context. Answer quality (faithfulness, correctness, refusals, cost) is measured by the `experiments` workflow in `full` mode and is not in yet.
+- **Latency was measured on a shared CI runner** with the embedding model and reranker on CPU. Treat it as relative, not absolute.
 
 ## How it works
 
@@ -33,133 +58,104 @@ flowchart LR
 | Piece | Choice | Why |
 | --- | --- | --- |
 | Framework | LlamaIndex | Chunking, embeddings, pgvector store and rerankers behind one interface |
-| Vector store | Postgres + pgvector (Supabase or local Docker) | Vector search, keyword search and the access filter in one SQL query |
-| Models | Set in `.env`: OpenAI, Anthropic, Gemini, Voyage, Cohere | Provider is a config change, so the cheapest model that passes the evals wins |
+| Vector store | Postgres + pgvector | Vector search, keyword search and the access filter in one SQL query |
+| Embeddings | `BAAI/bge-small-en-v1.5`, open source, run on CPU | No API key and no per-token cost, so the retrieval experiments are free to repeat |
+| Reranker | `Xenova/ms-marco-MiniLM-L-12-v2`, open source, run on CPU | Same reason; small enough for a modest container |
+| Answer and judge model | Google Gemini, set in config | The provider is one config value (OpenAI, Anthropic and Voyage are also wired in) |
 | API | FastAPI, server-sent events | Streams the answer; small enough to read in one sitting |
 | UI | Next.js | Answers on the left, cited passages in the margin |
-| Evals | Own retrieval metrics + Ragas for faithfulness and correctness | Retrieval metrics are free to run; judge metrics only on finalists |
+| Evals | Own retrieval metrics + Ragas for faithfulness and correctness | Retrieval metrics cost nothing to run; judge metrics only where they matter |
 
-## What has and hasn't been verified
+## What runs in CI
 
-Checked while building (2026-11-11), all on mock models and a fictional five-page corpus:
+Everything below runs in GitHub Actions on every relevant push, and writes its evidence back into this repository.
 
-- 33 automated tests pass, including integration tests against a real Postgres with pgvector: ingestion, vector and hybrid search, role filtering, the API stream, rate limiting.
-- A clean install from `requirements.txt` works, and `scripts/smoke.sh` runs end to end.
-- The web app builds, and was clicked through in a browser against the API.
-- The Ragas scoring path returns numbers when given a scripted judge.
+| Workflow | What it does | Needs a key |
+| --- | --- | --- |
+| `ci` | 38 tests against a real Postgres with pgvector, on mock models and a fictional corpus; builds the web app | No |
+| `corpus-check` | Clones the handbook, checks every golden-set fact against it, sizes the corpus. Report: [`ci-reports/corpus-check.md`](ci-reports/corpus-check.md) | No |
+| `experiments` | Builds the indexes and runs the experiment table. Results: [`backend/evals/results/`](backend/evals/results/) | Only for answer-quality rows |
+| `deploy-index` | Builds the serving index in a hosted database for the live demo | Database secret |
+| `walkthrough` | Records the walkthrough video from the real app | Yes |
 
-Not yet run, because it needs your keys and network access:
+## Run it yourself
 
-- Cloning the handbook. `fetch_handbook.sh` assumes the repository is `gitlab-com/content-sites/handbook` with pages under `content/handbook/`. If the clone or `validate_golden_set` fails, that assumption is the first thing to check.
-- Any call to a real model, embedding or rerank API, and Ragas with a real judge.
-- The Supabase connection, the local reranker and the Dockerfile.
-- The prices in `config/pricing.yaml`. They came from third-party trackers.
-
-There are no results in this repository yet. Every number in the case study has to come from your own runs.
-
-## Run it
-
-Needs Python, Node and Docker (or a Supabase project). Tested with Python 3.13 and Node 22.
-
-### 1. Check the install, for free
+Needs Python, Node and Docker. Tested with Python 3.13 and Node 22.
 
 ```bash
 docker compose up -d                       # local Postgres + pgvector on localhost:5433
 cd backend
 python -m venv .venv && source .venv/bin/activate
-pip install -r requirements.txt
+pip install -r requirements-eval.txt
 bash scripts/smoke.sh                      # tests + mock pipeline, no API keys
-```
 
-### 2. Get the corpus and check the golden set against it
-
-```bash
 bash scripts/fetch_handbook.sh             # shallow, markdown-only clone into backend/data/
-python -m scripts.validate_golden_set
-```
+python -m scripts.validate_golden_set      # the handbook changes daily: check before trusting a score
 
-The golden set was written from the live handbook site on 2026-11-11. The handbook changes daily, so this script checks that every source page exists in your clone and still contains the facts each reference answer depends on. Fix or replace any question it flags before you trust a score. The five unanswerable questions can't be checked automatically: read them and confirm the handbook really doesn't answer them.
+cp .env.example .env                       # providers, models, keys
+python -m scripts.ingest --dry-run         # pages, chunks, tokens, estimated cost. Sends nothing.
+python -m evals.run_experiments --retrieval-only --ingest-missing
+python -m evals.run_experiments --only 0-baseline 3-hybrid-rerank    # answers + judge, needs a model key
 
-### 3. Configure
-
-```bash
-cp .env.example .env                       # then fill in providers, models and keys
-```
-
-Fill in `config/pricing.yaml` for the models you chose, from the providers' own pricing pages.
-
-### 4. Build the index
-
-```bash
-python -m scripts.ingest --dry-run         # pages, chunks, estimated tokens and cost. Sends nothing.
-python -m scripts.ingest
-```
-
-### 5. Run the experiments
-
-```bash
-python -m evals.run_experiments --retrieval-only --ingest-missing   # cheap pass: pick a chunk size
-python -m evals.run_experiments                                     # full pass: the table you publish
-```
-
-The plan is in `config/experiments.yaml`. Results land in `backend/evals/results/`, with `experiments.md` ready to paste into the case study. Each result records the models, the date and the handbook commit it ran on.
-
-Then copy the winning row's settings into `.env`, so the demo serves the configuration you measured.
-
-### 6. Run the app
-
-```bash
-uvicorn eka.api:app --port 8000            # in backend/
-cp .env.example .env.local && npm install && npm run dev   # in web/, then open localhost:3000
+uvicorn eka.api:app --port 8000            # the API
+cd ../web && cp .env.example .env.local && npm install && npm run dev   # the UI, on localhost:3000
 ```
 
 ## How quality is measured
 
 | Metric | Meaning | Costs |
 | --- | --- | --- |
-| Hit@k | An expected page is among the k chunks given to the model | Query embeddings only |
-| MRR | How high the first expected page ranks | Query embeddings only |
+| Hit@5 | An expected page is among the 5 chunks given to the model | Nothing with local embeddings |
+| MRR | How high the first expected page ranks | Nothing with local embeddings |
 | Faithfulness | Every claim in the answer is supported by the retrieved chunks (Ragas) | Judge model calls |
 | Answer correctness | The answer agrees with the reference answer (Ragas) | Judge model calls |
 | Refusal accuracy | Share of unanswerable questions it declined | Answer model calls |
-| False refusal rate | Share of answerable questions it wrongly declined | Answer model calls |
 | Pass rate | Share of all 50 handled correctly: answered correctly or correctly refused | Both |
-| ACL leaks | Restricted questions asked as `employee` that returned a restricted page. Must be 0 | Query embeddings only |
-| p50 / p95 latency, cost per query | Measured per question; cost uses `config/pricing.yaml` | None |
+| ACL leaks | Restricted questions asked as `employee` that returned a restricted page. Must be 0 | Nothing |
+| p95 latency, cost per query | Measured per question; cost uses `config/pricing.yaml` | Nothing extra |
 
-Three things to keep the numbers honest:
+Three things keep the numbers honest:
 
-- Faithfulness, correctness and pass rate come from a judge model, so they are estimates. Read at least ten answers yourself, compare with the scores, and adjust `--pass-threshold` (default 0.6) if the judge is stricter or looser than you.
-- Fifty questions is a small set. A two-point difference between experiments is one question. Report counts alongside percentages.
-- Label every figure in the write-up as real (measured on this golden set, date, models). Mock runs are stamped `MOCK RUN` and must never be quoted.
+- Faithfulness, correctness and pass rate come from a judge model, so they are estimates. Read ten answers yourself and compare before quoting them.
+- Fifty questions is a small set. One question is two percentage points.
+- Every result file records its models, date and the handbook commit it ran on. Mock runs are stamped `MOCK RUN`.
 
 ## Security and privacy
 
-- **Secrets** stay in `backend/.env` and `web/.env.local`, both git-ignored. Keys are held as `SecretStr` and never logged. Nothing secret is exposed to the browser: the UI calls its own `/api/*` routes, and the Next.js server calls the backend.
+- **Secrets** stay in git-ignored env files locally and in GitHub, Render and Vercel secret stores when deployed. Keys are held as `SecretStr` and never logged. Nothing secret reaches the browser: the UI calls its own `/api/*` routes, and the Next.js server calls the backend.
 - **Access control is enforced in the database query**, not in the prompt. A chunk the role can't read is never fetched. Unmapped pages are denied by default. The eval harness fails the run if a restricted page leaks.
 - **The role switcher is a demo device.** A real deployment takes the role from the signed-in user's identity. The comment in `eka/api.py` marks the line to change.
 - **Refusals don't reveal what exists.** The message never says "you lack access to the answer".
 - **Prompt injection**: retrieved text is framed as reference material, the model is told not to follow instructions inside it, and the golden set includes an injection attempt. Model output is rendered as text, never as HTML.
-- **Spend protection for a public demo**: shared bearer token between web and API (`DEMO_API_TOKEN`), per-visitor rate limit, question length cap, CORS allowlist. Set a monthly spend limit in each provider's console as well.
-- **Supabase**: tables are created in a schema named `eka`, which the auto-generated REST API doesn't expose, rather than `public`. Use the session pooler connection string (port 5432).
-- **Privacy**: question text isn't logged unless `LOG_QUESTIONS=true`. Ragas telemetry is switched off in `evals/judges.py`.
-- **Content**: the handbook is cloned to `backend/data/`, which is git-ignored. Check the licence in the handbook repository before redistributing any of it.
+- **Spend protection for a public demo**: shared bearer token between web and API, per-visitor rate limit, question length cap, CORS allowlist. Set a spend cap in the model provider's console as well.
+- **Supabase**: tables are created in a schema named `eka`, which the auto-generated REST API doesn't expose, rather than `public`.
+- **Privacy**: question text isn't logged unless `LOG_QUESTIONS=true`. Ragas telemetry is switched off.
+- **Content**: the handbook is cloned at run time and never committed here. Check the licence in the handbook repository before redistributing any of it.
+
+## Deploying the demo
+
+1. **Database**: in Supabase, copy the Session pooler connection string. Add it to this repository as the `SUPABASE_DATABASE_URL` secret and run the `deploy-index` workflow.
+2. **API**: in Render, create a Blueprint from this repository (`render.yaml`). Paste the same connection string, your model key and your Vercel URL when asked.
+3. **Web**: in Vercel, import this repository with root directory `web`. Set `BACKEND_URL` to the Render URL and `DEMO_API_TOKEN` to the value Render generated.
+
+The serving configuration lives in [`backend/config/serving.env`](backend/config/serving.env) and `render.yaml`. Keep them equal to the experiment row you want to serve.
 
 ## Scope
 
 In v1: single-turn questions, citations, role-based filtering, refusals, streaming, cost and latency per answer, an experiment harness.
 
-Deliberately left out: conversation memory and follow-up questions, query rewriting, real authentication, feedback capture, incremental re-indexing when a page changes, tables and images in pages, non-English content.
+Deliberately left out: conversation memory and follow-up questions, query rewriting, real authentication, feedback capture, incremental re-indexing when a page changes, non-English content.
 
 ## Layout
 
 ```
 backend/
   eka/            settings, providers, access policy, corpus loader, index, retrieval, generation, API
-  config/         corpus.yaml (what's indexed, who can read it), experiments.yaml, pricing.yaml
-  evals/          golden_set.jsonl, metrics, Ragas judge, run_eval, run_experiments
-  scripts/        fetch_handbook.sh, ingest, validate_golden_set, smoke.sh
+  config/         corpus.yaml, experiments.yaml, pricing.yaml, serving.env
+  evals/          golden_set.jsonl, metrics, Ragas judge, run_eval, run_experiments, results/
+  scripts/        fetch_handbook.sh, ingest, validate_golden_set, record_walkthrough, smoke.sh
   tests/          unit + integration tests on a fictional corpus
 web/              Next.js chat UI
-docs/             case-study.md (write-up skeleton)
+ci-reports/       reports written by the workflows
+docs/             case study, walkthrough scenes and recording
 ```

@@ -41,7 +41,7 @@ const groupLabel = (group: string) =>
 export function Assistant() {
   const [roles, setRoles] = useState<Role[]>([FALLBACK_ROLE]);
   const [role, setRole] = useState<Role>(FALLBACK_ROLE);
-  const [offline, setOffline] = useState(false);
+  const [backend, setBackend] = useState<"checking" | "waking" | "ready" | "down">("checking");
   const [exchanges, setExchanges] = useState<Exchange[]>([]);
   const [draft, setDraft] = useState("");
   const [busy, setBusy] = useState(false);
@@ -50,16 +50,36 @@ export function Assistant() {
   const endRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
+  // A free-tier API host sleeps when idle. Loading the roles wakes it, so keep
+  // trying for a little over a minute before calling the service unreachable.
   useEffect(() => {
-    fetch("/api/roles")
-      .then((r) => (r.ok ? r.json() : Promise.reject()))
-      .then((list: Role[]) => {
-        if (list.length) {
-          setRoles(list);
-          setRole(list[0]);
+    let cancelled = false;
+    (async () => {
+      for (let attempt = 0; attempt < 8 && !cancelled; attempt++) {
+        try {
+          const res = await fetch("/api/roles");
+          if (res.ok) {
+            const list: Role[] = await res.json();
+            if (cancelled) return;
+            if (list.length) {
+              setRoles(list);
+              setRole(list[0]);
+            }
+            setBackend("ready");
+            return;
+          }
+        } catch {
+          // fall through to the retry
         }
-      })
-      .catch(() => setOffline(true));
+        if (cancelled) return;
+        setBackend("waking");
+        await new Promise((resolve) => setTimeout(resolve, 10_000));
+      }
+      if (!cancelled) setBackend("down");
+    })();
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   const patch = useCallback((id: number, change: (e: Exchange) => Exchange) => {
@@ -149,10 +169,16 @@ export function Assistant() {
       </header>
 
       <main className="thread">
-        {offline && (
+        {backend === "waking" && (
+          <p className="notice is-quiet" role="status">
+            Waking the demo server. Free hosting puts it to sleep when idle, so the first visit takes
+            about a minute.
+          </p>
+        )}
+        {backend === "down" && (
           <p className="notice" role="alert">
-            The assistant service isn&apos;t reachable, so questions won&apos;t be answered yet. Start the
-            API, then reload this page.
+            The assistant service isn&apos;t reachable, so questions won&apos;t be answered yet. Reload
+            this page in a minute.
           </p>
         )}
 

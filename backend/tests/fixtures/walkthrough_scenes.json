@@ -1,0 +1,21 @@
+{
+  "scenes": [
+    { "caption": "Recorder self-test on the fictional corpus with a mock model.", "pause": 2 },
+    {
+      "role": "Employee",
+      "ask": "How many days of paid vacation do employees get?",
+      "caption": "Asked as an employee.",
+      "after_answered": "Answered, with a citation.",
+      "after_refused": "Declined.",
+      "hover_cite": true
+    },
+    {
+      "role": "Finance analyst",
+      "ask": "How many vendor bids are needed for a purchase above 40000 dollars?",
+      "caption": "Asked as a finance analyst.",
+      "after_answered": "Answered from a Finance-only page.",
+      "after_refused": "Declined.",
+      "hover_cite": true
+    }
+  ]
+}

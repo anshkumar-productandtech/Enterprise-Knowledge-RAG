@@ -1,0 +1,8 @@
+# Everything in requirements.txt plus the judge-based evaluation stack.
+-r requirements.txt
+
+ragas==0.4.3
+# ragas 0.4.3 imports a module that langchain-community 0.4.2 removed. Keep this pin
+# until ragas ships a fix, or `import ragas` fails.
+langchain-community==0.4.1
+pandas==3.1.1

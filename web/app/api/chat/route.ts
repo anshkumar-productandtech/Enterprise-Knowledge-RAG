@@ -1,6 +1,7 @@
 import { backendFetch, clientIp, messageForStatus } from "@/lib/backend";
 
 export const dynamic = "force-dynamic";
+export const maxDuration = 60; // seconds; an answer streams well inside this
 
 export async function POST(req: Request) {
   let body: { question?: unknown; role?: unknown };

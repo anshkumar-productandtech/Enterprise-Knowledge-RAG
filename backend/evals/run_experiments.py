@@ -164,7 +164,8 @@ def main() -> int:
         assistant = Assistant(s, policy=policy, spec=spec, config=cfg)
         run = evaluate(assistant, items, cfg, generate=generate, judge=judge, pass_threshold=args.pass_threshold)
         meta = run_meta(s, spec, cfg, len(items), generate=generate, judge=judge)
-        save({"meta": meta, **run}, name)
+        # A --limit run is a spot check: keep it apart so it never replaces a full result in the table.
+        save({"meta": meta, **run}, f"{name}--first{args.limit}" if args.limit else name)
         ran += 1
         print(f"   {json.dumps({k: v for k, v in run['summary'].items() if k != 'access_control'})}", flush=True)
 
