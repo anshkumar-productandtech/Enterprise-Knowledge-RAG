@@ -15,5 +15,9 @@ COPY config ./config
 RUN useradd --create-home app
 USER app
 
+# Sentence-splitting data, fetched at build time into a directory the app user owns.
+ENV NLTK_DATA=/home/app/nltk_data
+RUN python -m nltk.downloader -d "$NLTK_DATA" punkt_tab stopwords
+
 EXPOSE 8000
 CMD ["sh", "-c", "uvicorn eka.api:app --host 0.0.0.0 --port ${PORT:-8000}"]

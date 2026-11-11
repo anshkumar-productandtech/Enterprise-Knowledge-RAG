@@ -57,6 +57,16 @@ def _urls(settings: Settings) -> tuple[URL, URL]:
     return base.set(drivername="postgresql+psycopg2"), base.set(drivername="postgresql+asyncpg")
 
 
+def _store_urls(settings: Settings) -> tuple[str, str]:
+    """Connection strings for the vector store.
+
+    The store keeps them as plain strings, and str(URL) replaces the password
+    with "***", so they are rendered explicitly. Never log these.
+    """
+    sync_url, async_url = _urls(settings)
+    return sync_url.render_as_string(hide_password=False), async_url.render_as_string(hide_password=False)
+
+
 def admin_engine(settings: Settings) -> Engine:
     return create_engine(_urls(settings)[0], pool_pre_ping=True)
 
@@ -80,7 +90,7 @@ def row_count(settings: Settings, spec: IndexSpec) -> int | None:
 
 
 def open_store(settings: Settings, spec: IndexSpec, dim: int, *, create: bool) -> PGVectorStore:
-    sync_url, async_url = _urls(settings)
+    sync_url, async_url = _store_urls(settings)
     halfvec = dim > HNSW_MAX_DIM
     return PGVectorStore(
         connection_string=sync_url,

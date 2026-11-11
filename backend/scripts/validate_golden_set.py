@@ -49,6 +49,17 @@ def _candidates(content_dir: Path, url: str, limit: int = 4) -> list[str]:
     return sorted(hits)[:limit]
 
 
+def _closest_line(fact: str, text: str) -> str:
+    """The line on the page sharing the most words with the missing fact, to show what changed."""
+    words = set(re.findall(r"[a-z0-9$%]+", fact.lower()))
+    best, score = "", 0
+    for line in text.splitlines():
+        overlap = len(words & set(re.findall(r"[a-z0-9$%]+", line.lower())))
+        if overlap > score:
+            best, score = line.strip(), overlap
+    return best[:220]
+
+
 def main() -> int:
     settings, policy = get_settings(), get_policy()
     all_docs = load_documents(settings.content_dir, policy)
@@ -79,7 +90,8 @@ def main() -> int:
         text = _plain(" ".join(d.text for d in pages))
         for fact in item.get("must_include", []):
             if _plain(fact) not in text:
-                problems.append(f"{item['id']}: fact no longer on the page: {fact!r}")
+                closest = _closest_line(fact, "\n".join(d.text for d in pages))
+                problems.append(f"{item['id']}: fact no longer on the page: {fact!r}\n      closest line: {closest}")
         groups = {d.metadata["access_group"] for d in pages}
         if item["access_group"] not in groups:
             problems.append(

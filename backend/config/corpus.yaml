@@ -17,7 +17,6 @@ include:
   - handbook/entity
   - handbook/finance
   - handbook/engineering/infrastructure-platforms/incident-management
-  - handbook/engineering/infrastructure/incident-management
   - handbook/security
   - handbook/sales
   - handbook/legal

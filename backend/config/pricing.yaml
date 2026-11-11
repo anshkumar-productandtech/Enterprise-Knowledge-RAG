@@ -14,14 +14,19 @@ llm:
   gpt-6.1-sol: { input_per_mtok: 2.00, output_per_mtok: 10.00 } # unverified, see note above
   claude-haiku-5-5: { input_per_mtok: null, output_per_mtok: null }
   claude-sonnet-5-5: { input_per_mtok: null, output_per_mtok: null }
-  gemini-3.7-flash: { input_per_mtok: null, output_per_mtok: null }
+  # Gemini: read from https://aistudio.google.com/docs/pricing on 2026-11-11 (paid tier, standard).
+  gemini-3.8-flash: { input_per_mtok: 0.75, output_per_mtok: 3.75 } # introductory price through 2026-12-31, then 1.50 / 7.50
+  gemini-3.5-flash-lite: { input_per_mtok: 0.30, output_per_mtok: 2.50 }
+  gemini-3.1-flash-lite: { input_per_mtok: 0.25, output_per_mtok: 1.50 }
+  gemini-2.5-flash-lite: { input_per_mtok: 0.10, output_per_mtok: 0.40 }
 
 embedding:
   mock: { per_mtok: 0 }
   text-embedding-3-small: { per_mtok: null }
   voyage-4-lite: { per_mtok: 0.02 } # unverified, see note above
   voyage-4: { per_mtok: 0.06 } # unverified, see note above
-  gemini-embedding-2-preview: { per_mtok: null }
+  gemini-embedding-2: { per_mtok: 0.20 } # Google pricing page, 2026-11-11
+  gemini-embedding-001: { per_mtok: 0.15 } # Google pricing page, 2026-11-11
   BAAI/bge-small-en-v1.5: { per_mtok: 0 } # open source, runs on your own CPU; compute is not counted
 
 rerank:

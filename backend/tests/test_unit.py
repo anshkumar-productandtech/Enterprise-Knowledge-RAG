@@ -184,3 +184,16 @@ def test_local_reranker_reorders_and_truncates():
     out = reranker.postprocess_nodes(nodes, QueryBundle("vacation days"))
     assert [n.node.get_content() for n in out] == ["vacation vacation", "vacation"]
     assert out[0].score == 2.0
+
+
+# ------------------------------------------------------------------------ index
+
+def test_vector_store_urls_keep_the_password(monkeypatch):
+    """str(sqlalchemy URL) masks the password as ***; the store must get the real one."""
+    from eka.index import _store_urls
+    from eka.settings import Settings
+
+    monkeypatch.setenv("DATABASE_URL", "postgres://user:s3cret@db.example.test:5432/app")
+    sync_url, async_url = _store_urls(Settings(_env_file=None))
+    assert sync_url == "postgresql+psycopg2://user:s3cret@db.example.test:5432/app"
+    assert async_url == "postgresql+asyncpg://user:s3cret@db.example.test:5432/app"
