@@ -1,6 +1,6 @@
 # Corpus check
 
-Run: 2026-11-11T14:52:33Z, commit 6c71339
+Run: 2026-11-11T14:56:08Z, commit 886e552
 
 ## Handbook clone
 ```
@@ -23,19 +23,19 @@ Pages per configured section:
       5  handbook/entity
      57  handbook/finance
      14  handbook/engineering/infrastructure-platforms/incident-management
-      0  handbook/engineering/infrastructure/incident-management   <-- nothing found, check the path
     324  handbook/security
     171  handbook/sales
     105  handbook/legal
 
 50 questions (45 answerable), 733 pages in corpus
 
-5 problem(s):
-  - corpus.yaml: no pages under handbook/engineering/infrastructure/incident-management
+3 problem(s):
   - g07: fact no longer on the page: 'Paid Caregiver Sick Time'
-  - e06: source not in corpus: https://handbook.gitlab.com/handbook/engineering/infrastructure/incident-management/incident-manager-onboarding/ (similar files: handbook/engineering/infrastructure-platforms/incident-management/incident-manager-onboarding.md)
-  - e07: source not in corpus: https://handbook.gitlab.com/handbook/engineering/infrastructure/incident-management/incident-manager-onboarding/ (similar files: handbook/engineering/infrastructure-platforms/incident-management/incident-manager-onboarding.md)
+      closest line: You may not extend paid parental leave through the use of Paid [Caregiver Sick Time](/handbook/people-group/time-off-and-absence/time-off-types/#caregiver-sick-time), unless you have a family member with a serious health
+  - e07: fact no longer on the page: 'Job Grades 8 and 9'
+      closest line: Incident Manager responsibilities are expected of Engineering Management and Staff+ Engineer job families in the Development and Infrastructure departments. Previously, Incident Manager responsibilities were fulfilled by
   - s02: fact no longer on the page: 'Personal Data Exception'
+      closest line: While Personal Data is classified as Orange, there is an exception for GitLab Team Member names, their work email addresses, and their GitLab usernames, which are classified as Yellow. These two Personal Data elements ar
 VALIDATION FAILED
 ```
 
@@ -43,596 +43,84 @@ VALIDATION FAILED
 
 ### 256-token chunks, sentence splitter
 ```json
-  nltk_find("corpora/stopwords", paths=[self._nltk_data_dir])
-  return find(modified_name, paths)
-  for msg in self.incr_download(
-  for msg in self.incr_download(info_or_id, download_dir, force, (), extract):
-[nltk_data] Refusing to install into '/opt/hostedtoolcache/Python/3.13
-[nltk_data]     .18/x64/lib/python3.13/site-
-[nltk_data]     packages/llama_index/core/_static/nltk_cache': it is
-[nltk_data]     writable by, or owned by, another account, so a file
-[nltk_data]     swapped in during the install would be installed as
-[nltk_data]     trusted data. Make it private to its owner (chmod
-[nltk_data]     go-w).
-  nltk_find("tokenizers/punkt_tab", paths=[self._nltk_data_dir])
-  return find(modified_name, paths)
-[nltk_data] Refusing to install into '/opt/hostedtoolcache/Python/3.13
-[nltk_data]     .18/x64/lib/python3.13/site-
-[nltk_data]     packages/llama_index/core/_static/nltk_cache': it is
-[nltk_data]     writable by, or owned by, another account, so a file
-[nltk_data]     swapped in during the install would be installed as
-[nltk_data]     trusted data. Make it private to its owner (chmod
-[nltk_data]     go-w).
-  root = nltk.data.find(f"{self.subdir}/{self.__name}")
-  root = nltk.data.find(f"{self.subdir}/{zip_name}")
-Traceback (most recent call last):
-  File "/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/site-packages/nltk/corpus/util.py", line 85, in __load
-    root = nltk.data.find(f"{self.subdir}/{zip_name}")
-  File "/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/site-packages/nltk/data.py", line 1636, in find
-    raise exc
-LookupError: 
-**********************************************************************
-  Resource 'stopwords' not found.
-  Please use the NLTK Downloader to obtain the resource:
-
-  >>> import nltk
-  >>> nltk.download('stopwords')
-
-  For more information see: https://www.nltk.org/data.html
-
-  Attempted to load 'corpora/stopwords.zip/stopwords/'
-
-  Refused, writable by other accounts (a file planted or
-  rewritten there would be loaded as trusted data):
-    - '/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/site-packages/llama_index/core/_static/nltk_cache'
-  Make each one private to its owner, e.g.:
-    chmod go-w '/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/site-packages/llama_index/core/_static/nltk_cache'
-  then download the packages it holds again (force=True): a
-  file changed while it was writable keeps the change.
-
-  Searched in:
-    - '/home/runner/nltk_data'
-    - '/opt/hostedtoolcache/Python/3.13.18/x64/nltk_data'
-    - '/opt/hostedtoolcache/Python/3.13.18/x64/share/nltk_data'
-    - '/opt/hostedtoolcache/Python/3.13.18/x64/lib/nltk_data'
-    - '/usr/share/nltk_data'
-    - '/usr/local/share/nltk_data'
-    - '/usr/lib/nltk_data'
-    - '/usr/local/lib/nltk_data'
-    - '/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/site-packages/llama_index/core/_static/nltk_cache'
-**********************************************************************
-
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "<frozen runpy>", line 203, in _run_module_as_main
-  File "<frozen runpy>", line 88, in _run_code
-  File "/home/runner/work/Enterprise-Knowledge-RAG/Enterprise-Knowledge-RAG/backend/scripts/ingest.py", line 54, in <module>
-    sys.exit(main())
-             ~~~~^^
-  File "/home/runner/work/Enterprise-Knowledge-RAG/Enterprise-Knowledge-RAG/backend/scripts/ingest.py", line 35, in main
-    plan = ingest(s, policy, spec, embed_model, dry_run=True)
-  File "/home/runner/work/Enterprise-Knowledge-RAG/Enterprise-Knowledge-RAG/backend/eka/index.py", line 128, in ingest
-    nodes = build_nodes(settings, policy, spec)
-  File "/home/runner/work/Enterprise-Knowledge-RAG/Enterprise-Knowledge-RAG/backend/eka/index.py", line 114, in build_nodes
-    return splitter.get_nodes_from_documents(docs)
-           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
-  File "/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/site-packages/llama_index/core/node_parser/interface.py", line 176, in get_nodes_from_documents
-    nodes = self._parse_nodes(documents, show_progress=show_progress, **kwargs)
-  File "/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/site-packages/llama_index_instrumentation/dispatcher.py", line 413, in wrapper
-    result = func(*args, **kwargs)
-  File "/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/site-packages/llama_index/core/node_parser/interface.py", line 291, in _parse_nodes
-    splits = self.split_text_metadata_aware(
-        node.get_content(metadata_mode=MetadataMode.NONE),
-        metadata_str=metadata_str,
-    )
-  File "/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/site-packages/llama_index_instrumentation/dispatcher.py", line 413, in wrapper
-    result = func(*args, **kwargs)
-  File "/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/site-packages/llama_index/core/node_parser/text/sentence.py", line 174, in split_text_metadata_aware
-    return self._split_text(text, chunk_size=effective_chunk_size)
-           ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/site-packages/llama_index/core/node_parser/text/sentence.py", line 191, in _split_text
-    splits = self._split(text, chunk_size)
-  File "/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/site-packages/llama_index/core/node_parser/text/sentence.py", line 213, in _split
-    text_splits_by_fns, is_sentence = self._get_splits_by_fns(text)
-                                      ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
-  File "/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/site-packages/llama_index/core/node_parser/text/sentence.py", line 336, in _get_splits_by_fns
-    splits = split_fn(text)
-  File "/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/site-packages/llama_index/core/node_parser/text/utils.py", line 93, in <lambda>
-    text, globals_helper.punkt_tokenizer
-          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/site-packages/llama_index/core/utils.py", line 130, in punkt_tokenizer
-    self._stopwords = stopwords.words("english")
-                      ^^^^^^^^^^^^^^^
-  File "/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/site-packages/nltk/corpus/util.py", line 129, in __getattr__
-    self.__load()
-    ~~~~~~~~~~~^^
-  File "/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/site-packages/nltk/corpus/util.py", line 87, in __load
-    raise e
-  File "/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/site-packages/nltk/corpus/util.py", line 82, in __load
-    root = nltk.data.find(f"{self.subdir}/{self.__name}")
-  File "/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/site-packages/nltk/data.py", line 1636, in find
-    raise exc
-LookupError: 
-**********************************************************************
-  Resource 'stopwords' not found.
-  Please use the NLTK Downloader to obtain the resource:
-
-  >>> import nltk
-  >>> nltk.download('stopwords')
-
-  For more information see: https://www.nltk.org/data.html
-
-  Attempted to load 'corpora/stopwords'
-
-  Refused, writable by other accounts (a file planted or
-  rewritten there would be loaded as trusted data):
-    - '/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/site-packages/llama_index/core/_static/nltk_cache'
-  Make each one private to its owner, e.g.:
-    chmod go-w '/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/site-packages/llama_index/core/_static/nltk_cache'
-  then download the packages it holds again (force=True): a
-  file changed while it was writable keeps the change.
-
-  Searched in:
-    - '/home/runner/nltk_data'
-    - '/opt/hostedtoolcache/Python/3.13.18/x64/nltk_data'
-    - '/opt/hostedtoolcache/Python/3.13.18/x64/share/nltk_data'
-    - '/opt/hostedtoolcache/Python/3.13.18/x64/lib/nltk_data'
-    - '/usr/share/nltk_data'
-    - '/usr/local/share/nltk_data'
-    - '/usr/lib/nltk_data'
-    - '/usr/local/lib/nltk_data'
-    - '/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/site-packages/llama_index/core/_static/nltk_cache'
-**********************************************************************
-
-DRY RUN FAILED
+{
+  "table": "eka.data_c256o32_se_baaibgesmallenv15",
+  "pages": 733,
+  "chunks": 9280,
+  "embed_tokens_est": 2016397,
+  "embed_cost_usd_est": 0.0,
+  "groups": {
+    "engineering": 181,
+    "finance": 592,
+    "general": 1165,
+    "legal": 1763,
+    "sales": 2870,
+    "security": 2709
+  },
+  "chunks_over_model_limit_pct": 0.06,
+  "status": "dry_run"
+}
 ```
 
 ### 128-token chunks, sentence splitter
 ```json
-  nltk_find("corpora/stopwords", paths=[self._nltk_data_dir])
-  return find(modified_name, paths)
-  for msg in self.incr_download(
-  for msg in self.incr_download(info_or_id, download_dir, force, (), extract):
-[nltk_data] Refusing to install into '/opt/hostedtoolcache/Python/3.13
-[nltk_data]     .18/x64/lib/python3.13/site-
-[nltk_data]     packages/llama_index/core/_static/nltk_cache': it is
-[nltk_data]     writable by, or owned by, another account, so a file
-[nltk_data]     swapped in during the install would be installed as
-[nltk_data]     trusted data. Make it private to its owner (chmod
-[nltk_data]     go-w).
-  nltk_find("tokenizers/punkt_tab", paths=[self._nltk_data_dir])
-  return find(modified_name, paths)
-[nltk_data] Refusing to install into '/opt/hostedtoolcache/Python/3.13
-[nltk_data]     .18/x64/lib/python3.13/site-
-[nltk_data]     packages/llama_index/core/_static/nltk_cache': it is
-[nltk_data]     writable by, or owned by, another account, so a file
-[nltk_data]     swapped in during the install would be installed as
-[nltk_data]     trusted data. Make it private to its owner (chmod
-[nltk_data]     go-w).
-  root = nltk.data.find(f"{self.subdir}/{self.__name}")
-  root = nltk.data.find(f"{self.subdir}/{zip_name}")
-Traceback (most recent call last):
-  File "/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/site-packages/nltk/corpus/util.py", line 85, in __load
-    root = nltk.data.find(f"{self.subdir}/{zip_name}")
-  File "/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/site-packages/nltk/data.py", line 1636, in find
-    raise exc
-LookupError: 
-**********************************************************************
-  Resource 'stopwords' not found.
-  Please use the NLTK Downloader to obtain the resource:
-
-  >>> import nltk
-  >>> nltk.download('stopwords')
-
-  For more information see: https://www.nltk.org/data.html
-
-  Attempted to load 'corpora/stopwords.zip/stopwords/'
-
-  Refused, writable by other accounts (a file planted or
-  rewritten there would be loaded as trusted data):
-    - '/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/site-packages/llama_index/core/_static/nltk_cache'
-  Make each one private to its owner, e.g.:
-    chmod go-w '/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/site-packages/llama_index/core/_static/nltk_cache'
-  then download the packages it holds again (force=True): a
-  file changed while it was writable keeps the change.
-
-  Searched in:
-    - '/home/runner/nltk_data'
-    - '/opt/hostedtoolcache/Python/3.13.18/x64/nltk_data'
-    - '/opt/hostedtoolcache/Python/3.13.18/x64/share/nltk_data'
-    - '/opt/hostedtoolcache/Python/3.13.18/x64/lib/nltk_data'
-    - '/usr/share/nltk_data'
-    - '/usr/local/share/nltk_data'
-    - '/usr/lib/nltk_data'
-    - '/usr/local/lib/nltk_data'
-    - '/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/site-packages/llama_index/core/_static/nltk_cache'
-**********************************************************************
-
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "<frozen runpy>", line 203, in _run_module_as_main
-  File "<frozen runpy>", line 88, in _run_code
-  File "/home/runner/work/Enterprise-Knowledge-RAG/Enterprise-Knowledge-RAG/backend/scripts/ingest.py", line 54, in <module>
-    sys.exit(main())
-             ~~~~^^
-  File "/home/runner/work/Enterprise-Knowledge-RAG/Enterprise-Knowledge-RAG/backend/scripts/ingest.py", line 35, in main
-    plan = ingest(s, policy, spec, embed_model, dry_run=True)
-  File "/home/runner/work/Enterprise-Knowledge-RAG/Enterprise-Knowledge-RAG/backend/eka/index.py", line 128, in ingest
-    nodes = build_nodes(settings, policy, spec)
-  File "/home/runner/work/Enterprise-Knowledge-RAG/Enterprise-Knowledge-RAG/backend/eka/index.py", line 114, in build_nodes
-    return splitter.get_nodes_from_documents(docs)
-           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
-  File "/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/site-packages/llama_index/core/node_parser/interface.py", line 176, in get_nodes_from_documents
-    nodes = self._parse_nodes(documents, show_progress=show_progress, **kwargs)
-  File "/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/site-packages/llama_index_instrumentation/dispatcher.py", line 413, in wrapper
-    result = func(*args, **kwargs)
-  File "/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/site-packages/llama_index/core/node_parser/interface.py", line 291, in _parse_nodes
-    splits = self.split_text_metadata_aware(
-        node.get_content(metadata_mode=MetadataMode.NONE),
-        metadata_str=metadata_str,
-    )
-  File "/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/site-packages/llama_index_instrumentation/dispatcher.py", line 413, in wrapper
-    result = func(*args, **kwargs)
-  File "/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/site-packages/llama_index/core/node_parser/text/sentence.py", line 174, in split_text_metadata_aware
-    return self._split_text(text, chunk_size=effective_chunk_size)
-           ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/site-packages/llama_index/core/node_parser/text/sentence.py", line 191, in _split_text
-    splits = self._split(text, chunk_size)
-  File "/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/site-packages/llama_index/core/node_parser/text/sentence.py", line 213, in _split
-    text_splits_by_fns, is_sentence = self._get_splits_by_fns(text)
-                                      ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
-  File "/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/site-packages/llama_index/core/node_parser/text/sentence.py", line 336, in _get_splits_by_fns
-    splits = split_fn(text)
-  File "/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/site-packages/llama_index/core/node_parser/text/utils.py", line 93, in <lambda>
-    text, globals_helper.punkt_tokenizer
-          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/site-packages/llama_index/core/utils.py", line 130, in punkt_tokenizer
-    self._stopwords = stopwords.words("english")
-                      ^^^^^^^^^^^^^^^
-  File "/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/site-packages/nltk/corpus/util.py", line 129, in __getattr__
-    self.__load()
-    ~~~~~~~~~~~^^
-  File "/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/site-packages/nltk/corpus/util.py", line 87, in __load
-    raise e
-  File "/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/site-packages/nltk/corpus/util.py", line 82, in __load
-    root = nltk.data.find(f"{self.subdir}/{self.__name}")
-  File "/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/site-packages/nltk/data.py", line 1636, in find
-    raise exc
-LookupError: 
-**********************************************************************
-  Resource 'stopwords' not found.
-  Please use the NLTK Downloader to obtain the resource:
-
-  >>> import nltk
-  >>> nltk.download('stopwords')
-
-  For more information see: https://www.nltk.org/data.html
-
-  Attempted to load 'corpora/stopwords'
-
-  Refused, writable by other accounts (a file planted or
-  rewritten there would be loaded as trusted data):
-    - '/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/site-packages/llama_index/core/_static/nltk_cache'
-  Make each one private to its owner, e.g.:
-    chmod go-w '/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/site-packages/llama_index/core/_static/nltk_cache'
-  then download the packages it holds again (force=True): a
-  file changed while it was writable keeps the change.
-
-  Searched in:
-    - '/home/runner/nltk_data'
-    - '/opt/hostedtoolcache/Python/3.13.18/x64/nltk_data'
-    - '/opt/hostedtoolcache/Python/3.13.18/x64/share/nltk_data'
-    - '/opt/hostedtoolcache/Python/3.13.18/x64/lib/nltk_data'
-    - '/usr/share/nltk_data'
-    - '/usr/local/share/nltk_data'
-    - '/usr/lib/nltk_data'
-    - '/usr/local/lib/nltk_data'
-    - '/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/site-packages/llama_index/core/_static/nltk_cache'
-**********************************************************************
-
-DRY RUN FAILED
+{
+  "table": "eka.data_c128o16_se_baaibgesmallenv15",
+  "pages": 733,
+  "chunks": 19589,
+  "embed_tokens_est": 2062933,
+  "embed_cost_usd_est": 0.0,
+  "groups": {
+    "engineering": 377,
+    "finance": 1216,
+    "general": 2483,
+    "legal": 3776,
+    "sales": 6092,
+    "security": 5645
+  },
+  "chunks_over_model_limit_pct": 0.01,
+  "status": "dry_run"
+}
 ```
 
 ### 384-token chunks, sentence splitter
 ```json
-  nltk_find("corpora/stopwords", paths=[self._nltk_data_dir])
-  return find(modified_name, paths)
-  for msg in self.incr_download(
-  for msg in self.incr_download(info_or_id, download_dir, force, (), extract):
-[nltk_data] Refusing to install into '/opt/hostedtoolcache/Python/3.13
-[nltk_data]     .18/x64/lib/python3.13/site-
-[nltk_data]     packages/llama_index/core/_static/nltk_cache': it is
-[nltk_data]     writable by, or owned by, another account, so a file
-[nltk_data]     swapped in during the install would be installed as
-[nltk_data]     trusted data. Make it private to its owner (chmod
-[nltk_data]     go-w).
-  nltk_find("tokenizers/punkt_tab", paths=[self._nltk_data_dir])
-  return find(modified_name, paths)
-[nltk_data] Refusing to install into '/opt/hostedtoolcache/Python/3.13
-[nltk_data]     .18/x64/lib/python3.13/site-
-[nltk_data]     packages/llama_index/core/_static/nltk_cache': it is
-[nltk_data]     writable by, or owned by, another account, so a file
-[nltk_data]     swapped in during the install would be installed as
-[nltk_data]     trusted data. Make it private to its owner (chmod
-[nltk_data]     go-w).
-  root = nltk.data.find(f"{self.subdir}/{self.__name}")
-  root = nltk.data.find(f"{self.subdir}/{zip_name}")
-Traceback (most recent call last):
-  File "/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/site-packages/nltk/corpus/util.py", line 85, in __load
-    root = nltk.data.find(f"{self.subdir}/{zip_name}")
-  File "/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/site-packages/nltk/data.py", line 1636, in find
-    raise exc
-LookupError: 
-**********************************************************************
-  Resource 'stopwords' not found.
-  Please use the NLTK Downloader to obtain the resource:
-
-  >>> import nltk
-  >>> nltk.download('stopwords')
-
-  For more information see: https://www.nltk.org/data.html
-
-  Attempted to load 'corpora/stopwords.zip/stopwords/'
-
-  Refused, writable by other accounts (a file planted or
-  rewritten there would be loaded as trusted data):
-    - '/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/site-packages/llama_index/core/_static/nltk_cache'
-  Make each one private to its owner, e.g.:
-    chmod go-w '/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/site-packages/llama_index/core/_static/nltk_cache'
-  then download the packages it holds again (force=True): a
-  file changed while it was writable keeps the change.
-
-  Searched in:
-    - '/home/runner/nltk_data'
-    - '/opt/hostedtoolcache/Python/3.13.18/x64/nltk_data'
-    - '/opt/hostedtoolcache/Python/3.13.18/x64/share/nltk_data'
-    - '/opt/hostedtoolcache/Python/3.13.18/x64/lib/nltk_data'
-    - '/usr/share/nltk_data'
-    - '/usr/local/share/nltk_data'
-    - '/usr/lib/nltk_data'
-    - '/usr/local/lib/nltk_data'
-    - '/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/site-packages/llama_index/core/_static/nltk_cache'
-**********************************************************************
-
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "<frozen runpy>", line 203, in _run_module_as_main
-  File "<frozen runpy>", line 88, in _run_code
-  File "/home/runner/work/Enterprise-Knowledge-RAG/Enterprise-Knowledge-RAG/backend/scripts/ingest.py", line 54, in <module>
-    sys.exit(main())
-             ~~~~^^
-  File "/home/runner/work/Enterprise-Knowledge-RAG/Enterprise-Knowledge-RAG/backend/scripts/ingest.py", line 35, in main
-    plan = ingest(s, policy, spec, embed_model, dry_run=True)
-  File "/home/runner/work/Enterprise-Knowledge-RAG/Enterprise-Knowledge-RAG/backend/eka/index.py", line 128, in ingest
-    nodes = build_nodes(settings, policy, spec)
-  File "/home/runner/work/Enterprise-Knowledge-RAG/Enterprise-Knowledge-RAG/backend/eka/index.py", line 114, in build_nodes
-    return splitter.get_nodes_from_documents(docs)
-           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
-  File "/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/site-packages/llama_index/core/node_parser/interface.py", line 176, in get_nodes_from_documents
-    nodes = self._parse_nodes(documents, show_progress=show_progress, **kwargs)
-  File "/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/site-packages/llama_index_instrumentation/dispatcher.py", line 413, in wrapper
-    result = func(*args, **kwargs)
-  File "/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/site-packages/llama_index/core/node_parser/interface.py", line 291, in _parse_nodes
-    splits = self.split_text_metadata_aware(
-        node.get_content(metadata_mode=MetadataMode.NONE),
-        metadata_str=metadata_str,
-    )
-  File "/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/site-packages/llama_index_instrumentation/dispatcher.py", line 413, in wrapper
-    result = func(*args, **kwargs)
-  File "/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/site-packages/llama_index/core/node_parser/text/sentence.py", line 174, in split_text_metadata_aware
-    return self._split_text(text, chunk_size=effective_chunk_size)
-           ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/site-packages/llama_index/core/node_parser/text/sentence.py", line 191, in _split_text
-    splits = self._split(text, chunk_size)
-  File "/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/site-packages/llama_index/core/node_parser/text/sentence.py", line 213, in _split
-    text_splits_by_fns, is_sentence = self._get_splits_by_fns(text)
-                                      ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
-  File "/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/site-packages/llama_index/core/node_parser/text/sentence.py", line 336, in _get_splits_by_fns
-    splits = split_fn(text)
-  File "/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/site-packages/llama_index/core/node_parser/text/utils.py", line 93, in <lambda>
-    text, globals_helper.punkt_tokenizer
-          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/site-packages/llama_index/core/utils.py", line 130, in punkt_tokenizer
-    self._stopwords = stopwords.words("english")
-                      ^^^^^^^^^^^^^^^
-  File "/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/site-packages/nltk/corpus/util.py", line 129, in __getattr__
-    self.__load()
-    ~~~~~~~~~~~^^
-  File "/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/site-packages/nltk/corpus/util.py", line 87, in __load
-    raise e
-  File "/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/site-packages/nltk/corpus/util.py", line 82, in __load
-    root = nltk.data.find(f"{self.subdir}/{self.__name}")
-  File "/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/site-packages/nltk/data.py", line 1636, in find
-    raise exc
-LookupError: 
-**********************************************************************
-  Resource 'stopwords' not found.
-  Please use the NLTK Downloader to obtain the resource:
-
-  >>> import nltk
-  >>> nltk.download('stopwords')
-
-  For more information see: https://www.nltk.org/data.html
-
-  Attempted to load 'corpora/stopwords'
-
-  Refused, writable by other accounts (a file planted or
-  rewritten there would be loaded as trusted data):
-    - '/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/site-packages/llama_index/core/_static/nltk_cache'
-  Make each one private to its owner, e.g.:
-    chmod go-w '/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/site-packages/llama_index/core/_static/nltk_cache'
-  then download the packages it holds again (force=True): a
-  file changed while it was writable keeps the change.
-
-  Searched in:
-    - '/home/runner/nltk_data'
-    - '/opt/hostedtoolcache/Python/3.13.18/x64/nltk_data'
-    - '/opt/hostedtoolcache/Python/3.13.18/x64/share/nltk_data'
-    - '/opt/hostedtoolcache/Python/3.13.18/x64/lib/nltk_data'
-    - '/usr/share/nltk_data'
-    - '/usr/local/share/nltk_data'
-    - '/usr/lib/nltk_data'
-    - '/usr/local/lib/nltk_data'
-    - '/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/site-packages/llama_index/core/_static/nltk_cache'
-**********************************************************************
-
-DRY RUN FAILED
+{
+  "table": "eka.data_c384o48_se_baaibgesmallenv15",
+  "pages": 733,
+  "chunks": 6155,
+  "embed_tokens_est": 2017183,
+  "embed_cost_usd_est": 0.0,
+  "groups": {
+    "engineering": 119,
+    "finance": 386,
+    "general": 771,
+    "legal": 1156,
+    "sales": 1889,
+    "security": 1834
+  },
+  "chunks_over_model_limit_pct": 1.54,
+  "status": "dry_run"
+}
 ```
 
 ### 256-token chunks, markdown splitter
 ```json
-  nltk_find("corpora/stopwords", paths=[self._nltk_data_dir])
-  return find(modified_name, paths)
-  for msg in self.incr_download(
-  for msg in self.incr_download(info_or_id, download_dir, force, (), extract):
-[nltk_data] Refusing to install into '/opt/hostedtoolcache/Python/3.13
-[nltk_data]     .18/x64/lib/python3.13/site-
-[nltk_data]     packages/llama_index/core/_static/nltk_cache': it is
-[nltk_data]     writable by, or owned by, another account, so a file
-[nltk_data]     swapped in during the install would be installed as
-[nltk_data]     trusted data. Make it private to its owner (chmod
-[nltk_data]     go-w).
-  nltk_find("tokenizers/punkt_tab", paths=[self._nltk_data_dir])
-  return find(modified_name, paths)
-[nltk_data] Refusing to install into '/opt/hostedtoolcache/Python/3.13
-[nltk_data]     .18/x64/lib/python3.13/site-
-[nltk_data]     packages/llama_index/core/_static/nltk_cache': it is
-[nltk_data]     writable by, or owned by, another account, so a file
-[nltk_data]     swapped in during the install would be installed as
-[nltk_data]     trusted data. Make it private to its owner (chmod
-[nltk_data]     go-w).
-  root = nltk.data.find(f"{self.subdir}/{self.__name}")
-  root = nltk.data.find(f"{self.subdir}/{zip_name}")
-Traceback (most recent call last):
-  File "/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/site-packages/nltk/corpus/util.py", line 85, in __load
-    root = nltk.data.find(f"{self.subdir}/{zip_name}")
-  File "/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/site-packages/nltk/data.py", line 1636, in find
-    raise exc
-LookupError: 
-**********************************************************************
-  Resource 'stopwords' not found.
-  Please use the NLTK Downloader to obtain the resource:
-
-  >>> import nltk
-  >>> nltk.download('stopwords')
-
-  For more information see: https://www.nltk.org/data.html
-
-  Attempted to load 'corpora/stopwords.zip/stopwords/'
-
-  Refused, writable by other accounts (a file planted or
-  rewritten there would be loaded as trusted data):
-    - '/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/site-packages/llama_index/core/_static/nltk_cache'
-  Make each one private to its owner, e.g.:
-    chmod go-w '/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/site-packages/llama_index/core/_static/nltk_cache'
-  then download the packages it holds again (force=True): a
-  file changed while it was writable keeps the change.
-
-  Searched in:
-    - '/home/runner/nltk_data'
-    - '/opt/hostedtoolcache/Python/3.13.18/x64/nltk_data'
-    - '/opt/hostedtoolcache/Python/3.13.18/x64/share/nltk_data'
-    - '/opt/hostedtoolcache/Python/3.13.18/x64/lib/nltk_data'
-    - '/usr/share/nltk_data'
-    - '/usr/local/share/nltk_data'
-    - '/usr/lib/nltk_data'
-    - '/usr/local/lib/nltk_data'
-    - '/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/site-packages/llama_index/core/_static/nltk_cache'
-**********************************************************************
-
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "<frozen runpy>", line 203, in _run_module_as_main
-  File "<frozen runpy>", line 88, in _run_code
-  File "/home/runner/work/Enterprise-Knowledge-RAG/Enterprise-Knowledge-RAG/backend/scripts/ingest.py", line 54, in <module>
-    sys.exit(main())
-             ~~~~^^
-  File "/home/runner/work/Enterprise-Knowledge-RAG/Enterprise-Knowledge-RAG/backend/scripts/ingest.py", line 35, in main
-    plan = ingest(s, policy, spec, embed_model, dry_run=True)
-  File "/home/runner/work/Enterprise-Knowledge-RAG/Enterprise-Knowledge-RAG/backend/eka/index.py", line 128, in ingest
-    nodes = build_nodes(settings, policy, spec)
-  File "/home/runner/work/Enterprise-Knowledge-RAG/Enterprise-Knowledge-RAG/backend/eka/index.py", line 113, in build_nodes
-    return splitter(sections)
-  File "/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/site-packages/llama_index_instrumentation/dispatcher.py", line 413, in wrapper
-    result = func(*args, **kwargs)
-  File "/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/site-packages/llama_index/core/node_parser/interface.py", line 204, in __call__
-    return self.get_nodes_from_documents(nodes, **kwargs)  # type: ignore
-           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
-  File "/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/site-packages/llama_index/core/node_parser/interface.py", line 176, in get_nodes_from_documents
-    nodes = self._parse_nodes(documents, show_progress=show_progress, **kwargs)
-  File "/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/site-packages/llama_index_instrumentation/dispatcher.py", line 413, in wrapper
-    result = func(*args, **kwargs)
-  File "/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/site-packages/llama_index/core/node_parser/interface.py", line 291, in _parse_nodes
-    splits = self.split_text_metadata_aware(
-        node.get_content(metadata_mode=MetadataMode.NONE),
-        metadata_str=metadata_str,
-    )
-  File "/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/site-packages/llama_index_instrumentation/dispatcher.py", line 413, in wrapper
-    result = func(*args, **kwargs)
-  File "/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/site-packages/llama_index/core/node_parser/text/sentence.py", line 174, in split_text_metadata_aware
-    return self._split_text(text, chunk_size=effective_chunk_size)
-           ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/site-packages/llama_index/core/node_parser/text/sentence.py", line 191, in _split_text
-    splits = self._split(text, chunk_size)
-  File "/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/site-packages/llama_index/core/node_parser/text/sentence.py", line 213, in _split
-    text_splits_by_fns, is_sentence = self._get_splits_by_fns(text)
-                                      ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
-  File "/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/site-packages/llama_index/core/node_parser/text/sentence.py", line 336, in _get_splits_by_fns
-    splits = split_fn(text)
-  File "/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/site-packages/llama_index/core/node_parser/text/utils.py", line 93, in <lambda>
-    text, globals_helper.punkt_tokenizer
-          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/site-packages/llama_index/core/utils.py", line 130, in punkt_tokenizer
-    self._stopwords = stopwords.words("english")
-                      ^^^^^^^^^^^^^^^
-  File "/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/site-packages/nltk/corpus/util.py", line 129, in __getattr__
-    self.__load()
-    ~~~~~~~~~~~^^
-  File "/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/site-packages/nltk/corpus/util.py", line 87, in __load
-    raise e
-  File "/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/site-packages/nltk/corpus/util.py", line 82, in __load
-    root = nltk.data.find(f"{self.subdir}/{self.__name}")
-  File "/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/site-packages/nltk/data.py", line 1636, in find
-    raise exc
-LookupError: 
-**********************************************************************
-  Resource 'stopwords' not found.
-  Please use the NLTK Downloader to obtain the resource:
-
-  >>> import nltk
-  >>> nltk.download('stopwords')
-
-  For more information see: https://www.nltk.org/data.html
-
-  Attempted to load 'corpora/stopwords'
-
-  Refused, writable by other accounts (a file planted or
-  rewritten there would be loaded as trusted data):
-    - '/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/site-packages/llama_index/core/_static/nltk_cache'
-  Make each one private to its owner, e.g.:
-    chmod go-w '/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/site-packages/llama_index/core/_static/nltk_cache'
-  then download the packages it holds again (force=True): a
-  file changed while it was writable keeps the change.
-
-  Searched in:
-    - '/home/runner/nltk_data'
-    - '/opt/hostedtoolcache/Python/3.13.18/x64/nltk_data'
-    - '/opt/hostedtoolcache/Python/3.13.18/x64/share/nltk_data'
-    - '/opt/hostedtoolcache/Python/3.13.18/x64/lib/nltk_data'
-    - '/usr/share/nltk_data'
-    - '/usr/local/share/nltk_data'
-    - '/usr/lib/nltk_data'
-    - '/usr/local/lib/nltk_data'
-    - '/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/site-packages/llama_index/core/_static/nltk_cache'
-**********************************************************************
-
-DRY RUN FAILED
+{
+  "table": "eka.data_c256o32_ma_baaibgesmallenv15",
+  "pages": 733,
+  "chunks": 13876,
+  "embed_tokens_est": 2126474,
+  "embed_cost_usd_est": 0.0,
+  "groups": {
+    "engineering": 303,
+    "finance": 935,
+    "general": 1840,
+    "legal": 2277,
+    "sales": 4142,
+    "security": 4379
+  },
+  "chunks_over_model_limit_pct": 0.03,
+  "status": "dry_run"
+}
 ```
