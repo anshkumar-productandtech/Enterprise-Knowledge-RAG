@@ -29,10 +29,11 @@ services:
         value: local
       - key: EMBED_MODEL
         value: BAAI/bge-small-en-v1.5
+      # The reranker measured best, but the API then peaks at about 709 MB, over the free
+      # plan's 512 MB. Without it, about 426 MB. On a plan with 1 GB or more, set
+      # RERANK_PROVIDER=local and RERANK_MODEL=Xenova/ms-marco-MiniLM-L-12-v2.
       - key: RERANK_PROVIDER
-        value: local
-      - key: RERANK_MODEL
-        value: Xenova/ms-marco-MiniLM-L-12-v2
+        value: none
       - key: CHUNK_SIZE
         value: "128"
       - key: CHUNK_OVERLAP
