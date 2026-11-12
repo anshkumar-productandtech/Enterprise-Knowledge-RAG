@@ -32,7 +32,12 @@ Rules:
 5. Be brief and concrete: lead with the answer, include exact numbers, limits and deadlines from the sources, and keep it under 150 words unless a list is needed.
 6. If sources disagree, say so and cite both."""
 
-_CITATION = re.compile(r"\[(\d{1,2})\]")
+# Matches [1] and grouped forms the model sometimes writes: [1, 2] or [1,2,3].
+_CITATION = re.compile(r"\[(\d{1,2}(?:\s*,\s*\d{1,2})*)\]")
+
+
+def cited_numbers(text: str) -> list[str]:
+    return [n.strip() for group in _CITATION.findall(text) for n in group.split(",")]
 
 
 @dataclass
@@ -107,7 +112,7 @@ def _finalise(
 ) -> Answer:
     stripped = text.strip()
     refused = stripped.startswith(NOT_FOUND) or not stripped
-    cited = sorted({int(m) for m in _CITATION.findall(stripped) if 1 <= int(m) <= n_sources})
+    cited = sorted({int(m) for m in cited_numbers(stripped) if 1 <= int(m) <= n_sources})
 
     counts = provider_token_counts(last_chunk) if last_chunk is not None else None
     if counts:

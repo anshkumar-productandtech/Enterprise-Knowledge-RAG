@@ -197,3 +197,9 @@ def test_vector_store_urls_keep_the_password(monkeypatch):
     sync_url, async_url = _store_urls(Settings(_env_file=None))
     assert sync_url == "postgresql+psycopg2://user:s3cret@db.example.test:5432/app"
     assert async_url == "postgresql+asyncpg://user:s3cret@db.example.test:5432/app"
+
+
+def test_grouped_citations_count_as_citations():
+    answer = answer_once(_FixedLLM(reply="Give 6 days of notice [1, 2, 3]. Also [2,4]."), "q?",
+                         [_source("a"), _source("b"), _source("c")])
+    assert answer.cited == [1, 2, 3] and not answer.uncited  # 4 is out of range and dropped

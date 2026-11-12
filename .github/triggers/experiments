@@ -1,11 +1,11 @@
 # Edit this file and push to main to start the experiments workflow.
 # mode: retrieval-only (no API key) or full (needs the GOOGLE_API_KEY secret and llm_model)
 mode=full
-only=2-hybrid
-limit=5
+only=
+limit=
 llm_model=gemini-3.5-flash-lite
 judge_model=
-eval_rpm=10
-judge_workers=1
+eval_rpm=30
+judge_workers=2
 # bump to re-run with the same settings
-run=5
+run=6

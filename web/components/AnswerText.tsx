@@ -30,14 +30,17 @@ export function AnswerText({ text, sourceCount, onCite, onOpen }: Props) {
   };
 
   const inline = (line: string): ReactNode[] =>
-    line.split(/(\[\d{1,2}\]|\*\*[^*]+\*\*)/g).map((part, i) => {
-      const cite = /^\[(\d{1,2})\]$/.exec(part);
+    line.split(/(\[\d{1,2}(?:\s*,\s*\d{1,2})*\]|\*\*[^*]+\*\*)/g).map((part, i) => {
+      const cite = /^\[([\d,\s]+)\]$/.exec(part);
       if (cite) {
-        const n = Number(cite[1]);
-        if (n < 1 || n > sourceCount) return null; // a citation to a source that doesn't exist is dropped
-        return (
+        // [2] or a group like [1, 2, 3]; numbers pointing at no source are dropped
+        const numbers = cite[1]
+          .split(",")
+          .map((x) => Number(x.trim()))
+          .filter((n) => n >= 1 && n <= sourceCount);
+        return numbers.map((n) => (
           <button
-            key={i}
+            key={`${i}-${n}`}
             type="button"
             className="cite"
             aria-label={`Source ${n}`}
@@ -49,7 +52,7 @@ export function AnswerText({ text, sourceCount, onCite, onOpen }: Props) {
           >
             {n}
           </button>
-        );
+        ));
       }
       if (part.startsWith("**") && part.endsWith("**") && part.length > 4) {
         return <strong key={i}>{part.slice(2, -2)}</strong>;
