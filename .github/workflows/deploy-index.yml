@@ -40,7 +40,12 @@ jobs:
           DATABASE_URL: ${{ secrets.SUPABASE_DATABASE_URL }}
           RECREATE: ${{ inputs.recreate }}
         run: |
+          set -o pipefail
           if [ -z "$DATABASE_URL" ]; then echo "Add the SUPABASE_DATABASE_URL repository secret first."; exit 1; fi
+          case "$DATABASE_URL" in
+            *pooler.supabase.com*) ;;
+            *supabase.co*) echo "This is Supabase's direct connection string, which is IPv6-only and unreachable from GitHub runners. Use the Session pooler string (host ends in pooler.supabase.com, port 5432)."; exit 1 ;;
+          esac
           ARGS="--yes"
           if [ "$RECREATE" = "true" ] || grep -q '^recreate=true' ../.github/triggers/deploy-index 2>/dev/null; then ARGS="$ARGS --recreate"; fi
           python -m scripts.ingest $ARGS 2>&1 | grep -v -i "warning" | grep -v "://"
