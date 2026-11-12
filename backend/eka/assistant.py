@@ -6,6 +6,7 @@ is what gets served.
 
 from __future__ import annotations
 
+import time
 from dataclasses import dataclass
 from typing import Iterator
 
@@ -89,12 +90,31 @@ class Assistant:
     def ask(self, question: str, role: str, config: RetrievalConfig | None = None) -> Result:
         return self.answer(question, self.retrieve(question, role, config))
 
-    def stream(self, question: str, role: str) -> Iterator[tuple[str, object]]:
-        """Yield ("sources", [...]), then ("delta", str)..., then ("done", Result)."""
+    def stream(self, question: str, role: str, *, tries: int = 3) -> Iterator[tuple[str, object]]:
+        """Yield ("sources", [...]), then ("delta", str)..., then ("done", Result).
+
+        A temporary model error (overload, rate limit) before the first word is
+        retried, so the reader never sees it. Once text has been shown, an error
+        is passed on rather than restarting the answer mid-sentence.
+        """
         retrieved = self.retrieve(question, role)
         yield "sources", [s.to_dict() for s in to_sources(retrieved.nodes)]
-        for kind, payload in stream_answer(self.llm, question, retrieved.nodes):
-            if kind == "delta":
-                yield "delta", payload
-            else:
-                yield "done", self._result(retrieved, payload)  # type: ignore[arg-type]
+        for attempt in range(1, tries + 1):
+            started = False
+            try:
+                for kind, payload in stream_answer(self.llm, question, retrieved.nodes):
+                    if kind == "delta":
+                        started = True
+                        yield "delta", payload
+                    else:
+                        yield "done", self._result(retrieved, payload)  # type: ignore[arg-type]
+                return
+            except Exception as exc:
+                if started or attempt == tries or not is_transient(exc):
+                    raise
+                time.sleep(2 * attempt)
+
+
+def is_transient(exc: Exception) -> bool:
+    msg = str(exc)
+    return any(k in msg for k in ("429", "RESOURCE_EXHAUSTED", "503", "UNAVAILABLE", "overloaded"))

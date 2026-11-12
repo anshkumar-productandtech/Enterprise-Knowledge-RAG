@@ -76,7 +76,8 @@ def play(page: Page, scenes: list[dict], answer_timeout_s: int) -> list[dict]:
 
         exchange = page.locator(".exchange").last
         exchange.locator(".receipt, .failure").first.wait_for(timeout=answer_timeout_s * 1000)
-        exchange.scroll_into_view_if_needed()
+        # Scroll to the bottom so the newest answer sits above the sticky question box.
+        page.evaluate("window.scrollTo({top: document.body.scrollHeight, behavior: 'smooth'})")
         page.wait_for_timeout(1200)
 
         failed = exchange.locator(".failure").count() > 0

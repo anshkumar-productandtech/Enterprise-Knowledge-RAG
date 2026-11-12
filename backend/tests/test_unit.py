@@ -203,3 +203,34 @@ def test_grouped_citations_count_as_citations():
     answer = answer_once(_FixedLLM(reply="Give 6 days of notice [1, 2, 3]. Also [2,4]."), "q?",
                          [_source("a"), _source("b"), _source("c")])
     assert answer.cited == [1, 2, 3] and not answer.uncited  # 4 is out of range and dropped
+
+
+def test_stream_retries_a_transient_error_before_the_first_word(monkeypatch):
+    from eka import assistant as asst
+
+    monkeypatch.setattr(asst.time, "sleep", lambda _: None)
+    calls = {"n": 0}
+
+    class FlakyLLM(_FixedLLM):
+        reply: str = "Hotels are 300 dollars [1]."
+
+        def stream_chat(self, messages, **kwargs):
+            calls["n"] += 1
+            if calls["n"] == 1:
+                raise RuntimeError("503 UNAVAILABLE: high demand")
+            return super().stream_chat(messages, **kwargs)
+
+    class FakeRetrieved:
+        nodes = [_source("Hotels are 300 dollars.")]
+        timings_ms: dict = {}
+        embed_tokens = 1
+        rerank_searches = 0
+
+    a = object.__new__(asst.Assistant)
+    a.llm = FlakyLLM()
+    a.retrieve = lambda q, r: FakeRetrieved()
+    a._result = lambda retrieved, answer: answer
+    events = list(a.stream("q?", "employee"))
+    assert calls["n"] == 2
+    assert [k for k, _ in events][0] == "sources" and events[-1][0] == "done"
+    assert not events[-1][1].refused

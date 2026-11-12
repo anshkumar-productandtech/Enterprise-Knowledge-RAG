@@ -82,8 +82,28 @@ jobs:
         run: |
           PID=$(pgrep -f "uvicorn eka.api" | head -1)
           RSS=$(grep VmHWM /proc/$PID/status | awk '{print $2}')
-          echo "API peak memory after the recording: $((RSS / 1024)) MB (embedding model + reranker + app)" | tee ../ci-reports/api-memory.txt
+          echo "API peak memory after the recording: $((RSS / 1024)) MB (embedding model + reranker + app)" > ../ci-reports/api-memory.txt; cat ../ci-reports/api-memory.txt
         working-directory: backend
+      - name: Measure API memory without the reranker
+        if: always()
+        working-directory: backend
+        env:
+          GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
+          RERANK_PROVIDER: none
+        run: |
+          nohup uvicorn eka.api:app --port 8001 > /tmp/api-norerank.log 2>&1 &
+          for i in $(seq 1 60); do curl -sf localhost:8001/health > /dev/null && break; sleep 2; done
+          curl -s -N -X POST localhost:8001/chat -H "authorization: Bearer $DEMO_API_TOKEN" -H 'content-type: application/json' \
+            -d '{"question":"How many paid sick days do I get?","role":"employee"}' > /dev/null
+          PID=$(pgrep -f "uvicorn eka.api:app --port 8001" | head -1)
+          RSS=$(grep VmHWM /proc/$PID/status | awk '{print $2}')
+          echo "API peak memory without the reranker, after one question: $((RSS / 1024)) MB" | tee -a ../ci-reports/api-memory.txt
+      - name: Convert to MP4
+        run: |
+          sudo apt-get install -y -qq ffmpeg > /dev/null
+          ffmpeg -y -loglevel error -i docs/walkthrough/walkthrough.webm -c:v libx264 -preset veryfast -crf 24 \
+            -pix_fmt yuv420p -movflags +faststart -an docs/walkthrough/walkthrough.mp4
+          rm docs/walkthrough/walkthrough.webm
       - name: Show server logs on failure
         if: failure()
         run: tail -40 /tmp/api.log /tmp/web.log || true
