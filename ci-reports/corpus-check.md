@@ -1,14 +1,14 @@
 # Corpus check
 
-Run: 2026-11-11T16:10:21Z, commit fe5c10a
+Run: 2026-11-12T09:33:10Z, commit 2a5f5c8
 
 ## Handbook clone
 ```
 Cloning into '/home/runner/work/Enterprise-Knowledge-RAG/Enterprise-Knowledge-RAG/backend/data/handbook'...
 repo:   https://gitlab.com/gitlab-com/content-sites/handbook.git
-commit: 9f754e31e74abd0f43292fe7be0c27886e0ef211
-date:   2026-11-11T15:33:17Z
-Markdown pages: 4199
+commit: 6204c3c9c5c32c4bdb9062f3e88d5d153404a51f
+date:   2026-11-12T12:56:45+05:30
+Markdown pages: 4200
 Next: python -m scripts.validate_golden_set && python -m scripts.ingest --dry-run
 ```
 
@@ -38,15 +38,15 @@ Golden set matches the corpus.
 {
   "table": "eka.data_c256o32_se_baaibgesmallenv15",
   "pages": 733,
-  "chunks": 9280,
-  "embed_tokens_est": 2016397,
+  "chunks": 9277,
+  "embed_tokens_est": 2015726,
   "embed_cost_usd_est": 0.0,
   "groups": {
     "engineering": 181,
-    "finance": 592,
+    "finance": 575,
     "general": 1165,
     "legal": 1763,
-    "sales": 2870,
+    "sales": 2884,
     "security": 2709
   },
   "chunks_over_model_limit_pct": 0.06,
@@ -59,15 +59,15 @@ Golden set matches the corpus.
 {
   "table": "eka.data_c128o16_se_baaibgesmallenv15",
   "pages": 733,
-  "chunks": 19589,
-  "embed_tokens_est": 2062933,
+  "chunks": 19580,
+  "embed_tokens_est": 2062094,
   "embed_cost_usd_est": 0.0,
   "groups": {
     "engineering": 377,
-    "finance": 1216,
+    "finance": 1178,
     "general": 2483,
     "legal": 3776,
-    "sales": 6092,
+    "sales": 6121,
     "security": 5645
   },
   "chunks_over_model_limit_pct": 0.01,
@@ -80,15 +80,15 @@ Golden set matches the corpus.
 {
   "table": "eka.data_c384o48_se_baaibgesmallenv15",
   "pages": 733,
-  "chunks": 6155,
-  "embed_tokens_est": 2017183,
+  "chunks": 6153,
+  "embed_tokens_est": 2016522,
   "embed_cost_usd_est": 0.0,
   "groups": {
     "engineering": 119,
-    "finance": 386,
+    "finance": 375,
     "general": 771,
     "legal": 1156,
-    "sales": 1889,
+    "sales": 1898,
     "security": 1834
   },
   "chunks_over_model_limit_pct": 1.54,
@@ -101,15 +101,15 @@ Golden set matches the corpus.
 {
   "table": "eka.data_c256o32_ma_baaibgesmallenv15",
   "pages": 733,
-  "chunks": 13876,
-  "embed_tokens_est": 2126474,
+  "chunks": 13870,
+  "embed_tokens_est": 2125895,
   "embed_cost_usd_est": 0.0,
   "groups": {
     "engineering": 303,
-    "finance": 935,
+    "finance": 913,
     "general": 1840,
     "legal": 2277,
-    "sales": 4142,
+    "sales": 4158,
     "security": 4379
   },
   "chunks_over_model_limit_pct": 0.03,
