@@ -6,6 +6,7 @@ is what gets served.
 
 from __future__ import annotations
 
+import re
 import time
 from dataclasses import dataclass
 from typing import Iterator
@@ -90,7 +91,7 @@ class Assistant:
     def ask(self, question: str, role: str, config: RetrievalConfig | None = None) -> Result:
         return self.answer(question, self.retrieve(question, role, config))
 
-    def stream(self, question: str, role: str, *, tries: int = 3) -> Iterator[tuple[str, object]]:
+    def stream(self, question: str, role: str, *, tries: int = 4) -> Iterator[tuple[str, object]]:
         """Yield ("sources", [...]), then ("delta", str)..., then ("done", Result).
 
         A temporary model error (overload, rate limit) before the first word is
@@ -112,7 +113,11 @@ class Assistant:
             except Exception as exc:
                 if started or attempt == tries or not is_transient(exc):
                     raise
-                time.sleep(2 * attempt)
+                hint = _RETRY_AFTER.search(str(exc))
+                time.sleep(min(float(hint.group(1)) + 1 if hint else 3 * attempt, 20))
+
+
+_RETRY_AFTER = re.compile(r"retry in ([0-9.]+)s", re.I)
 
 
 def is_transient(exc: Exception) -> bool:

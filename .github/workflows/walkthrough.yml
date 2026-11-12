@@ -32,7 +32,8 @@ jobs:
           --health-cmd "pg_isready -U postgres"
           --health-interval 5s --health-timeout 5s --health-retries 12
     env:
-      DATABASE_URL: postgresql://postgres:postgres@localhost:5432/eka
+      # The hosted index when it exists (no rebuild needed); otherwise the local service database.
+      DATABASE_URL: ${{ secrets.SUPABASE_DATABASE_URL || 'postgresql://postgres:postgres@localhost:5432/eka' }}
       DEMO_API_TOKEN: ci-recording-only
       RATE_LIMIT_PER_MINUTE: "60"
       NEXT_TELEMETRY_DISABLED: "1"
@@ -104,9 +105,15 @@ jobs:
           ffmpeg -y -loglevel error -i docs/walkthrough/walkthrough.webm -c:v libx264 -preset veryfast -crf 24 \
             -pix_fmt yuv420p -movflags +faststart -an docs/walkthrough/walkthrough.mp4
           rm docs/walkthrough/walkthrough.webm
-      - name: Show server logs on failure
-        if: failure()
-        run: tail -40 /tmp/api.log /tmp/web.log || true
+      - name: Save API errors (secrets stripped)
+        if: always()
+        run: |
+          {
+            echo "API log lines about failures, from the recording run"
+            grep -n -A3 -E "chat failed|Error|Exception|Traceback|429|503" /tmp/api.log | grep -v -i "warning" | tail -80
+          } | sed -E 's#(postgres(ql)?(\+[a-z0-9]+)?://)[^ @]+@#\1***@#g; s#(key=)[A-Za-z0-9_-]+#\1***#g; s#AIza[0-9A-Za-z_-]{20,}#***#g' \
+            > ci-reports/walkthrough-api-errors.txt || true
+          cat ci-reports/walkthrough-api-errors.txt
       - name: Commit the recording
         run: |
           git config user.name "github-actions[bot]"

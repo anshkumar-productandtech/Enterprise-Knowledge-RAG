@@ -136,10 +136,10 @@ def chat(body: ChatRequest, request: Request) -> StreamingResponse:
                     yield sse("done", summary)
                 else:
                     yield sse(kind, payload)
-        except Exception:
+        except Exception as exc:
             # Full detail goes to the server log; the browser gets a generic message
             # so provider errors (which can echo request details) never reach users.
-            log.exception("chat failed")
+            log.exception("chat failed: %s", type(exc).__name__)
             yield sse("error", {"message": "Something went wrong answering that. Please try again."})
 
     return StreamingResponse(
