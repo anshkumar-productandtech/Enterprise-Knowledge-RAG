@@ -8,4 +8,4 @@ judge_model=
 eval_rpm=10
 judge_workers=1
 # bump to re-run with the same settings
-run=2
+run=3
