@@ -8,8 +8,8 @@
   {
     "role": "Employee",
     "question": "How many vendor bids do I need for a new $150K purchase?",
-    "refused": true,
-    "failed": false
+    "refused": false,
+    "failed": true
   },
   {
     "role": "Finance analyst",
