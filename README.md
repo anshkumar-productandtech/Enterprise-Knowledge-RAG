@@ -12,11 +12,11 @@ Retrieval results are real: measured on 11 and 12 November 2026 on the live hand
 
 | Experiment | Change from the row it builds on | Right page in top 5 | Right page ranked first | MRR | Retrieval p95 |
 | --- | --- | --- | --- | --- | --- |
-| 0 Baseline | 256-token chunks, vector search | 39 of 45 (87%) | 23 | 0.654 | 16 ms |
+| 0 Baseline | 256-token chunks, vector search | 39 of 45 (87%) | 23 | 0.654 | 17 ms |
 | 1a | 128-token chunks | 40 of 45 (89%) | 26 | 0.695 | 14 ms |
 | 1b | 384-token chunks | 35 of 45 (78%) | 23 | 0.620 | 39 ms |
-| 2 | 128-token chunks + keyword search, fused by rank | 42 of 45 (93%) | 30 | 0.770 | 62 ms |
-| 3 | + reranker (20 candidates down to 5) | 42 of 45 (93%) | 33 | 0.816 | 1,167 ms |
+| 2 | 128-token chunks + keyword search, fused by rank | 42 of 45 (93%) | 29 | 0.756 | 78 ms |
+| 3 | + reranker (20 candidates down to 5) | 42 of 45 (93%) | 33 | 0.816 | 1,432 ms |
 | 4 | + heading-aware chunking | 42 of 45 (93%) | 34 | 0.822 | 840 ms |
 
 Restricted pages returned to the `employee` role: **0** across 23 restricted questions, in all six configurations.
@@ -25,7 +25,7 @@ What this shows, and what it doesn't:
 
 - **Hybrid search was the change that found more pages**: 42 of 45, up from 40 with vector search alone.
 - **Chunk size mattered at the large end.** 384-token chunks found 5 fewer pages than 128. The gap between 128 and 256 is one question, which is noise at this sample size.
-- **The reranker found no additional pages** but ranked the right one first more often (33 against 30), for about 0.6 seconds of extra CPU time per question.
+- **The reranker found no additional pages** but ranked the right one first more often (33 against 29), for about 0.6 to 1.4 seconds of extra CPU time per question.
 - **Heading-aware chunking made no measurable difference** and produced 26% more chunks.
 - **Two questions fail in every configuration.** Both lose to pages that discuss the same topic elsewhere: country benefit pages crowd out the global time-off policy, and Sales and Legal pages crowd out Accounts Payable on purchase orders.
 - **"Right page in top 5" does not prove the chunk holds the answer.** The answer-quality results below show why that matters.
