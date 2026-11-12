@@ -1,5 +1,5 @@
 # Builds the search index in your hosted database (Supabase) for the live demo.
-# Run it from the Actions tab after adding the SUPABASE_DATABASE_URL secret
+# Run it from the Actions tab (or edit .github/triggers/deploy-index) after adding the SUPABASE_DATABASE_URL secret
 # (Supabase > Connect > Session pooler connection string).
 name: deploy-index
 
@@ -10,6 +10,9 @@ on:
         description: Rebuild the table if it already exists
         type: boolean
         default: false
+  push:
+    branches: [main]
+    paths: [".github/triggers/deploy-index"]
 
 permissions:
   contents: read
@@ -38,5 +41,6 @@ jobs:
           RECREATE: ${{ inputs.recreate }}
         run: |
           if [ -z "$DATABASE_URL" ]; then echo "Add the SUPABASE_DATABASE_URL repository secret first."; exit 1; fi
-          ARGS="--yes"; [ "$RECREATE" = "true" ] && ARGS="$ARGS --recreate"
+          ARGS="--yes"
+          if [ "$RECREATE" = "true" ] || grep -q '^recreate=true' ../.github/triggers/deploy-index 2>/dev/null; then ARGS="$ARGS --recreate"; fi
           python -m scripts.ingest $ARGS 2>&1 | grep -v -i "warning" | grep -v "://"
