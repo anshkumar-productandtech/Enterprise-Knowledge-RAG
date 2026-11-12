@@ -30,7 +30,9 @@ services:
       - key: EMBED_MODEL
         value: BAAI/bge-small-en-v1.5
       - key: RERANK_PROVIDER
-        value: none
+        value: local
+      - key: RERANK_MODEL
+        value: Xenova/ms-marco-MiniLM-L-12-v2
       - key: CHUNK_SIZE
         value: "128"
       - key: CHUNK_OVERLAP

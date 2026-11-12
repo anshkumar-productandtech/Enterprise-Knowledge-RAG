@@ -21,7 +21,7 @@ RUN python -m nltk.downloader -d "$NLTK_DATA" punkt_tab stopwords
 # Open-source embedding model (and reranker, if the serving config uses one), baked into the image.
 ENV FASTEMBED_CACHE_PATH=/home/app/.cache/fastembed
 ARG EMBED_MODEL=BAAI/bge-small-en-v1.5
-ARG RERANK_MODEL=
+ARG RERANK_MODEL=Xenova/ms-marco-MiniLM-L-12-v2
 RUN python -c "from fastembed import TextEmbedding; TextEmbedding('${EMBED_MODEL}')" \
  && if [ -n "${RERANK_MODEL}" ]; then python -c "from fastembed.rerank.cross_encoder import TextCrossEncoder; TextCrossEncoder('${RERANK_MODEL}')"; fi
 

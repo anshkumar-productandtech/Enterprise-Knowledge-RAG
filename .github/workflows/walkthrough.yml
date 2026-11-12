@@ -77,6 +77,13 @@ jobs:
       - name: Record
         working-directory: backend
         run: python -m scripts.record_walkthrough --url http://localhost:3000 --out ../docs/walkthrough
+      - name: Measure API memory (Render's free plan allows 512 MB)
+        if: always()
+        run: |
+          PID=$(pgrep -f "uvicorn eka.api" | head -1)
+          RSS=$(grep VmHWM /proc/$PID/status | awk '{print $2}')
+          echo "API peak memory after the recording: $((RSS / 1024)) MB (embedding model + reranker + app)" | tee ../ci-reports/api-memory.txt
+        working-directory: backend
       - name: Show server logs on failure
         if: failure()
         run: tail -40 /tmp/api.log /tmp/web.log || true
@@ -84,7 +91,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add docs/walkthrough
+          git add docs/walkthrough ci-reports
           git commit -m "Walkthrough recording" || exit 0
           git pull --rebase origin main
           git push
