@@ -1,8 +1,8 @@
 {
   "meta": {
     "label": "real run",
-    "scope": "retrieval only",
-    "timestamp": "2026-11-11T15:21:41+00:00",
+    "scope": "retrieval + answers + judge",
+    "timestamp": "2026-11-12T07:45:32+00:00",
     "golden_questions": 50,
     "index": {
       "chunk_size": 256,
@@ -16,11 +16,11 @@
       "top_k": 5,
       "candidate_k": 20
     },
-    "llm": "not used",
+    "llm": "gemini/gemini-3.5-flash-lite",
     "embedding": "local/BAAI/bge-small-en-v1.5",
     "reranker": "none",
-    "judge": "not used",
-    "corpus_snapshot": "repo:   https://gitlab.com/gitlab-com/content-sites/handbook.git\ncommit: 76aef42d3c4a4248628bff82106d52c7e98a6602\ndate:   2026-11-11T14:57:42+01:00"
+    "judge": "gemini/gemini-3.5-flash-lite",
+    "corpus_snapshot": "repo:   https://gitlab.com/gitlab-com/content-sites/handbook.git\ncommit: d92556d45d2f98f59ab217b0d59e36ea89219b07\ndate:   2026-11-12T10:01:17+11:00"
   },
   "summary": {
     "questions": 50,
@@ -28,8 +28,18 @@
     "hit_rate": 0.8667,
     "all_sources_rate": 0.8444,
     "mrr": 0.6544,
-    "retrieval_ms_p50": 9.6,
-    "retrieval_ms_p95": 15.6,
+    "retrieval_ms_p50": 12.6,
+    "retrieval_ms_p95": 17.4,
+    "refusal_accuracy": 1.0,
+    "false_refusal_rate": 0.1778,
+    "uncited_rate": 0.0,
+    "total_ms_p50": 1460.5,
+    "total_ms_p95": 23988.8,
+    "cost_per_query_usd": 0.0005,
+    "faithfulness": 0.9003,
+    "answer_correctness": 0.5319,
+    "pass_rate": 0.52,
+    "pass_threshold": 0.6,
     "access_control": {
       "role": "employee",
       "restricted_questions": 23,
@@ -49,10 +59,21 @@
         "https://handbook.gitlab.com/handbook/people-group/time-off-and-absence/time-off-types",
         "https://handbook.gitlab.com/handbook/entity/israel-ltd"
       ],
-      "retrieval_ms": 23.9,
+      "retrieval_ms": 32.2,
       "hit": true,
       "all_sources": true,
-      "reciprocal_rank": 0.25
+      "reciprocal_rank": 0.25,
+      "answer": "I couldn't find an answer to that in the documents available to you. Try rephrasing, or ask the team that owns this topic.",
+      "refused": true,
+      "uncited": false,
+      "cited": [],
+      "total_ms": 603.9,
+      "cost_usd": 0.0004554,
+      "prompt_tokens": 1493,
+      "completion_tokens": 3,
+      "token_source": "provider",
+      "faithfulness": null,
+      "answer_correctness": 0.0
     },
     {
       "id": "g02",
@@ -66,10 +87,24 @@
         "https://handbook.gitlab.com/handbook/people-group/time-off-and-absence/time-away-philosophy",
         "https://handbook.gitlab.com/handbook/people-group/time-off-and-absence/time-away-philosophy"
       ],
-      "retrieval_ms": 15.9,
+      "retrieval_ms": 14.9,
       "hit": true,
       "all_sources": true,
-      "reciprocal_rank": 0.5
+      "reciprocal_rank": 0.5,
+      "answer": "You need to provide at least 6 business days of advance notice for a 3-day absence [1], [5].",
+      "refused": false,
+      "uncited": false,
+      "cited": [
+        1,
+        5
+      ],
+      "total_ms": 754.6,
+      "cost_usd": 0.0004985,
+      "prompt_tokens": 1445,
+      "completion_tokens": 26,
+      "token_source": "provider",
+      "faithfulness": 1.0,
+      "answer_correctness": 0.5825
     },
     {
       "id": "g03",
@@ -83,10 +118,24 @@
         "https://handbook.gitlab.com/handbook/people-group/time-off-and-absence/time-off-types",
         "https://handbook.gitlab.com/handbook/entity/iberia-srl-spain"
       ],
-      "retrieval_ms": 10.5,
+      "retrieval_ms": 12.8,
       "hit": true,
       "all_sources": true,
-      "reciprocal_rank": 1.0
+      "reciprocal_rank": 1.0,
+      "answer": "Eligible team members may use up to 25 paid sick days, available from their first day of work [4]. Eligibility is calculated on a rolling 12-month period [4]. \n\nAdditionally, under the Global Expansion policy, sick leave entitlement equals the number of days worked during a 6-week period (30 days for a 5-day work week, or 36 days for a 6-day work week), providing an average of 10-12 paid sick days annually across a three-year cycle [2].",
+      "refused": false,
+      "uncited": false,
+      "cited": [
+        2,
+        4
+      ],
+      "total_ms": 1009.4,
+      "cost_usd": 0.0007264999999999999,
+      "prompt_tokens": 1455,
+      "completion_tokens": 116,
+      "token_source": "provider",
+      "faithfulness": 0.4286,
+      "answer_correctness": 0.5401
     },
     {
       "id": "g04",
@@ -100,10 +149,23 @@
         "https://handbook.gitlab.com/handbook/people-group/time-off-and-absence/time-off-types",
         "https://handbook.gitlab.com/handbook/people-group/time-off-and-absence/time-off-types"
       ],
-      "retrieval_ms": 11.2,
+      "retrieval_ms": 23.8,
       "hit": true,
       "all_sources": true,
-      "reciprocal_rank": 1.0
+      "reciprocal_rank": 1.0,
+      "answer": "No, team members are not allowed to substitute PTO for sick time [4]. If you are taking time off for medical or sick needs (whether physical or mental-health-related), you must follow the Sick Time Policy [4].",
+      "refused": false,
+      "uncited": false,
+      "cited": [
+        4
+      ],
+      "total_ms": 36169.1,
+      "cost_usd": 0.0005696,
+      "prompt_tokens": 1507,
+      "completion_tokens": 47,
+      "token_source": "provider",
+      "faithfulness": 1.0,
+      "answer_correctness": 0.7973
     },
     {
       "id": "g05",
@@ -117,10 +179,23 @@
         "https://handbook.gitlab.com/handbook/total-rewards/benefits/general-and-entity-benefits/global-expansion",
         "https://handbook.gitlab.com/handbook/total-rewards/benefits/general-and-entity-benefits/pty-benefits-new-zealand"
       ],
-      "retrieval_ms": 11.0,
+      "retrieval_ms": 13.0,
       "hit": true,
       "all_sources": true,
-      "reciprocal_rank": 0.3333333333333333
+      "reciprocal_rank": 0.3333333333333333,
+      "answer": "The company strongly recommends taking at least two consecutive weeks of time off and a minimum of 25 days total throughout the year [3].",
+      "refused": false,
+      "uncited": false,
+      "cited": [
+        3
+      ],
+      "total_ms": 617.7,
+      "cost_usd": 0.0005098,
+      "prompt_tokens": 1466,
+      "completion_tokens": 28,
+      "token_source": "provider",
+      "faithfulness": 1.0,
+      "answer_correctness": 0.9727
     },
     {
       "id": "g06",
@@ -134,10 +209,23 @@
         "https://handbook.gitlab.com/handbook/total-rewards/benefits/general-and-entity-benefits/remote-com",
         "https://handbook.gitlab.com/handbook/people-policies/leave-of-absence/us"
       ],
-      "retrieval_ms": 9.9,
+      "retrieval_ms": 13.5,
       "hit": true,
       "all_sources": true,
-      "reciprocal_rank": 0.3333333333333333
+      "reciprocal_rank": 0.3333333333333333,
+      "answer": "GitLab provides 16 weeks of paid Parental Leave [3]. It must be used prior to the child's first birthday, the first anniversary of the adoption, the first anniversary of the foster placement, or the first anniversary of the birth for surrogacy [3].",
+      "refused": false,
+      "uncited": false,
+      "cited": [
+        3
+      ],
+      "total_ms": 4087.7,
+      "cost_usd": 0.0005737,
+      "prompt_tokens": 1454,
+      "completion_tokens": 55,
+      "token_source": "provider",
+      "faithfulness": 1.0,
+      "answer_correctness": 0.879
     },
     {
       "id": "g07",
@@ -151,10 +239,23 @@
         "https://handbook.gitlab.com/handbook/people-group/time-off-and-absence/time-off-types",
         "https://handbook.gitlab.com/handbook/people-group/time-off-and-absence/leave-types"
       ],
-      "retrieval_ms": 10.5,
+      "retrieval_ms": 12.2,
       "hit": true,
       "all_sources": true,
-      "reciprocal_rank": 0.2
+      "reciprocal_rank": 0.2,
+      "answer": "You may not extend paid parental leave through the use of Paid Caregiver Sick Time, unless you have a family member with a serious health condition [5].",
+      "refused": false,
+      "uncited": false,
+      "cited": [
+        5
+      ],
+      "total_ms": 599.4,
+      "cost_usd": 0.0005164000000000001,
+      "prompt_tokens": 1463,
+      "completion_tokens": 31,
+      "token_source": "provider",
+      "faithfulness": 0.5,
+      "answer_correctness": 0.4971
     },
     {
       "id": "g08",
@@ -168,10 +269,24 @@
         "https://handbook.gitlab.com/handbook/finance/expenses",
         "https://handbook.gitlab.com/handbook/finance/travel/sponsored"
       ],
-      "retrieval_ms": 9.8,
+      "retrieval_ms": 13.0,
       "hit": true,
       "all_sources": true,
-      "reciprocal_rank": 1.0
+      "reciprocal_rank": 1.0,
+      "answer": "Hotel stays are reimbursable up to $300 USD (or equivalent local currency) inclusive of tax per night for standard rooms, with a 7-day booking lead time [1]. Additionally, Navan uses a \"Dynamic Policy\" that calculates a fair market price for every search based on travel dates and destinations to allow for price flexibility if the $300 USD limit is not applicable to that area [1, 4]. Purchases that are over 20% of the Dynamic Policy will be flagged for manager review [4].",
+      "refused": false,
+      "uncited": false,
+      "cited": [
+        1,
+        4
+      ],
+      "total_ms": 1051.8,
+      "cost_usd": 0.000729,
+      "prompt_tokens": 1505,
+      "completion_tokens": 111,
+      "token_source": "provider",
+      "faithfulness": 1.0,
+      "answer_correctness": 0.4678
     },
     {
       "id": "g09",
@@ -185,10 +300,24 @@
         "https://handbook.gitlab.com/handbook/total-rewards/benefits/general-and-entity-benefits/bv-benefits-belgium",
         "https://handbook.gitlab.com/handbook/finance/expenses"
       ],
-      "retrieval_ms": 8.7,
+      "retrieval_ms": 11.8,
       "hit": true,
       "all_sources": true,
-      "reciprocal_rank": 0.5
+      "reciprocal_rank": 0.5,
+      "answer": "When traveling on company business, meals are reimbursable up to $120 USD (or local equivalent currency) per day [2]. Additionally, meals may be reimbursed at the per diem rate for the travel destination when on billable travel [3].",
+      "refused": false,
+      "uncited": false,
+      "cited": [
+        2,
+        3
+      ],
+      "total_ms": 578.0,
+      "cost_usd": 0.0005775999999999999,
+      "prompt_tokens": 1492,
+      "completion_tokens": 52,
+      "token_source": "provider",
+      "faithfulness": 1.0,
+      "answer_correctness": 0.721
     },
     {
       "id": "g10",
@@ -202,10 +331,24 @@
         "https://handbook.gitlab.com/handbook/finance/accounts-payable/corp-credit-cards",
         "https://handbook.gitlab.com/handbook/finance/expenses"
       ],
-      "retrieval_ms": 13.5,
+      "retrieval_ms": 15.9,
       "hit": true,
       "all_sources": true,
-      "reciprocal_rank": 0.5
+      "reciprocal_rank": 0.5,
+      "answer": "Expense claims over 90 days from the purchase date will not be reimbursed unless you get approval from your Manager [1, 2]. Since four months is longer than 90 days, you can only get reimbursed if your manager approves it [1, 2].",
+      "refused": false,
+      "uncited": false,
+      "cited": [
+        1,
+        2
+      ],
+      "total_ms": 614.9,
+      "cost_usd": 0.0005497,
+      "prompt_tokens": 1374,
+      "completion_tokens": 55,
+      "token_source": "provider",
+      "faithfulness": 0.6667,
+      "answer_correctness": 0.5958
     },
     {
       "id": "g11",
@@ -219,10 +362,23 @@
         "https://handbook.gitlab.com/handbook/finance/accounting",
         "https://handbook.gitlab.com/handbook/finance/expenses"
       ],
-      "retrieval_ms": 8.6,
+      "retrieval_ms": 12.4,
       "hit": true,
       "all_sources": true,
-      "reciprocal_rank": 1.0
+      "reciprocal_rank": 1.0,
+      "answer": "Purchases on your card should not exceed $5,000 USD for each transaction annually [3]. If your purchase will be over $5,000 USD, you will need to enter a Purchase Requisition in Zip [3].",
+      "refused": false,
+      "uncited": false,
+      "cited": [
+        3
+      ],
+      "total_ms": 5393.7,
+      "cost_usd": 0.0005681,
+      "prompt_tokens": 1477,
+      "completion_tokens": 50,
+      "token_source": "provider",
+      "faithfulness": 0.6667,
+      "answer_correctness": 0.673
     },
     {
       "id": "g12",
@@ -236,10 +392,25 @@
         "https://handbook.gitlab.com/handbook/finance/expenses",
         "https://handbook.gitlab.com/handbook/finance/expenses"
       ],
-      "retrieval_ms": 9.1,
+      "retrieval_ms": 12.8,
       "hit": true,
       "all_sources": true,
-      "reciprocal_rank": 1.0
+      "reciprocal_rank": 1.0,
+      "answer": "The company pays up to a limit of $700.00 per month for a co-working space [1]. For daily office passes, the limit is $100.00 per day (for up to 5 one-off days in a calendar month) [4]. GitLab will not cover security deposits or advance payments for co-working space [5]. Only the rent for the space is reimbursable; travel, parking, meals, beverages, access cards, insurance, and other additional expenses are not [5].",
+      "refused": false,
+      "uncited": false,
+      "cited": [
+        1,
+        4,
+        5
+      ],
+      "total_ms": 935.8,
+      "cost_usd": 0.0006945,
+      "prompt_tokens": 1390,
+      "completion_tokens": 111,
+      "token_source": "provider",
+      "faithfulness": null,
+      "answer_correctness": 0.63
     },
     {
       "id": "g13",
@@ -253,10 +424,24 @@
         "https://handbook.gitlab.com/handbook/finance/expenses",
         "https://handbook.gitlab.com/handbook/finance/expenses"
       ],
-      "retrieval_ms": 9.5,
+      "retrieval_ms": 13.4,
       "hit": true,
       "all_sources": true,
-      "reciprocal_rank": 1.0
+      "reciprocal_rank": 1.0,
+      "answer": "The limit for home internet reimbursement is set at $100, and claims above this amount will not be reimbursed [1], [5]. No hardware costs for internet service, including routers and extenders/boosters, are reclaimable [1].",
+      "refused": false,
+      "uncited": false,
+      "cited": [
+        1,
+        5
+      ],
+      "total_ms": 1111.4,
+      "cost_usd": 0.000558,
+      "prompt_tokens": 1435,
+      "completion_tokens": 51,
+      "token_source": "provider",
+      "faithfulness": 1.0,
+      "answer_correctness": 0.7658
     },
     {
       "id": "g14",
@@ -270,10 +455,21 @@
         "https://handbook.gitlab.com/handbook/sales/field-operations/sales-operations/deal-desk",
         "https://handbook.gitlab.com/handbook/sales/field-operations/sales-operations/deal-desk"
       ],
-      "retrieval_ms": 8.1,
+      "retrieval_ms": 12.0,
       "hit": false,
       "all_sources": false,
-      "reciprocal_rank": 0.0
+      "reciprocal_rank": 0.0,
+      "answer": "I couldn't find an answer to that in the documents available to you. Try rephrasing, or ask the team that owns this topic.",
+      "refused": true,
+      "uncited": false,
+      "cited": [],
+      "total_ms": 23667.7,
+      "cost_usd": 0.00043950000000000006,
+      "prompt_tokens": 1440,
+      "completion_tokens": 3,
+      "token_source": "provider",
+      "faithfulness": null,
+      "answer_correctness": 0.0
     },
     {
       "id": "g15",
@@ -287,10 +483,24 @@
         "https://handbook.gitlab.com/handbook/finance/financial-planning-and-analysis/adaptive-insights",
         "https://handbook.gitlab.com/handbook/finance/expenses"
       ],
-      "retrieval_ms": 9.6,
+      "retrieval_ms": 12.7,
       "hit": true,
       "all_sources": true,
-      "reciprocal_rank": 1.0
+      "reciprocal_rank": 1.0,
+      "answer": "Yes, the standard maximum monthly limit to be reimbursed is $10K USD (or the local currency equivalent) [1]. Once this limit is reached, all expense items must be approved by the A/P team in Navan [1]. \n\nFor E-Group members, the maximum monthly limit to be reimbursed is $20K USD before additional approvals are required [3]. \n\nAdditionally, limits may be increased for positions that require more spend (such as Field Marketing), but the increase request must be submitted via an issue for approval by a VP or higher in the Accounting Organization [1, 3].",
+      "refused": false,
+      "uncited": false,
+      "cited": [
+        1,
+        3
+      ],
+      "total_ms": 846.5,
+      "cost_usd": 0.0007557,
+      "prompt_tokens": 1469,
+      "completion_tokens": 126,
+      "token_source": "provider",
+      "faithfulness": 1.0,
+      "answer_correctness": 0.71
     },
     {
       "id": "g16",
@@ -304,10 +514,23 @@
         "https://handbook.gitlab.com/handbook/finance/expenses",
         "https://handbook.gitlab.com/handbook/finance/expenses"
       ],
-      "retrieval_ms": 15.6,
+      "retrieval_ms": 16.1,
       "hit": true,
       "all_sources": true,
-      "reciprocal_rank": 0.5
+      "reciprocal_rank": 0.5,
+      "answer": "GitLab will reimburse you $50, which is the actual out-of-pocket amount paid using your personal payment method [5].",
+      "refused": false,
+      "uncited": false,
+      "cited": [
+        5
+      ],
+      "total_ms": 619.5,
+      "cost_usd": 0.0005265999999999999,
+      "prompt_tokens": 1522,
+      "completion_tokens": 28,
+      "token_source": "provider",
+      "faithfulness": 0.5,
+      "answer_correctness": 0.7092
     },
     {
       "id": "g17",
@@ -321,10 +544,23 @@
         "https://handbook.gitlab.com/handbook/finance/expenses",
         "https://handbook.gitlab.com/handbook/finance/expenses"
       ],
-      "retrieval_ms": 10.7,
+      "retrieval_ms": 12.1,
       "hit": true,
       "all_sources": true,
-      "reciprocal_rank": 1.0
+      "reciprocal_rank": 1.0,
+      "answer": "If an opportunity spans more than one year, costs can be distributed across multiple years, but you still cannot exceed $10,000 expensed per year [1].",
+      "refused": false,
+      "uncited": false,
+      "cited": [
+        1
+      ],
+      "total_ms": 808.6,
+      "cost_usd": 0.000447,
+      "prompt_tokens": 1190,
+      "completion_tokens": 36,
+      "token_source": "provider",
+      "faithfulness": 1.0,
+      "answer_correctness": 0.471
     },
     {
       "id": "g18",
@@ -338,10 +574,21 @@
         "https://handbook.gitlab.com/handbook/legal/legacy/legacy-psa-v2",
         "https://handbook.gitlab.com/handbook/total-rewards/stock-options"
       ],
-      "retrieval_ms": 9.9,
+      "retrieval_ms": 14.8,
       "hit": false,
       "all_sources": false,
-      "reciprocal_rank": 0.0
+      "reciprocal_rank": 0.0,
+      "answer": "I couldn't find an answer to that in the documents available to you. Try rephrasing, or ask the team that owns this topic.",
+      "refused": true,
+      "uncited": false,
+      "cited": [],
+      "total_ms": 1276.8,
+      "cost_usd": 0.0004005,
+      "prompt_tokens": 1310,
+      "completion_tokens": 3,
+      "token_source": "provider",
+      "faithfulness": null,
+      "answer_correctness": 0.0
     },
     {
       "id": "g19",
@@ -355,10 +602,21 @@
         "https://handbook.gitlab.com/handbook/finance/expenses",
         "https://handbook.gitlab.com/handbook/finance/expenses"
       ],
-      "retrieval_ms": 11.5,
+      "retrieval_ms": 16.2,
       "hit": true,
       "all_sources": false,
-      "reciprocal_rank": 1.0
+      "reciprocal_rank": 1.0,
+      "answer": "I couldn't find an answer to that in the documents available to you. Try rephrasing, or ask the team that owns this topic.",
+      "refused": true,
+      "uncited": false,
+      "cited": [],
+      "total_ms": 4081.1,
+      "cost_usd": 0.000468,
+      "prompt_tokens": 1535,
+      "completion_tokens": 3,
+      "token_source": "provider",
+      "faithfulness": null,
+      "answer_correctness": 0.0
     },
     {
       "id": "g20",
@@ -372,10 +630,23 @@
         "https://handbook.gitlab.com/handbook/total-rewards/benefits/general-and-entity-benefits/remote-com",
         "https://handbook.gitlab.com/handbook/total-rewards/benefits/general-and-entity-benefits/global-expansion"
       ],
-      "retrieval_ms": 7.9,
+      "retrieval_ms": 12.4,
       "hit": true,
       "all_sources": true,
-      "reciprocal_rank": 0.3333333333333333
+      "reciprocal_rank": 0.3333333333333333,
+      "answer": "Employees in Germany are entitled to at least 20 vacation days [3].",
+      "refused": false,
+      "uncited": false,
+      "cited": [
+        3
+      ],
+      "total_ms": 18478.0,
+      "cost_usd": 0.0004777,
+      "prompt_tokens": 1459,
+      "completion_tokens": 16,
+      "token_source": "provider",
+      "faithfulness": 0.0,
+      "answer_correctness": 0.6938
     },
     {
       "id": "g21",
@@ -389,10 +660,23 @@
         "https://handbook.gitlab.com/handbook/total-rewards/incentives",
         "https://handbook.gitlab.com/handbook/total-rewards/incentives"
       ],
-      "retrieval_ms": 11.1,
+      "retrieval_ms": 17.4,
       "hit": true,
       "all_sources": true,
-      "reciprocal_rank": 1.0
+      "reciprocal_rank": 1.0,
+      "answer": "For a sales role with $100,000 on-target earnings and a 60/40 split, the base salary is $60,000 [2].",
+      "refused": false,
+      "uncited": false,
+      "cited": [
+        2
+      ],
+      "total_ms": 543.6,
+      "cost_usd": 0.0005507,
+      "prompt_tokens": 1494,
+      "completion_tokens": 41,
+      "token_source": "provider",
+      "faithfulness": 1.0,
+      "answer_correctness": 0.4144
     },
     {
       "id": "g22",
@@ -406,10 +690,21 @@
         "https://handbook.gitlab.com/handbook/security/corporate/systems/macos",
         "https://handbook.gitlab.com/handbook/people-group/acceptable-use-policy"
       ],
-      "retrieval_ms": 9.0,
+      "retrieval_ms": 12.2,
       "hit": false,
       "all_sources": false,
-      "reciprocal_rank": 0.0
+      "reciprocal_rank": 0.0,
+      "answer": "I couldn't find an answer to that in the documents available to you. Try rephrasing, or ask the team that owns this topic.",
+      "refused": true,
+      "uncited": false,
+      "cited": [],
+      "total_ms": 13319.2,
+      "cost_usd": 0.00041190000000000004,
+      "prompt_tokens": 1348,
+      "completion_tokens": 3,
+      "token_source": "provider",
+      "faithfulness": null,
+      "answer_correctness": 0.0
     },
     {
       "id": "e01",
@@ -423,10 +718,23 @@
         "https://handbook.gitlab.com/handbook/legal/publicity-waiver-release",
         "https://handbook.gitlab.com/handbook/security/security-operations/sirt/security-incident-communication-plan"
       ],
-      "retrieval_ms": 8.6,
+      "retrieval_ms": 12.1,
       "hit": true,
       "all_sources": true,
-      "reciprocal_rank": 1.0
+      "reciprocal_rank": 1.0,
+      "answer": "To declare a production incident via Slack, type `/incident` or `/inc` in GitLab's Slack and follow the prompts to open an incident issue [1]. It is preferred to err on the side of choosing a higher severity and declaring an incident for production issues even if you are not sure [1]. After declaring the incident, please stay online until the EOC (Engineer on Call) comes online and engages with you [1].",
+      "refused": false,
+      "uncited": false,
+      "cited": [
+        1
+      ],
+      "total_ms": 17915.0,
+      "cost_usd": 0.0006049,
+      "prompt_tokens": 1283,
+      "completion_tokens": 88,
+      "token_source": "provider",
+      "faithfulness": 1.0,
+      "answer_correctness": 0.6278
     },
     {
       "id": "e02",
@@ -440,10 +748,21 @@
         "https://handbook.gitlab.com/handbook/engineering/infrastructure-platforms/incident-management/on-call",
         "https://handbook.gitlab.com/handbook/security/security-operations/secops-oncall"
       ],
-      "retrieval_ms": 8.9,
+      "retrieval_ms": 12.2,
       "hit": true,
       "all_sources": true,
-      "reciprocal_rank": 0.5
+      "reciprocal_rank": 0.5,
+      "answer": "I couldn't find an answer to that in the documents available to you. Try rephrasing, or ask the team that owns this topic.",
+      "refused": true,
+      "uncited": false,
+      "cited": [],
+      "total_ms": 2353.0,
+      "cost_usd": 0.0004686,
+      "prompt_tokens": 1537,
+      "completion_tokens": 3,
+      "token_source": "provider",
+      "faithfulness": null,
+      "answer_correctness": 0.0
     },
     {
       "id": "e03",
@@ -457,10 +776,25 @@
         "https://handbook.gitlab.com/handbook/engineering/infrastructure-platforms/incident-management/incident-manager-onboarding",
         "https://handbook.gitlab.com/handbook/engineering/infrastructure-platforms/incident-management"
       ],
-      "retrieval_ms": 10.0,
+      "retrieval_ms": 14.7,
       "hit": true,
       "all_sources": true,
-      "reciprocal_rank": 0.5
+      "reciprocal_rank": 0.5,
+      "answer": "No, time should not be spent mitigating S3 incidents over the weekend [2, 5]. Mitigation for severity 3 and severity 4 incidents occurs during normal business hours, Monday through Friday [2]. \n\nHowever, Tier-1 may escalate S3/S4 incidents to Tier-2 SMEs during weekends under specific circumstances:\n* Customer impact is unclear and requires domain expertise to assess [1].\n* There is uncertainty about whether the issue might develop into a higher severity incident [1].\n* Multiple lower-severity incidents combined create a potentially broader impact [1].\n\nAdditionally, if an S3 or S4 incident occurs multiple times and requires weekend work, the multiple incidents should be combined into a single severity 2 incident [2].",
+      "refused": false,
+      "uncited": false,
+      "cited": [
+        1,
+        2,
+        5
+      ],
+      "total_ms": 1460.5,
+      "cost_usd": 0.0007620000000000001,
+      "prompt_tokens": 1265,
+      "completion_tokens": 153,
+      "token_source": "provider",
+      "faithfulness": 1.0,
+      "answer_correctness": 0.4549
     },
     {
       "id": "e04",
@@ -474,10 +808,21 @@
         "https://handbook.gitlab.com/handbook/security/policies_and_standards/records-retention-deletion",
         "https://handbook.gitlab.com/handbook/security/policies_and_standards/records-retention-deletion"
       ],
-      "retrieval_ms": 9.6,
+      "retrieval_ms": 11.7,
       "hit": false,
       "all_sources": false,
-      "reciprocal_rank": 0.0
+      "reciprocal_rank": 0.0,
+      "answer": "I couldn't find an answer to that in the documents available to you. Try rephrasing, or ask the team that owns this topic.",
+      "refused": true,
+      "uncited": false,
+      "cited": [],
+      "total_ms": 594.6,
+      "cost_usd": 0.00023729999999999997,
+      "prompt_tokens": 766,
+      "completion_tokens": 3,
+      "token_source": "provider",
+      "faithfulness": null,
+      "answer_correctness": 0.0
     },
     {
       "id": "e05",
@@ -491,10 +836,23 @@
         "https://handbook.gitlab.com/handbook/engineering/infrastructure-platforms/incident-management",
         "https://handbook.gitlab.com/handbook/engineering/infrastructure-platforms/incident-management/roles/incident-responder"
       ],
-      "retrieval_ms": 15.0,
+      "retrieval_ms": 16.5,
       "hit": true,
       "all_sources": true,
-      "reciprocal_rank": 1.0
+      "reciprocal_rank": 1.0,
+      "answer": "If you are unsure about the severity, but you are seeing a large amount of customer impact, please select S1 or S2 [4].",
+      "refused": false,
+      "uncited": false,
+      "cited": [
+        4
+      ],
+      "total_ms": 626.6,
+      "cost_usd": 0.0005225,
+      "prompt_tokens": 1500,
+      "completion_tokens": 29,
+      "token_source": "provider",
+      "faithfulness": 1.0,
+      "answer_correctness": 0.4436
     },
     {
       "id": "e06",
@@ -508,10 +866,23 @@
         "https://handbook.gitlab.com/handbook/engineering/infrastructure-platforms/incident-management/on-call",
         "https://handbook.gitlab.com/handbook/engineering/infrastructure-platforms/incident-management/incident-manager-onboarding"
       ],
-      "retrieval_ms": 9.8,
+      "retrieval_ms": 12.2,
       "hit": true,
       "all_sources": true,
-      "reciprocal_rank": 1.0
+      "reciprocal_rank": 1.0,
+      "answer": "An Incident Manager On Call must respond to an escalation within a 15-minute SLA [5].",
+      "refused": false,
+      "uncited": false,
+      "cited": [
+        5
+      ],
+      "total_ms": 1825.9,
+      "cost_usd": 0.0004781999999999999,
+      "prompt_tokens": 1419,
+      "completion_tokens": 21,
+      "token_source": "provider",
+      "faithfulness": 1.0,
+      "answer_correctness": 0.5899
     },
     {
       "id": "e07",
@@ -525,10 +896,24 @@
         "https://handbook.gitlab.com/handbook/engineering/infrastructure-platforms/incident-management/incident-manager-onboarding",
         "https://handbook.gitlab.com/handbook/engineering/infrastructure-platforms/incident-management/incident-manager-onboarding"
       ],
-      "retrieval_ms": 8.1,
+      "retrieval_ms": 11.6,
       "hit": true,
       "all_sources": true,
-      "reciprocal_rank": 0.5
+      "reciprocal_rank": 0.5,
+      "answer": "All team members in Engineering Management and Staff+ Engineer job families in the Development and Infrastructure departments are expected to participate [2]. In some cases, Senior Engineers may also participate by opening an onboarding Issue with manager approval [2]. Additionally, all eligible team members are to be scheduled into incident.io [3].",
+      "refused": false,
+      "uncited": false,
+      "cited": [
+        2,
+        3
+      ],
+      "total_ms": 757.0,
+      "cost_usd": 0.0005939000000000001,
+      "prompt_tokens": 1463,
+      "completion_tokens": 62,
+      "token_source": "provider",
+      "faithfulness": 1.0,
+      "answer_correctness": 0.7399
     },
     {
       "id": "e08",
@@ -542,10 +927,23 @@
         "https://handbook.gitlab.com/handbook/engineering/infrastructure-platforms/incident-management/on-call/tier-2",
         "https://handbook.gitlab.com/handbook/engineering/infrastructure-platforms/incident-management/on-call"
       ],
-      "retrieval_ms": 9.1,
+      "retrieval_ms": 13.1,
       "hit": true,
       "all_sources": true,
-      "reciprocal_rank": 1.0
+      "reciprocal_rank": 1.0,
+      "answer": "Any new feature or service arriving through the Component Owner Model should have a 24x5 Tier 2 SME for at least the first six months [1].",
+      "refused": false,
+      "uncited": false,
+      "cited": [
+        1
+      ],
+      "total_ms": 1211.2,
+      "cost_usd": 0.0004782,
+      "prompt_tokens": 1319,
+      "completion_tokens": 33,
+      "token_source": "provider",
+      "faithfulness": 1.0,
+      "answer_correctness": 0.9771
     },
     {
       "id": "s01",
@@ -559,10 +957,23 @@
         "https://handbook.gitlab.com/handbook/security/product-security/security-platforms-architecture/application-security/metrics/capacity",
         "https://handbook.gitlab.com/handbook/legal/esg/fy23-esg-report"
       ],
-      "retrieval_ms": 9.6,
+      "retrieval_ms": 11.6,
       "hit": true,
       "all_sources": true,
-      "reciprocal_rank": 1.0
+      "reciprocal_rank": 1.0,
+      "answer": "GitLab uses a color system to denote data classification levels, which are: green, yellow, orange, and red [5].",
+      "refused": false,
+      "uncited": false,
+      "cited": [
+        5
+      ],
+      "total_ms": 29714.5,
+      "cost_usd": 0.0004148,
+      "prompt_tokens": 1166,
+      "completion_tokens": 26,
+      "token_source": "provider",
+      "faithfulness": 1.0,
+      "answer_correctness": 0.4467
     },
     {
       "id": "s02",
@@ -576,10 +987,24 @@
         "https://handbook.gitlab.com/handbook/legal/privacy/employee-privacy-policy",
         "https://handbook.gitlab.com/handbook/legal/privacy"
       ],
-      "retrieval_ms": 10.9,
+      "retrieval_ms": 11.3,
       "hit": true,
       "all_sources": true,
-      "reciprocal_rank": 0.3333333333333333
+      "reciprocal_rank": 0.3333333333333333,
+      "answer": "Personal data is defined as any information that directly or indirectly identifies an individual, or can be used in combination with other information to do so [1], [3]. \n\nRegarding exemptions, personal data that has been made anonymous or aggregated—meaning it has been rendered irreversibly de-identified by removing personal identifiers—legally ceases to be personal data and is no longer subject to the Privacy Policy [1].",
+      "refused": false,
+      "uncited": false,
+      "cited": [
+        1,
+        3
+      ],
+      "total_ms": 19669.8,
+      "cost_usd": 0.0006427,
+      "prompt_tokens": 1459,
+      "completion_tokens": 82,
+      "token_source": "provider",
+      "faithfulness": 1.0,
+      "answer_correctness": 0.1469
     },
     {
       "id": "s03",
@@ -593,10 +1018,23 @@
         "https://handbook.gitlab.com/handbook/sales/high-velocity-sales-fo-team/hvs_fo_data_ops",
         "https://handbook.gitlab.com/handbook/security/security-assurance/field-security/field-security-rfp"
       ],
-      "retrieval_ms": 11.6,
+      "retrieval_ms": 14.5,
       "hit": true,
       "all_sources": true,
-      "reciprocal_rank": 1.0
+      "reciprocal_rank": 1.0,
+      "answer": "If you cannot identify the data element or are uncertain of how it should be classified and handled, you should contact the Security Risk team in Slack via `@security-risk` [1].",
+      "refused": false,
+      "uncited": false,
+      "cited": [
+        1
+      ],
+      "total_ms": 15534.4,
+      "cost_usd": 0.0005179,
+      "prompt_tokens": 1418,
+      "completion_tokens": 37,
+      "token_source": "provider",
+      "faithfulness": 1.0,
+      "answer_correctness": 0.4941
     },
     {
       "id": "s04",
@@ -610,10 +1048,23 @@
         "https://handbook.gitlab.com/handbook/sales/field-operations/sales-systems/dataloader-installation",
         "https://handbook.gitlab.com/handbook/sales/field-operations/sales-systems/gtm-technical-documentation/incent"
       ],
-      "retrieval_ms": 9.4,
+      "retrieval_ms": 12.6,
       "hit": true,
       "all_sources": true,
-      "reciprocal_rank": 0.3333333333333333
+      "reciprocal_rank": 0.3333333333333333,
+      "answer": "Red Data (including Regulated Data) may not be transmitted from an approved Red data source to any other systems or solutions without first obtaining approval from the Privacy and Security teams [3].",
+      "refused": false,
+      "uncited": false,
+      "cited": [
+        3
+      ],
+      "total_ms": 22024.8,
+      "cost_usd": 0.0004864,
+      "prompt_tokens": 1313,
+      "completion_tokens": 37,
+      "token_source": "provider",
+      "faithfulness": 1.0,
+      "answer_correctness": 0.7293
     },
     {
       "id": "s05",
@@ -627,10 +1078,21 @@
         "https://handbook.gitlab.com/handbook/security/security-operations/secops-oncall",
         "https://handbook.gitlab.com/handbook/engineering/infrastructure-platforms/incident-management/on-call"
       ],
-      "retrieval_ms": 9.6,
+      "retrieval_ms": 13.1,
       "hit": false,
       "all_sources": false,
-      "reciprocal_rank": 0.0
+      "reciprocal_rank": 0.0,
+      "answer": "I couldn't find an answer to that in the documents available to you. Try rephrasing, or ask the team that owns this topic.",
+      "refused": true,
+      "uncited": false,
+      "cited": [],
+      "total_ms": 4144.2,
+      "cost_usd": 0.00045,
+      "prompt_tokens": 1475,
+      "completion_tokens": 3,
+      "token_source": "provider",
+      "faithfulness": null,
+      "answer_correctness": 0.0
     },
     {
       "id": "s06",
@@ -644,10 +1106,23 @@
         "https://handbook.gitlab.com/handbook/sales/field-operations/customer-success-strategy/cs-monthly-metrics-dashboard",
         "https://handbook.gitlab.com/handbook/security/security-assurance/security-risk/third-party-risk-management"
       ],
-      "retrieval_ms": 8.7,
+      "retrieval_ms": 13.1,
       "hit": true,
       "all_sources": true,
-      "reciprocal_rank": 1.0
+      "reciprocal_rank": 1.0,
+      "answer": "A vendor that handles Red data gets a **Critical** inherent risk level [1].",
+      "refused": false,
+      "uncited": false,
+      "cited": [
+        1
+      ],
+      "total_ms": 3649.2,
+      "cost_usd": 0.00048439999999999996,
+      "prompt_tokens": 1473,
+      "completion_tokens": 17,
+      "token_source": "provider",
+      "faithfulness": 1.0,
+      "answer_correctness": 0.9153
     },
     {
       "id": "f01",
@@ -661,10 +1136,23 @@
         "https://handbook.gitlab.com/handbook/sales/field-operations/gtm-resources",
         "https://handbook.gitlab.com/handbook/finance/procurement/tips-for-submitting-a-zip-request"
       ],
-      "retrieval_ms": 8.9,
+      "retrieval_ms": 12.9,
       "hit": true,
       "all_sources": true,
-      "reciprocal_rank": 1.0
+      "reciprocal_rank": 1.0,
+      "answer": "For a new $150K purchase, you need 2-3 vendor bids as part of a business-led RFP [1].",
+      "refused": false,
+      "uncited": false,
+      "cited": [
+        1
+      ],
+      "total_ms": 2896.6,
+      "cost_usd": 0.0005252,
+      "prompt_tokens": 1509,
+      "completion_tokens": 29,
+      "token_source": "provider",
+      "faithfulness": 1.0,
+      "answer_correctness": 0.6027
     },
     {
       "id": "f02",
@@ -678,10 +1166,23 @@
         "https://handbook.gitlab.com/handbook/legal/materials-legal-review-process",
         "https://handbook.gitlab.com/handbook/sales/field-operations/order-processing"
       ],
-      "retrieval_ms": 8.6,
+      "retrieval_ms": 12.4,
       "hit": true,
       "all_sources": true,
-      "reciprocal_rank": 0.3333333333333333
+      "reciprocal_rank": 0.3333333333333333,
+      "answer": "The legal review takes 3 to 21 days [3].",
+      "refused": false,
+      "uncited": false,
+      "cited": [
+        3
+      ],
+      "total_ms": 4240.9,
+      "cost_usd": 0.0004136,
+      "prompt_tokens": 1262,
+      "completion_tokens": 14,
+      "token_source": "provider",
+      "faithfulness": 1.0,
+      "answer_correctness": 0.9529
     },
     {
       "id": "f03",
@@ -695,10 +1196,24 @@
         "https://handbook.gitlab.com/handbook/legal/legacy/legacy-subscription-agreement-v2",
         "https://handbook.gitlab.com/handbook/legal/legacy/legacy-subscription-agreement-v7"
       ],
-      "retrieval_ms": 9.2,
+      "retrieval_ms": 12.0,
       "hit": true,
       "all_sources": true,
-      "reciprocal_rank": 1.0
+      "reciprocal_rank": 1.0,
+      "answer": "No. All software purchases charged to either personal or corporate credit cards will be denied for reimbursement [3]. Software subscriptions of any kind are not permitted to be purchased that way [2], and you must instead submit a Purchase Request via Zip for individual subscriptions [2], or follow the Procurement process to have purchases paid via a Navan virtual card [3].",
+      "refused": false,
+      "uncited": false,
+      "cited": [
+        2,
+        3
+      ],
+      "total_ms": 2741.3,
+      "cost_usd": 0.0005984,
+      "prompt_tokens": 1403,
+      "completion_tokens": 71,
+      "token_source": "provider",
+      "faithfulness": 0.75,
+      "answer_correctness": 0.8233
     },
     {
       "id": "f04",
@@ -712,10 +1227,24 @@
         "https://handbook.gitlab.com/handbook/sales/field-operations/order-processing",
         "https://handbook.gitlab.com/handbook/sales/field-operations/sales-operations/po-acceptance-policy"
       ],
-      "retrieval_ms": 7.5,
+      "retrieval_ms": 11.8,
       "hit": false,
       "all_sources": false,
-      "reciprocal_rank": 0.0
+      "reciprocal_rank": 0.0,
+      "answer": "A purchase order is required when a customer is listed as **PO Required** [5]. Specifically:\n* For existing customers, you can check if a PO is required by reviewing the \"PO Required\" field on the Billing Account object in Salesforce (if marked \"YES,\" a PO is required) [4]. \n* New business transactions for net new customers require Sales to validate with the customer prior to deal closure whether they will issue a PO [4]. \n* If a customer is listed as **PO Required**, they must issue a PO following the guidelines, unless they provide a specific email confirmation stating they will accept the invoice without issuing a Purchase Order [5]. \n* If transacting through a partner when a customer switches between SaaS and Self-Managed on the same product tier with no change to the total contract value, a 0.00 PO must be issued [5]. (Conversely, no PO is required if a customer is switching between SaaS and Self-Managed on the same product tier resulting in no change to total contract value, requiring only a signed order form at minimum) [5].",
+      "refused": false,
+      "uncited": false,
+      "cited": [
+        4,
+        5
+      ],
+      "total_ms": 1932.1,
+      "cost_usd": 0.0009292,
+      "prompt_tokens": 1214,
+      "completion_tokens": 226,
+      "token_source": "provider",
+      "faithfulness": null,
+      "answer_correctness": 0.1567
     },
     {
       "id": "f05",
@@ -729,10 +1258,23 @@
         "https://handbook.gitlab.com/handbook/finance/accounts-payable",
         "https://handbook.gitlab.com/handbook/finance/accounting"
       ],
-      "retrieval_ms": 9.7,
+      "retrieval_ms": 11.5,
       "hit": true,
       "all_sources": true,
-      "reciprocal_rank": 1.0
+      "reciprocal_rank": 1.0,
+      "answer": "No, Accounts Payable does not issue check payments [1]. Suppliers are paid via NetSuite Electronic Payments, ACH, or Wire only [1].",
+      "refused": false,
+      "uncited": false,
+      "cited": [
+        1
+      ],
+      "total_ms": 815.1,
+      "cost_usd": 0.0004694,
+      "prompt_tokens": 1323,
+      "completion_tokens": 29,
+      "token_source": "provider",
+      "faithfulness": 1.0,
+      "answer_correctness": 0.9939
     },
     {
       "id": "f06",
@@ -746,10 +1288,23 @@
         "https://handbook.gitlab.com/handbook/sales/field-operations/order-processing",
         "https://handbook.gitlab.com/handbook/sales/field-operations/requesting-internal-support"
       ],
-      "retrieval_ms": 10.4,
+      "retrieval_ms": 13.6,
       "hit": true,
       "all_sources": true,
-      "reciprocal_rank": 1.0
+      "reciprocal_rank": 1.0,
+      "answer": "All invoices are subject to a 10% PO tolerance [1]. Overages beyond this tolerance are handled as follows:\n* Amounts up to $1,000 USD (or local currency equivalent) are reviewed by the AP Team and routed to FP&A for approval [1].\n* Amounts exceeding $1,000 USD will not be processed and require a PO change request [1].",
+      "refused": false,
+      "uncited": false,
+      "cited": [
+        1
+      ],
+      "total_ms": 7316.3,
+      "cost_usd": 0.0005928,
+      "prompt_tokens": 1276,
+      "completion_tokens": 84,
+      "token_source": "provider",
+      "faithfulness": 1.0,
+      "answer_correctness": 0.9867
     },
     {
       "id": "x01",
@@ -763,10 +1318,25 @@
         "https://handbook.gitlab.com/handbook/sales/field-operations/sales-operations/deal-desk",
         "https://handbook.gitlab.com/handbook/sales/field-operations/sales-operations/deal-desk"
       ],
-      "retrieval_ms": 8.5,
+      "retrieval_ms": 11.1,
       "hit": true,
       "all_sources": true,
-      "reciprocal_rank": 0.5
+      "reciprocal_rank": 0.5,
+      "answer": "Based on the sources, the quote templates (types) available are:\n\n* **Standard Order Form:** Used for most quotes, including alliance marketplace transactions, EDU/OSS/YC, or customers with an existing agreement (MSA) in place [2, 3, 4].\n* **Standard Order Form (Hide Discount):** Used to hide the discount and list price column for direct deals (or just the discount column, depending on the source) [2, 3, 4].\n* **Authorized Reseller Order Form:** Used for authorized reseller transactions [2].\n* **MSP Order Form:** Used for managed service provider transactions [2].\n* **Distributor Order Form:** Used for distributor transactions [2].",
+      "refused": false,
+      "uncited": false,
+      "cited": [
+        2,
+        3,
+        4
+      ],
+      "total_ms": 2540.4,
+      "cost_usd": 0.0007823,
+      "prompt_tokens": 1366,
+      "completion_tokens": 149,
+      "token_source": "provider",
+      "faithfulness": 1.0,
+      "answer_correctness": 0.1487
     },
     {
       "id": "x02",
@@ -780,10 +1350,23 @@
         "https://handbook.gitlab.com/handbook/sales/field-operations/order-processing",
         "https://handbook.gitlab.com/handbook/sales/field-operations/sales-operations/deal-desk"
       ],
-      "retrieval_ms": 9.8,
+      "retrieval_ms": 13.7,
       "hit": true,
       "all_sources": true,
-      "reciprocal_rank": 1.0
+      "reciprocal_rank": 1.0,
+      "answer": "Orders will be processed as long as the Quote Start Date is within 30 calendar days from the date of submission [1]. If the Quote Start Date is more than 30 days in the future, Order Management will approve and update the close date to the earliest date that the opportunity can be booked, and the Billing team will only review the opportunity for final booking on or after that date [1].",
+      "refused": false,
+      "uncited": false,
+      "cited": [
+        1
+      ],
+      "total_ms": 759.9,
+      "cost_usd": 0.0006261999999999999,
+      "prompt_tokens": 1404,
+      "completion_tokens": 82,
+      "token_source": "provider",
+      "faithfulness": 1.0,
+      "answer_correctness": 0.5876
     },
     {
       "id": "x03",
@@ -797,10 +1380,23 @@
         "https://handbook.gitlab.com/handbook/sales/commercial",
         "https://handbook.gitlab.com/handbook/sales/commercial"
       ],
-      "retrieval_ms": 9.8,
+      "retrieval_ms": 11.3,
       "hit": true,
       "all_sources": true,
-      "reciprocal_rank": 1.0
+      "reciprocal_rank": 1.0,
+      "answer": "Sales Commissions is part of Field Operations and reports into Sales Operations [1].",
+      "refused": false,
+      "uncited": false,
+      "cited": [
+        1
+      ],
+      "total_ms": 23988.8,
+      "cost_usd": 0.0004416,
+      "prompt_tokens": 1347,
+      "completion_tokens": 15,
+      "token_source": "provider",
+      "faithfulness": 1.0,
+      "answer_correctness": 0.9966
     },
     {
       "id": "u01",
@@ -814,10 +1410,19 @@
         "https://handbook.gitlab.com/handbook/security/network-isolation",
         "https://handbook.gitlab.com/handbook/security/corporate/systems/vpn/setup"
       ],
-      "retrieval_ms": 9.4,
+      "retrieval_ms": 11.8,
       "hit": false,
       "all_sources": true,
-      "reciprocal_rank": 0.0
+      "reciprocal_rank": 0.0,
+      "answer": "I couldn't find an answer to that in the documents available to you. Try rephrasing, or ask the team that owns this topic.",
+      "refused": true,
+      "uncited": false,
+      "cited": [],
+      "total_ms": 461.0,
+      "cost_usd": 0.00043830000000000003,
+      "prompt_tokens": 1436,
+      "completion_tokens": 3,
+      "token_source": "provider"
     },
     {
       "id": "u02",
@@ -831,10 +1436,19 @@
         "https://handbook.gitlab.com/handbook/finance/expenses",
         "https://handbook.gitlab.com/handbook/finance/travel/sponsored"
       ],
-      "retrieval_ms": 9.6,
+      "retrieval_ms": 12.4,
       "hit": false,
       "all_sources": true,
-      "reciprocal_rank": 0.0
+      "reciprocal_rank": 0.0,
+      "answer": "I couldn't find an answer to that in the documents available to you. Try rephrasing, or ask the team that owns this topic.",
+      "refused": true,
+      "uncited": false,
+      "cited": [],
+      "total_ms": 1790.2,
+      "cost_usd": 0.000444,
+      "prompt_tokens": 1455,
+      "completion_tokens": 3,
+      "token_source": "provider"
     },
     {
       "id": "u03",
@@ -848,10 +1462,19 @@
         "https://handbook.gitlab.com/handbook/security/security-operations/secops-oncall",
         "https://handbook.gitlab.com/handbook/security/product-security/vulnerability-management/incident-response-guidance"
       ],
-      "retrieval_ms": 9.1,
+      "retrieval_ms": 12.4,
       "hit": false,
       "all_sources": true,
-      "reciprocal_rank": 0.0
+      "reciprocal_rank": 0.0,
+      "answer": "I couldn't find an answer to that in the documents available to you. Try rephrasing, or ask the team that owns this topic.",
+      "refused": true,
+      "uncited": false,
+      "cited": [],
+      "total_ms": 7592.6,
+      "cost_usd": 0.000459,
+      "prompt_tokens": 1505,
+      "completion_tokens": 3,
+      "token_source": "provider"
     },
     {
       "id": "u04",
@@ -865,10 +1488,19 @@
         "https://handbook.gitlab.com/handbook/sales/field-operations/customer-success-operations/gainsight",
         "https://handbook.gitlab.com/handbook/sales/sales-google-groups"
       ],
-      "retrieval_ms": 8.1,
+      "retrieval_ms": 11.7,
       "hit": false,
       "all_sources": true,
-      "reciprocal_rank": 0.0
+      "reciprocal_rank": 0.0,
+      "answer": "I couldn't find an answer to that in the documents available to you. Try rephrasing, or ask the team that owns this topic.",
+      "refused": true,
+      "uncited": false,
+      "cited": [],
+      "total_ms": 1174.6,
+      "cost_usd": 0.0002673,
+      "prompt_tokens": 866,
+      "completion_tokens": 3,
+      "token_source": "provider"
     },
     {
       "id": "u05",
@@ -882,10 +1514,19 @@
         "https://handbook.gitlab.com/handbook/finance/expenses",
         "https://handbook.gitlab.com/handbook/finance/expenses"
       ],
-      "retrieval_ms": 10.6,
+      "retrieval_ms": 14.4,
       "hit": false,
       "all_sources": true,
-      "reciprocal_rank": 0.0
+      "reciprocal_rank": 0.0,
+      "answer": "I couldn't find an answer to that in the documents available to you. Try rephrasing, or ask the team that owns this topic.",
+      "refused": true,
+      "uncited": false,
+      "cited": [],
+      "total_ms": 775.4,
+      "cost_usd": 0.00046110000000000004,
+      "prompt_tokens": 1512,
+      "completion_tokens": 3,
+      "token_source": "provider"
     }
   ]
 }

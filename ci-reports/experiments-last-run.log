@@ -1,31 +1,225 @@
 
-== 2-hybrid: Add keyword search and fuse with reciprocal rank fusion. Helps exact terms (tool names, amounts).
+== 0-baseline: Vector search only, 256-token chunks. The "first RAG bot".
    building index...
-[0;93m2026-11-12 06:52:22.501845825 [W:onnxruntime:Default, device_discovery.cc:95 GetPciBusId] Skipping pci_bus_id for PCI path at "/sys/devices/LNXSYSTM:00/LNXSYBUS:00/ACPI0004:00/MSFT1000:00/5620e0c7-8062-4dce-aeb7-520c7ef76171" because filename "5620e0c7-8062-4dce-aeb7-520c7ef76171" did not match expected pattern of [0-9a-f]+:[0-9a-f]+:[0-9a-f]+[.][0-9a-f]+[m
-Fetching 5 files:  40%|████      | 2/5 [00:00<00:00, 18.66it/s]Fetching 5 files: 100%|██████████| 5/5 [00:01<00:00,  3.38it/s]Fetching 5 files: 100%|██████████| 5/5 [00:01<00:00,  3.74it/s]
+[0;93m2026-11-12 07:12:25.026722604 [W:onnxruntime:Default, device_discovery.cc:95 GetPciBusId] Skipping pci_bus_id for PCI path at "/sys/devices/LNXSYSTM:00/LNXSYBUS:00/ACPI0004:00/MSFT1000:00/5620e0c7-8062-4dce-aeb7-520c7ef76171" because filename "5620e0c7-8062-4dce-aeb7-520c7ef76171" did not match expected pattern of [0-9a-f]+:[0-9a-f]+:[0-9a-f]+[.][0-9a-f]+[m
+Fetching 5 files:  20%|██        | 1/5 [00:00<00:00,  8.19it/s]Fetching 5 files: 100%|██████████| 5/5 [00:01<00:00,  2.73it/s]Fetching 5 files: 100%|██████████| 5/5 [00:01<00:00,  2.84it/s]
+   indexed 9277 chunks from 733 pages
+Retrying llama_index.llms.google_genai.base.GoogleGenAI._chat in 1 seconds as it raised ServerError: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}.
+Retrying llama_index.llms.google_genai.base.GoogleGenAI._chat in 1 seconds as it raised ServerError: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}.
+Retrying llama_index.llms.google_genai.base.GoogleGenAI._chat in 1 seconds as it raised ServerError: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}.
+Retrying llama_index.llms.google_genai.base.GoogleGenAI._chat in 1 seconds as it raised ServerError: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}.
+Retrying llama_index.llms.google_genai.base.GoogleGenAI._chat in 1 seconds as it raised ServerError: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}.
+Retrying llama_index.llms.google_genai.base.GoogleGenAI._chat in 1 seconds as it raised ServerError: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}.
+Retrying llama_index.llms.google_genai.base.GoogleGenAI._chat in 1 seconds as it raised ServerError: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}.
+  [1/50] g01 hit=True refused=True
+  [2/50] g02 hit=True refused=False
+  [3/50] g03 hit=True refused=False
+  [4/50] g04 hit=True refused=False
+  [5/50] g05 hit=True refused=False
+  [6/50] g06 hit=True refused=False
+  [7/50] g07 hit=True refused=False
+  [8/50] g08 hit=True refused=False
+  [9/50] g09 hit=True refused=False
+  [10/50] g10 hit=True refused=False
+  [11/50] g11 hit=True refused=False
+  [12/50] g12 hit=True refused=False
+  [13/50] g13 hit=True refused=False
+  [14/50] g14 hit=False refused=True
+  [15/50] g15 hit=True refused=False
+  [16/50] g16 hit=True refused=False
+  [17/50] g17 hit=True refused=False
+  [18/50] g18 hit=False refused=True
+  [19/50] g19 hit=True refused=True
+  [20/50] g20 hit=True refused=False
+  [21/50] g21 hit=True refused=False
+  [22/50] g22 hit=False refused=True
+  [23/50] e01 hit=True refused=False
+  [24/50] e02 hit=True refused=True
+  [25/50] e03 hit=True refused=False
+  [26/50] e04 hit=False refused=True
+  [27/50] e05 hit=True refused=False
+  [28/50] e06 hit=True refused=False
+  [29/50] e07 hit=True refused=False
+  [30/50] e08 hit=True refused=False
+  [31/50] s01 hit=True refused=False
+  [32/50] s02 hit=True refused=False
+  [33/50] s03 hit=True refused=False
+  [34/50] s04 hit=True refused=False
+  [35/50] s05 hit=False refused=True
+  [36/50] s06 hit=True refused=False
+  [37/50] f01 hit=True refused=False
+  [38/50] f02 hit=True refused=False
+  [39/50] f03 hit=True refused=False
+  [40/50] f04 hit=False refused=False
+  [41/50] f05 hit=True refused=False
+  [42/50] f06 hit=True refused=False
+  [43/50] x01 hit=True refused=False
+  [44/50] x02 hit=True refused=False
+  [45/50] x03 hit=True refused=False
+  [46/50] u01 hit=False refused=True
+  [47/50] u02 hit=False refused=True
+  [48/50] u03 hit=False refused=True
+  [49/50] u04 hit=False refused=True
+  [50/50] u05 hit=False refused=True
+Judging 37 answers with Ragas...
+Evaluating:   0%|          | 0/74 [00:00<?, ?it/s]Evaluating:   1%|▏         | 1/74 [00:02<02:26,  2.01s/it]Evaluating:   3%|▎         | 2/74 [00:06<04:21,  3.63s/it]Evaluating:   4%|▍         | 3/74 [00:18<08:52,  7.50s/it]Evaluating:   5%|▌         | 4/74 [00:20<06:03,  5.19s/it]Evaluating:   7%|▋         | 5/74 [00:21<04:21,  3.78s/it]Evaluating:   8%|▊         | 6/74 [00:26<04:39,  4.12s/it]Evaluating:   9%|▉         | 7/74 [00:28<03:52,  3.47s/it]Evaluating:  11%|█         | 8/74 [00:30<03:18,  3.01s/it]Evaluating:  12%|█▏        | 9/74 [00:31<02:27,  2.26s/it]Evaluating:  14%|█▎        | 10/74 [00:36<03:16,  3.07s/it]Evaluating:  15%|█▍        | 11/74 [00:40<03:36,  3.43s/it]Evaluating:  16%|█▌        | 12/74 [00:42<03:04,  2.97s/it]Evaluating:  18%|█▊        | 13/74 [01:30<16:53, 16.61s/it]Retrying llama_index.llms.google_genai.base.GoogleGenAI._achat in 1 seconds as it raised ServerError: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}.
+Evaluating:  19%|█▉        | 14/74 [01:31<12:03, 12.05s/it]Evaluating:  20%|██        | 15/74 [01:34<09:05,  9.24s/it]Evaluating:  22%|██▏       | 16/74 [01:40<07:51,  8.13s/it]Evaluating:  23%|██▎       | 17/74 [01:44<06:43,  7.08s/it]Evaluating:  24%|██▍       | 18/74 [01:54<07:13,  7.75s/it]Retrying llama_index.llms.google_genai.base.GoogleGenAI._achat in 1 seconds as it raised ServerError: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}.
+Evaluating:  26%|██▌       | 19/74 [02:23<13:07, 14.31s/it]Evaluating:  27%|██▋       | 20/74 [02:39<13:14, 14.71s/it]Evaluating:  28%|██▊       | 21/74 [02:47<11:11, 12.67s/it]Evaluating:  30%|██▉       | 22/74 [03:09<13:26, 15.52s/it]Retrying llama_index.llms.google_genai.base.GoogleGenAI._achat in 1 seconds as it raised ServerError: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}.
+Retrying llama_index.llms.google_genai.base.GoogleGenAI._achat in 1 seconds as it raised ServerError: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}.
+Retrying llama_index.llms.google_genai.base.GoogleGenAI._achat in 1 seconds as it raised ServerError: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}.
+Evaluating:  31%|███       | 23/74 [03:32<15:09, 17.83s/it]Evaluating:  32%|███▏      | 24/74 [03:35<11:01, 13.23s/it]Evaluating:  34%|███▍      | 25/74 [03:43<09:40, 11.85s/it]Evaluating:  35%|███▌      | 26/74 [03:49<08:03, 10.08s/it]Evaluating:  36%|███▋      | 27/74 [03:58<07:36,  9.71s/it]Evaluating:  38%|███▊      | 28/74 [04:01<05:48,  7.57s/it]Retrying llama_index.llms.google_genai.base.GoogleGenAI._achat in 1 seconds as it raised ServerError: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}.
+Evaluating:  39%|███▉      | 29/74 [04:38<12:15, 16.35s/it]Evaluating:  41%|████      | 30/74 [04:39<08:43, 11.89s/it]Evaluating:  42%|████▏     | 31/74 [04:50<08:16, 11.54s/it]Evaluating:  43%|████▎     | 32/74 [04:55<06:40,  9.54s/it]Evaluating:  45%|████▍     | 33/74 [05:10<07:47, 11.41s/it]Evaluating:  46%|████▌     | 34/74 [05:19<07:07, 10.70s/it]Retrying llama_index.llms.google_genai.base.GoogleGenAI._achat in 1 seconds as it raised ServerError: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}.
+Evaluating:  47%|████▋     | 35/74 [05:34<07:41, 11.84s/it]Evaluating:  49%|████▊     | 36/74 [05:40<06:29, 10.26s/it]Exception raised in Job[20]: RuntimeError(Response was terminated early: MAX_TOKENS)
+Evaluating:  50%|█████     | 37/74 [05:44<05:04,  8.24s/it]Evaluating:  51%|█████▏    | 38/74 [05:46<03:52,  6.45s/it]Evaluating:  53%|█████▎    | 39/74 [05:49<03:07,  5.37s/it]Evaluating:  54%|█████▍    | 40/74 [05:52<02:33,  4.52s/it]Evaluating:  55%|█████▌    | 41/74 [06:04<03:46,  6.86s/it]Evaluating:  57%|█████▋    | 42/74 [06:30<06:44, 12.65s/it]Evaluating:  58%|█████▊    | 43/74 [06:33<04:57,  9.61s/it]Evaluating:  59%|█████▉    | 44/74 [06:40<04:30,  9.01s/it]Evaluating:  61%|██████    | 45/74 [06:44<03:37,  7.49s/it]Evaluating:  62%|██████▏   | 46/74 [06:56<04:05,  8.77s/it]Evaluating:  64%|██████▎   | 47/74 [07:02<03:34,  7.95s/it]Evaluating:  65%|██████▍   | 48/74 [07:06<02:52,  6.62s/it]Evaluating:  66%|██████▌   | 49/74 [07:29<04:48, 11.53s/it]Evaluating:  68%|██████▊   | 50/74 [07:32<03:37,  9.06s/it]Evaluating:  69%|██████▉   | 51/74 [07:35<02:45,  7.20s/it]Evaluating:  70%|███████   | 52/74 [07:41<02:32,  6.91s/it]Evaluating:  72%|███████▏  | 53/74 [07:42<01:49,  5.21s/it]Evaluating:  73%|███████▎  | 54/74 [07:45<01:27,  4.39s/it]Evaluating:  74%|███████▍  | 55/74 [07:47<01:13,  3.87s/it]Evaluating:  76%|███████▌  | 56/74 [08:06<02:31,  8.41s/it]Evaluating:  77%|███████▋  | 57/74 [08:17<02:34,  9.08s/it]Evaluating:  78%|███████▊  | 58/74 [08:27<02:32,  9.51s/it]Retrying llama_index.llms.google_genai.base.GoogleGenAI._achat in 1 seconds as it raised ServerError: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}.
+Evaluating:  80%|███████▉  | 59/74 [08:32<01:59,  7.98s/it]Evaluating:  81%|████████  | 60/74 [08:33<01:22,  5.92s/it]Evaluating:  82%|████████▏ | 61/74 [08:35<01:00,  4.67s/it]Retrying llama_index.llms.google_genai.base.GoogleGenAI._achat in 1 seconds as it raised ServerError: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}.
+Evaluating:  84%|████████▍ | 62/74 [09:42<04:40, 23.40s/it]Retrying llama_index.llms.google_genai.base.GoogleGenAI._achat in 1 seconds as it raised ServerError: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}.
+Evaluating:  85%|████████▌ | 63/74 [09:51<03:29, 19.01s/it]Evaluating:  86%|████████▋ | 64/74 [09:55<02:26, 14.65s/it]Evaluating:  88%|████████▊ | 65/74 [09:58<01:40, 11.18s/it]Evaluating:  89%|████████▉ | 66/74 [10:01<01:08,  8.53s/it]Evaluating:  91%|█████████ | 67/74 [10:11<01:04,  9.25s/it]Exception raised in Job[62]: ClientError(429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://aistudio.google.com/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 15, model: gemini-3.5-flash-lite, description: Generate content requests per minute limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\nPlease retry in 26.403665378s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://aistudio.google.com/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'description': 'Generate content requests per minute limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.', 'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerMinutePerProjectPerModel-FreeTier', 'quotaDimensions': {'model': 'gemini-3.5-flash-lite', 'location': 'global'}, 'quotaValue': '15'}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '26s'}]}})
+Evaluating:  92%|█████████▏| 68/74 [10:15<00:45,  7.55s/it]Retrying llama_index.llms.google_genai.base.GoogleGenAI._achat in 1 seconds as it raised ServerError: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}.
+Evaluating:  93%|█████████▎| 69/74 [10:50<01:19, 15.93s/it]Evaluating:  95%|█████████▍| 70/74 [10:52<00:46, 11.74s/it]Retrying llama_index.llms.google_genai.base.GoogleGenAI._achat in 1.01 seconds as it raised ServerError: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}.
+Evaluating:  96%|█████████▌| 71/74 [10:59<00:30, 10.17s/it]Evaluating:  97%|█████████▋| 72/74 [11:09<00:20, 10.08s/it]Evaluating:  99%|█████████▊| 73/74 [11:10<00:07,  7.39s/it]Evaluating: 100%|██████████| 74/74 [11:12<00:00,  5.88s/it]Evaluating: 100%|██████████| 74/74 [11:12<00:00,  9.09s/it]
+   {"questions": 50, "answerable": 45, "hit_rate": 0.8667, "all_sources_rate": 0.8444, "mrr": 0.6544, "retrieval_ms_p50": 12.6, "retrieval_ms_p95": 17.4, "refusal_accuracy": 1.0, "false_refusal_rate": 0.1778, "uncited_rate": 0.0, "total_ms_p50": 1460.5, "total_ms_p95": 23988.8, "cost_per_query_usd": 0.0005, "faithfulness": 0.9003, "answer_correctness": 0.5319, "pass_rate": 0.52, "pass_threshold": 0.6}
+
+== 1a-chunks-128: Smaller chunks. More precise matches, less context per chunk.
+   building index...
    indexed 19580 chunks from 733 pages
-  [1/5] g01 hit=False refused=True
-  [2/5] g02 hit=True refused=False
-  [3/5] g03 hit=True refused=True
-  [4/5] g04 hit=True refused=False
-  [5/5] g05 hit=True refused=False
-Judging 3 answers with Ragas...
-Evaluating:   0%|          | 0/6 [00:00<?, ?it/s]Evaluating:  17%|█▋        | 1/6 [00:01<00:09,  1.87s/it]Evaluating:  33%|███▎      | 2/6 [00:13<00:30,  7.55s/it]Evaluating:  50%|█████     | 3/6 [00:24<00:28,  9.40s/it]Retrying llama_index.llms.google_genai.base.GoogleGenAI._achat in 1 seconds as it raised ServerError: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}.
-Evaluating:  67%|██████▋   | 4/6 [00:37<00:21, 10.59s/it]Evaluating:  83%|████████▎ | 5/6 [00:45<00:09,  9.85s/it]Evaluating: 100%|██████████| 6/6 [00:49<00:00,  7.64s/it]Evaluating: 100%|██████████| 6/6 [00:49<00:00,  8.22s/it]
-   {"questions": 5, "answerable": 5, "hit_rate": 0.8, "all_sources_rate": 0.8, "mrr": 0.6667, "retrieval_ms_p50": 55.0, "retrieval_ms_p95": 64.4, "refusal_accuracy": null, "false_refusal_rate": 0.4, "uncited_rate": 0.2, "total_ms_p50": 777.2, "total_ms_p95": 9907.4, "cost_per_query_usd": 0.0003, "faithfulness": 1.0, "answer_correctness": 0.4989, "pass_rate": 0.6, "pass_threshold": 0.6}
-
-<!-- real run | last updated 2026-11-11T16:08:10+00:00 -->
-| Experiment | Chunk | Search | Rerank | Hit@5 | MRR | Faithful | Correct | Pass rate | Refusal acc | Retrieval p95 ms | Answer p95 ms | $/query | ACL leaks |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 0-baseline | 256 sentence | vector | no | 87% | 0.654 | n/a | n/a | n/a | n/a | 16 | n/a | n/a | 0 |
-| 1a-chunks-128 | 128 sentence | vector | no | 89% | 0.695 | n/a | n/a | n/a | n/a | 14 | n/a | n/a | 0 |
-| 1b-chunks-384 | 384 sentence | vector | no | 78% | 0.620 | n/a | n/a | n/a | n/a | 39 | n/a | n/a | 0 |
-| 2-hybrid | 128 sentence | hybrid | no | 93% | 0.770 | n/a | n/a | n/a | n/a | 62 | n/a | n/a | 0 |
-| 3-hybrid-rerank | 128 sentence | hybrid | yes | 93% | 0.816 | n/a | n/a | n/a | n/a | 1167 | n/a | n/a | 0 |
-| 4-heading-aware | 128 markdown | hybrid | yes | 93% | 0.822 | n/a | n/a | n/a | n/a | 840 | n/a | n/a | 0 |
-
-Measured on 50 golden questions; 5 chunks go to the model. Embeddings: local/BAAI/bge-small-en-v1.5. Reranker: local/Xenova/ms-marco-MiniLM-L-12-v2. Answer model: none. Judge: none. Rows showing n/a for answer metrics were run retrieval-only.
-
-Corpus: repo:   https://gitlab.com/gitlab-com/content-sites/handbook.git, commit: 76aef42d3c4a4248628bff82106d52c7e98a6602, date:   2026-11-11T14:57:42+01:00.
-
-Chunk size carried into the later rows: 128 tokens (best hit rate in the chunk sweep).
+Traceback (most recent call last):
+  File "<frozen runpy>", line 203, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/home/runner/work/Enterprise-Knowledge-RAG/Enterprise-Knowledge-RAG/backend/evals/run_experiments.py", line 181, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "/home/runner/work/Enterprise-Knowledge-RAG/Enterprise-Knowledge-RAG/backend/evals/run_experiments.py", line 165, in main
+    run = evaluate(assistant, items, cfg, generate=generate, judge=judge, pass_threshold=args.pass_threshold)
+  File "/home/runner/work/Enterprise-Knowledge-RAG/Enterprise-Knowledge-RAG/backend/evals/run_eval.py", line 72, in evaluate
+    result = assistant.answer(item["question"], retrieved)
+  File "/home/runner/work/Enterprise-Knowledge-RAG/Enterprise-Knowledge-RAG/backend/eka/assistant.py", line 87, in answer
+    return self._result(retrieved, answer_once(self.llm, question, retrieved.nodes))
+                                   ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/Enterprise-Knowledge-RAG/Enterprise-Knowledge-RAG/backend/eka/generation.py", line 196, in answer_once
+    response = llm.chat(messages)
+  File "/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/site-packages/llama_index_instrumentation/dispatcher.py", line 413, in wrapper
+    result = func(*args, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/site-packages/llama_index/core/llms/callbacks.py", line 179, in wrapped_llm_chat
+    f_return_val = f(_self, messages, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/site-packages/llama_index/llms/google_genai/base.py", line 409, in chat
+    return self._chat(messages, **kwargs)
+           ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/site-packages/llama_index/llms/google_genai/base.py", line 130, in wrapper
+    return retry(f)(self, *args, **kwargs)
+           ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/site-packages/tenacity/__init__.py", line 331, in wrapped_f
+    return copy(f, *args, **kw)
+  File "/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/site-packages/tenacity/__init__.py", line 470, in __call__
+    do = self.iter(retry_state=retry_state)
+  File "/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/site-packages/tenacity/__init__.py", line 371, in iter
+    result = action(retry_state)
+  File "/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/site-packages/tenacity/__init__.py", line 393, in <lambda>
+    self._add_action_func(lambda rs: rs.outcome.result())
+                                     ~~~~~~~~~~~~~~~~~^^
+  File "/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/concurrent/futures/_base.py", line 453, in result
+    return self.__get_result()
+           ~~~~~~~~~~~~~~~~~^^
+  File "/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/concurrent/futures/_base.py", line 402, in __get_result
+    raise self._exception
+  File "/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/site-packages/tenacity/__init__.py", line 473, in __call__
+    result = fn(*args, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/site-packages/llama_index/llms/google_genai/base.py", line 377, in _chat
+    response = chat.send_message(
+        next_msg.parts if isinstance(next_msg, types.Content) else next_msg
+    )
+  File "/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/site-packages/google/genai/chats.py", line 339, in send_message
+    response = self._modules.generate_content(
+        model=self._model,
+        contents=contents_to_model,  # type: ignore[arg-type]
+        config=parsed_config,
+    )
+  File "/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/site-packages/google/genai/models.py", line 6328, in generate_content
+    return self._generate_content_with_continuation(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        model=model, contents=contents, config=parsed_config
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/site-packages/google/genai/models.py", line 6211, in _generate_content_with_continuation
+    response = self._generate_content(
+        model=model, contents=contents, config=call_config
+    )
+  File "/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/site-packages/google/genai/models.py", line 4750, in _generate_content
+    response = self._api_client.request(
+        'post', path, request_dict, http_options
+    )
+  File "/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/site-packages/google/genai/_api_client.py", line 2073, in request
+    response = self._request(http_request, http_options, stream=False)
+  File "/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/site-packages/google/genai/_api_client.py", line 1849, in _request
+    return self._retry(self._request_once, http_request, stream)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/site-packages/tenacity/__init__.py", line 470, in __call__
+    do = self.iter(retry_state=retry_state)
+  File "/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/site-packages/tenacity/__init__.py", line 371, in iter
+    result = action(retry_state)
+  File "/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/site-packages/tenacity/__init__.py", line 413, in exc_check
+    raise retry_exc.reraise()
+          ~~~~~~~~~~~~~~~~~^^
+  File "/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/site-packages/tenacity/__init__.py", line 184, in reraise
+    raise self.last_attempt.result()
+          ~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/concurrent/futures/_base.py", line 453, in result
+    return self.__get_result()
+           ~~~~~~~~~~~~~~~~~^^
+  File "/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/concurrent/futures/_base.py", line 402, in __get_result
+    raise self._exception
+  File "/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/site-packages/tenacity/__init__.py", line 473, in __call__
+    result = fn(*args, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/site-packages/google/genai/_api_client.py", line 1826, in _request_once
+    errors.APIError.raise_for_response(response)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/site-packages/google/genai/errors.py", line 187, in raise_for_response
+    cls.raise_error(response.status_code, response_json, response)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/site-packages/google/genai/errors.py", line 216, in raise_error
+    raise ClientError(status_code, response_json, response)
+google.genai.errors.ClientError: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://aistudio.google.com/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 15, model: gemini-3.5-flash-lite, description: Generate content requests per minute limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\nPlease retry in 11.639994058s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://aistudio.google.com/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'description': 'Generate content requests per minute limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.', 'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerMinutePerProjectPerModel-FreeTier', 'quotaDimensions': {'model': 'gemini-3.5-flash-lite', 'location': 'global'}, 'quotaValue': '15'}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '11s'}]}}
+  [1/50] g01 hit=False refused=True
+  [2/50] g02 hit=True refused=False
+  [3/50] g03 hit=True refused=False
+  [4/50] g04 hit=True refused=False
+  [5/50] g05 hit=False refused=True
+  [6/50] g06 hit=False refused=False
+  [7/50] g07 hit=True refused=False
+  [8/50] g08 hit=True refused=False
+  [9/50] g09 hit=True refused=False
+  [10/50] g10 hit=True refused=False
+  [11/50] g11 hit=True refused=False
+  [12/50] g12 hit=True refused=False
+  [13/50] g13 hit=True refused=True
+  [14/50] g14 hit=True refused=False
+  [15/50] g15 hit=True refused=False
+  [16/50] g16 hit=True refused=False
+  [17/50] g17 hit=True refused=True
+  [18/50] g18 hit=True refused=False
+  [19/50] g19 hit=True refused=True
+  [20/50] g20 hit=True refused=True
+  [21/50] g21 hit=True refused=False
+  [22/50] g22 hit=False refused=True
+  [23/50] e01 hit=True refused=False
+  [24/50] e02 hit=True refused=True
+  [25/50] e03 hit=True refused=False
+  [26/50] e04 hit=True refused=False
+  [27/50] e05 hit=True refused=False
+  [28/50] e06 hit=True refused=False
+  [29/50] e07 hit=True refused=False
+  [30/50] e08 hit=True refused=False
+  [31/50] s01 hit=True refused=True
+  [32/50] s02 hit=True refused=False
+  [33/50] s03 hit=True refused=False
+  [34/50] s04 hit=True refused=False
+  [35/50] s05 hit=True refused=False
+  [36/50] s06 hit=True refused=False
+  [37/50] f01 hit=True refused=False
+  [38/50] f02 hit=True refused=True
+  [39/50] f03 hit=True refused=False
+  [40/50] f04 hit=False refused=True
+  [41/50] f05 hit=True refused=False
+  [42/50] f06 hit=True refused=False
+  [43/50] x01 hit=True refused=True
+  [44/50] x02 hit=True refused=False
