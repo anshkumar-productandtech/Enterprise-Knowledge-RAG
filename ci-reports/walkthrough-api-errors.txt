@@ -1,0 +1,81 @@
+API log lines about failures, from the recording run
+138:2026-11-12 10:00:33,912 INFO httpx HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash-lite:streamGenerateContent?alt=sse "HTTP/1.1 429 Too Many Requests"
+139:2026-11-12 10:00:33,912 ERROR eka.api chat failed: ClientError
+140:Traceback (most recent call last):
+141-  File "/home/runner/work/Enterprise-Knowledge-RAG/Enterprise-Knowledge-RAG/backend/eka/api.py", line 126, in events
+142-    for kind, payload in assistant.stream(question, body.role):
+143-                         ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+--
+205:    errors.APIError.raise_for_response(response)
+206-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+207-  File "/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/site-packages/google/genai/errors.py", line 187, in raise_for_response
+208-    cls.raise_error(response.status_code, response_json, response)
+--
+211:    raise ClientError(status_code, response_json, response)
+212:google.genai.errors.ClientError: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://aistudio.google.com/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 500, model: gemini-3.5-flash-lite, description: Generate content requests per day limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\nPlease retry in 21h59m26.127298921s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://aistudio.google.com/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'description': 'Generate content requests per day limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.', 'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerDayPerProjectPerModel-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-3.5-flash-lite'}, 'quotaValue': '500'}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '79166s'}]}}
+213-INFO:     ::1:0 - "POST /chat HTTP/1.1" 200 OK
+214-2026-11-12 10:00:49,963 INFO google_genai.chats AFC is enabled with max remote calls: 10.
+215:2026-11-12 10:00:50,127 INFO httpx HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash-lite:streamGenerateContent?alt=sse "HTTP/1.1 429 Too Many Requests"
+216-2026-11-12 10:00:53,129 INFO google_genai.chats AFC is enabled with max remote calls: 10.
+217:2026-11-12 10:00:53,270 INFO httpx HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash-lite:streamGenerateContent?alt=sse "HTTP/1.1 429 Too Many Requests"
+218-2026-11-12 10:00:59,272 INFO google_genai.chats AFC is enabled with max remote calls: 10.
+219:2026-11-12 10:00:59,428 INFO httpx HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash-lite:streamGenerateContent?alt=sse "HTTP/1.1 429 Too Many Requests"
+220:2026-11-12 10:01:08,429 INFO google_genai.chats AFC is enabled with max remote calls: 10.
+221:2026-11-12 10:01:08,616 INFO httpx HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash-lite:streamGenerateContent?alt=sse "HTTP/1.1 429 Too Many Requests"
+222:2026-11-12 10:01:08,617 ERROR eka.api chat failed: ClientError
+223:Traceback (most recent call last):
+224-  File "/home/runner/work/Enterprise-Knowledge-RAG/Enterprise-Knowledge-RAG/backend/eka/api.py", line 126, in events
+225-    for kind, payload in assistant.stream(question, body.role):
+226-                         ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+--
+288:    errors.APIError.raise_for_response(response)
+289-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+290-  File "/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/site-packages/google/genai/errors.py", line 187, in raise_for_response
+291-    cls.raise_error(response.status_code, response_json, response)
+--
+294:    raise ClientError(status_code, response_json, response)
+295:google.genai.errors.ClientError: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://aistudio.google.com/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 500, model: gemini-3.5-flash-lite, description: Generate content requests per day limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\nPlease retry in 21h58m51.422536737s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://aistudio.google.com/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'description': 'Generate content requests per day limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.', 'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerDayPerProjectPerModel-FreeTier', 'quotaDimensions': {'model': 'gemini-3.5-flash-lite', 'location': 'global'}, 'quotaValue': '500'}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '79131s'}]}}
+296-INFO:     ::1:0 - "POST /chat HTTP/1.1" 200 OK
+297-2026-11-12 10:01:25,613 INFO google_genai.chats AFC is enabled with max remote calls: 10.
+298:2026-11-12 10:01:25,779 INFO httpx HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash-lite:streamGenerateContent?alt=sse "HTTP/1.1 429 Too Many Requests"
+299-2026-11-12 10:01:28,781 INFO google_genai.chats AFC is enabled with max remote calls: 10.
+300:2026-11-12 10:01:28,897 INFO httpx HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash-lite:streamGenerateContent?alt=sse "HTTP/1.1 429 Too Many Requests"
+301-2026-11-12 10:01:34,899 INFO google_genai.chats AFC is enabled with max remote calls: 10.
+302:2026-11-12 10:01:35,041 INFO httpx HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash-lite:streamGenerateContent?alt=sse "HTTP/1.1 429 Too Many Requests"
+303-2026-11-12 10:01:44,043 INFO google_genai.chats AFC is enabled with max remote calls: 10.
+304:2026-11-12 10:01:44,197 INFO httpx HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash-lite:streamGenerateContent?alt=sse "HTTP/1.1 429 Too Many Requests"
+305:2026-11-12 10:01:44,197 ERROR eka.api chat failed: ClientError
+306:Traceback (most recent call last):
+307-  File "/home/runner/work/Enterprise-Knowledge-RAG/Enterprise-Knowledge-RAG/backend/eka/api.py", line 126, in events
+308-    for kind, payload in assistant.stream(question, body.role):
+309-                         ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+--
+371:    errors.APIError.raise_for_response(response)
+372-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+373-  File "/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/site-packages/google/genai/errors.py", line 187, in raise_for_response
+374-    cls.raise_error(response.status_code, response_json, response)
+--
+377:    raise ClientError(status_code, response_json, response)
+378:google.genai.errors.ClientError: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://aistudio.google.com/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 500, model: gemini-3.5-flash-lite, description: Generate content requests per day limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\nPlease retry in 21h58m15.844565753s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://aistudio.google.com/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'description': 'Generate content requests per day limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.', 'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerDayPerProjectPerModel-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-3.5-flash-lite'}, 'quotaValue': '500'}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '79095s'}]}}
+379-INFO:     ::1:0 - "POST /chat HTTP/1.1" 200 OK
+380-2026-11-12 10:02:04,957 INFO google_genai.chats AFC is enabled with max remote calls: 10.
+381:2026-11-12 10:02:05,103 INFO httpx HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash-lite:streamGenerateContent?alt=sse "HTTP/1.1 429 Too Many Requests"
+382-2026-11-12 10:02:08,105 INFO google_genai.chats AFC is enabled with max remote calls: 10.
+383:2026-11-12 10:02:08,227 INFO httpx HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash-lite:streamGenerateContent?alt=sse "HTTP/1.1 429 Too Many Requests"
+384-2026-11-12 10:02:14,229 INFO google_genai.chats AFC is enabled with max remote calls: 10.
+385:2026-11-12 10:02:14,373 INFO httpx HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash-lite:streamGenerateContent?alt=sse "HTTP/1.1 429 Too Many Requests"
+386-2026-11-12 10:02:23,374 INFO google_genai.chats AFC is enabled with max remote calls: 10.
+387:2026-11-12 10:02:23,545 INFO httpx HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash-lite:streamGenerateContent?alt=sse "HTTP/1.1 429 Too Many Requests"
+388:2026-11-12 10:02:23,546 ERROR eka.api chat failed: ClientError
+389:Traceback (most recent call last):
+390-  File "/home/runner/work/Enterprise-Knowledge-RAG/Enterprise-Knowledge-RAG/backend/eka/api.py", line 126, in events
+391-    for kind, payload in assistant.stream(question, body.role):
+392-                         ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+--
+454:    errors.APIError.raise_for_response(response)
+455-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+456-  File "/opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/site-packages/google/genai/errors.py", line 187, in raise_for_response
+457-    cls.raise_error(response.status_code, response_json, response)
+--
+460:    raise ClientError(status_code, response_json, response)
+461:google.genai.errors.ClientError: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://aistudio.google.com/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 500, model: gemini-3.5-flash-lite, description: Generate content requests per day limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\nPlease retry in 21h57m36.502190253s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://aistudio.google.com/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'description': 'Generate content requests per day limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.', 'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerDayPerProjectPerModel-FreeTier', 'quotaDimensions': {'model': 'gemini-3.5-flash-lite', 'location': 'global'}, 'quotaValue': '500'}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '79056s'}]}}

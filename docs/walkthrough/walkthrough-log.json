@@ -3,7 +3,7 @@
     "role": "Employee",
     "question": "What is the most I can spend on a hotel per night on a work trip?",
     "refused": false,
-    "failed": false
+    "failed": true
   },
   {
     "role": "Employee",
@@ -15,13 +15,13 @@
     "role": "Finance analyst",
     "question": "How many vendor bids do I need for a new $150K purchase?",
     "refused": false,
-    "failed": false
+    "failed": true
   },
   {
     "role": "Employee",
     "question": "What is the Wi-Fi password for the Amsterdam office?",
-    "refused": true,
-    "failed": false
+    "refused": false,
+    "failed": true
   },
   {
     "role": "Employee",
