@@ -8,7 +8,7 @@ It runs over the public GitLab handbook, with a 50-question golden test set and 
 
 ## Results
 
-Retrieval results are real: measured on 11 November 2026 against handbook commit `76aef42` (733 pages), with open-source models on a GitHub Actions runner. The full files are in [`backend/evals/results/`](backend/evals/results/).
+Retrieval results are real: measured on 11 and 12 November 2026 on the live handbook (733 pages), with open-source models on a GitHub Actions runner. The full files are in [`backend/evals/results/`](backend/evals/results/).
 
 | Experiment | Change from the row it builds on | Right page in top 5 | Right page ranked first | MRR | Retrieval p95 |
 | --- | --- | --- | --- | --- | --- |
@@ -28,8 +28,30 @@ What this shows, and what it doesn't:
 - **The reranker found no additional pages** but ranked the right one first more often (33 against 30), for about 0.6 seconds of extra CPU time per question.
 - **Heading-aware chunking made no measurable difference** and produced 26% more chunks.
 - **Two questions fail in every configuration.** Both lose to pages that discuss the same topic elsewhere: country benefit pages crowd out the global time-off policy, and Sales and Legal pages crowd out Accounts Payable on purchase orders.
-- **These are retrieval numbers only.** "Right page in top 5" does not prove the retrieved chunk contains the answer, and small chunks carry less context. Answer quality (faithfulness, correctness, refusals, cost) is measured by the `experiments` workflow in `full` mode and is not in yet.
+- **"Right page in top 5" does not prove the chunk holds the answer.** The answer-quality results below show why that matters.
 - **Latency was measured on a shared CI runner** with the embedding model and reranker on CPU. Treat it as relative, not absolute.
+
+### Answer quality
+
+Measured on 12 November 2026 on all 50 questions. Gemini 3.5 Flash-Lite answered and also judged (Ragas faithfulness and answer correctness; pass = correctly refused, or judged correctness of at least 0.6).
+
+| | Baseline (256, vector) | Hybrid (128) | Hybrid + reranker (served) |
+| --- | --- | --- | --- |
+| Pass rate | 26 of 50 | 26 of 50 | 29 of 49 scored |
+| Faithfulness | 90% | 93% | 93% |
+| Unanswerable questions refused | 5 of 5 | 5 of 5 | 5 of 5 |
+| Answerable questions wrongly refused | 8 of 45 | 11 of 45 | 7 of 45 |
+| Prompt injection | refused | refused | refused |
+| Answers without a valid citation | 0 | 0 | 0 |
+| Cost per question, paid-tier prices | $0.0005 | $0.0004 | $0.0003 |
+| Answer time, median / p95 | 1.5 s / 24.0 s | 0.8 s / 1.5 s | 1.7 s / 6.7 s |
+
+- **Hybrid search found more pages but refused more questions.** Small chunks often bring the right page back without the sentence holding the figure, and the model declines rather than guess. The reranker recovered most of these, so it is the served configuration.
+- **One reranker answer went unscored** when the judge call failed. It matches its reference almost word for word.
+- **The judge is strict.** A correct "$300 a night" answer scored 0.47 for adding detail, so pass rates understate quality. Hand-grading is the check.
+- **The baseline's 24-second p95 comes from Gemini overload retries** during that run, not from the system.
+- **Real spend was $0**: the runs used Gemini's free tier. Cost is what the same tokens would cost at Google's paid prices.
+- **Snapshots differ by a day.** The handbook changes daily: rows 1a, 1b and 4 ran on commit `76aef42`, the baseline on `d92556d`, and rows 2 and 3 on `6204c3c`.
 
 ## How it works
 
@@ -72,7 +94,7 @@ Everything below runs in GitHub Actions on every relevant push, and writes its e
 
 | Workflow | What it does | Needs a key |
 | --- | --- | --- |
-| `ci` | 38 tests against a real Postgres with pgvector, on mock models and a fictional corpus; builds the web app | No |
+| `ci` | 40 tests against a real Postgres with pgvector, on mock models and a fictional corpus; builds the web app | No |
 | `corpus-check` | Clones the handbook, checks every golden-set fact against it, sizes the corpus. Report: [`ci-reports/corpus-check.md`](ci-reports/corpus-check.md) | No |
 | `experiments` | Builds the indexes and runs the experiment table. Results: [`backend/evals/results/`](backend/evals/results/) | Only for answer-quality rows |
 | `deploy-index` | Builds the serving index in a hosted database for the live demo | Database secret |
