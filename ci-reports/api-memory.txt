@@ -1,0 +1,1 @@
+API peak memory after the recording: 708 MB (embedding model + reranker + app)
