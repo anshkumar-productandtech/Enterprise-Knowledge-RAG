@@ -1,0 +1,5 @@
+# Edit this file and push to main to build the serving index in Supabase.
+# The configuration comes from backend/config/serving.env.
+recreate=false
+# bump to re-run
+run=1
