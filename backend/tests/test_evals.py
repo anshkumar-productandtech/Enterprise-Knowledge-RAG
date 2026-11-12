@@ -126,3 +126,30 @@ def test_fact_matching_sees_through_markdown_links_and_emphasis():
     page = "You may not use Paid [Caregiver Sick Time](/handbook/time-off/#caregiver), unless **approved**."
     assert _plain("Paid Caregiver Sick Time") in _plain(page)
     assert _plain("unless approved") in _plain(page)
+
+
+def test_answer_retry_waits_out_rate_limits_and_gives_up_on_daily_quota(monkeypatch):
+    from evals import run_eval
+
+    sleeps = []
+    monkeypatch.setattr(run_eval.time, "sleep", sleeps.append)
+
+    class Flaky:
+        calls = 0
+
+        def answer(self, question, retrieved):
+            self.calls += 1
+            if self.calls < 3:
+                raise RuntimeError("429 RESOURCE_EXHAUSTED ... Please retry in 11.6s.")
+            return "ok"
+
+    flaky = Flaky()
+    assert run_eval._answer_with_retry(flaky, "q", None, log=lambda _: None) == "ok"
+    assert flaky.calls == 3 and sleeps == [13.6, 20]
+
+    class Daily:
+        def answer(self, question, retrieved):
+            raise RuntimeError("429 RESOURCE_EXHAUSTED quota metric GenerateRequestsPerDayPerProjectPerModel")
+
+    with pytest.raises(RuntimeError, match="PerDay"):
+        run_eval._answer_with_retry(Daily(), "q", None, log=lambda _: None)

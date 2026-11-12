@@ -14,6 +14,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import re
 import sys
 import time
 from datetime import datetime, timezone
@@ -37,6 +38,28 @@ RESULTS_DIR = BACKEND_DIR / "evals" / "results"
 PACE_SECONDS = 60 / float(os.environ["EVAL_RPM"]) if os.environ.get("EVAL_RPM") else 0.0
 QUALITY_ROLE = "admin"
 LEAST_PRIVILEGED_ROLE = "employee"
+
+
+_RETRY_AFTER = re.compile(r"retry in ([0-9.]+)s", re.I)
+
+
+def _answer_with_retry(assistant: Assistant, question: str, retrieved, log: Callable[[str], None], tries: int = 8):
+    """Ride out rate limits (429) and overload (503). A free-tier key hits 429 within a minute."""
+    for attempt in range(1, tries + 1):
+        try:
+            return assistant.answer(question, retrieved)
+        except Exception as exc:  # provider SDKs raise their own types; match on the message
+            msg = str(exc)
+            if "PerDay" in msg or "per day" in msg.lower():
+                raise  # a daily quota will not reset by waiting a minute
+            transient = any(k in msg for k in ("429", "RESOURCE_EXHAUSTED", "503", "UNAVAILABLE"))
+            if not transient or attempt == tries:
+                raise
+            m = _RETRY_AFTER.search(msg)
+            wait = max(float(m.group(1)) + 2 if m else 0, 10 * attempt)
+            log(f"    rate limited or overloaded; waiting {wait:.0f}s (attempt {attempt}/{tries})")
+            time.sleep(min(wait, 120))
+    raise RuntimeError("unreachable")
 
 
 def evaluate(
@@ -69,7 +92,7 @@ def evaluate(
         if generate:
             if PACE_SECONDS:
                 time.sleep(PACE_SECONDS)
-            result = assistant.answer(item["question"], retrieved)
+            result = _answer_with_retry(assistant, item["question"], retrieved, log)
             row |= {
                 "answer": result.answer.text,
                 "refused": result.answer.refused,

@@ -161,10 +161,12 @@ class FastEmbedRerank(BaseNodePostprocessor):
 # ------------------------------------------------------------------ factories
 
 
-def build_llm(settings: Settings, *, provider: str | None = None, model: str | None = None) -> LLM:
+def build_llm(
+    settings: Settings, *, provider: str | None = None, model: str | None = None, max_tokens: int = 700
+) -> LLM:
     provider = provider or settings.llm_provider
     model = model or settings.llm_model
-    common = {"temperature": 0.0, "max_tokens": 700}
+    common = {"temperature": 0.0, "max_tokens": max_tokens}
 
     if provider == "mock":
         return ExtractiveMockLLM()
@@ -189,6 +191,8 @@ def build_judge_llm(settings: Settings) -> LLM:
         settings,
         provider=settings.judge_provider or settings.llm_provider,
         model=settings.judge_model or settings.llm_model,
+        # The judge lists every statement in an answer; 700 tokens cut some lists off mid-way.
+        max_tokens=4096,
     )
 
 
