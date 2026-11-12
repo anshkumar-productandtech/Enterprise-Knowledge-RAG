@@ -1,0 +1,196 @@
+{
+  "meta": {
+    "label": "real run",
+    "scope": "retrieval + answers + judge",
+    "timestamp": "2026-11-12T07:08:15+00:00",
+    "golden_questions": 5,
+    "index": {
+      "chunk_size": 128,
+      "chunk_overlap": 16,
+      "chunker": "sentence",
+      "embed_model": "BAAI/bge-small-en-v1.5"
+    },
+    "retrieval": {
+      "search_mode": "hybrid",
+      "rerank": false,
+      "top_k": 5,
+      "candidate_k": 20
+    },
+    "llm": "gemini/gemini-3.5-flash-lite",
+    "embedding": "local/BAAI/bge-small-en-v1.5",
+    "reranker": "none",
+    "judge": "gemini/gemini-3.5-flash-lite",
+    "corpus_snapshot": "repo:   https://gitlab.com/gitlab-com/content-sites/handbook.git\ncommit: d92556d45d2f98f59ab217b0d59e36ea89219b07\ndate:   2026-11-12T10:01:17+11:00"
+  },
+  "summary": {
+    "questions": 5,
+    "answerable": 5,
+    "hit_rate": 0.8,
+    "all_sources_rate": 0.8,
+    "mrr": 0.6667,
+    "retrieval_ms_p50": 55.0,
+    "retrieval_ms_p95": 64.4,
+    "refusal_accuracy": null,
+    "false_refusal_rate": 0.4,
+    "uncited_rate": 0.2,
+    "total_ms_p50": 777.2,
+    "total_ms_p95": 9907.4,
+    "cost_per_query_usd": 0.0003,
+    "faithfulness": 1.0,
+    "answer_correctness": 0.4989,
+    "pass_rate": 0.6,
+    "pass_threshold": 0.6,
+    "access_control": {
+      "role": "employee",
+      "restricted_questions": 0,
+      "leaks": []
+    }
+  },
+  "rows": [
+    {
+      "id": "g01",
+      "type": "factual",
+      "access_group": "general",
+      "question": "Is there a cap on how many vacation days I can take in a year?",
+      "retrieved_urls": [
+        "https://handbook.gitlab.com/handbook/entity/israel-ltd",
+        "https://handbook.gitlab.com/handbook/total-rewards/benefits/general-and-entity-benefits/global-expansion",
+        "https://handbook.gitlab.com/handbook/total-rewards/benefits/general-and-entity-benefits/global-expansion",
+        "https://handbook.gitlab.com/handbook/entity/israel-ltd",
+        "https://handbook.gitlab.com/handbook/total-rewards/benefits/general-and-entity-benefits/remote-com"
+      ],
+      "retrieval_ms": 60.6,
+      "hit": false,
+      "all_sources": false,
+      "reciprocal_rank": 0.0,
+      "answer": "I couldn't find an answer to that in the documents available to you. Try rephrasing, or ask the team that owns this topic.",
+      "refused": true,
+      "uncited": false,
+      "cited": [],
+      "total_ms": 9907.4,
+      "cost_usd": 0.00023189999999999997,
+      "prompt_tokens": 748,
+      "completion_tokens": 3,
+      "token_source": "provider",
+      "faithfulness": null,
+      "answer_correctness": 0.0
+    },
+    {
+      "id": "g02",
+      "type": "factual",
+      "access_group": "general",
+      "question": "How far ahead do I need to tell my manager if I want to take 3 days off?",
+      "retrieved_urls": [
+        "https://handbook.gitlab.com/handbook/people-group/time-off-and-absence/time-off-types",
+        "https://handbook.gitlab.com/handbook/people-group/time-off-and-absence/time-away-philosophy",
+        "https://handbook.gitlab.com/handbook/total-rewards/benefits/general-and-entity-benefits/canada-corp-benefits",
+        "https://handbook.gitlab.com/handbook/finance/accounting",
+        "https://handbook.gitlab.com/handbook/people-group/time-off-and-absence/time-away-philosophy"
+      ],
+      "retrieval_ms": 64.4,
+      "hit": true,
+      "all_sources": true,
+      "reciprocal_rank": 1.0,
+      "answer": "You need to provide at least 6 business days of advance notice to your manager for a 3-day absence [1, 2, 3].",
+      "refused": false,
+      "uncited": true,
+      "cited": [],
+      "total_ms": 4530.9,
+      "cost_usd": 0.0003347,
+      "prompt_tokens": 849,
+      "completion_tokens": 32,
+      "token_source": "provider",
+      "faithfulness": 1.0,
+      "answer_correctness": 0.7074
+    },
+    {
+      "id": "g03",
+      "type": "factual",
+      "access_group": "general",
+      "question": "How many paid sick days do I get, and when do they start?",
+      "retrieved_urls": [
+        "https://handbook.gitlab.com/handbook/people-group/time-off-and-absence/time-off-types",
+        "https://handbook.gitlab.com/handbook/total-rewards/benefits/general-and-entity-benefits/global-expansion",
+        "https://handbook.gitlab.com/handbook/total-rewards/benefits/general-and-entity-benefits/global-expansion",
+        "https://handbook.gitlab.com/handbook/entity/iberia-srl-spain",
+        "https://handbook.gitlab.com/handbook/total-rewards/benefits/general-and-entity-benefits/remote-com"
+      ],
+      "retrieval_ms": 46.5,
+      "hit": true,
+      "all_sources": true,
+      "reciprocal_rank": 1.0,
+      "answer": "I couldn't find an answer to that in the documents available to you. Try rephrasing, or ask the team that owns this topic.",
+      "refused": true,
+      "uncited": false,
+      "cited": [],
+      "total_ms": 599.6,
+      "cost_usd": 0.0002655,
+      "prompt_tokens": 860,
+      "completion_tokens": 3,
+      "token_source": "provider",
+      "faithfulness": null,
+      "answer_correctness": 0.0
+    },
+    {
+      "id": "g04",
+      "type": "factual",
+      "access_group": "general",
+      "question": "I'm ill today. Can I just log it as PTO instead of sick time?",
+      "retrieved_urls": [
+        "https://handbook.gitlab.com/handbook/people-group/time-off-and-absence/leave-types",
+        "https://handbook.gitlab.com/handbook/people-group/time-off-and-absence/time-away-philosophy",
+        "https://handbook.gitlab.com/handbook/people-group/time-off-and-absence/time-off-types",
+        "https://handbook.gitlab.com/handbook/people-group/time-off-and-absence/time-off-types",
+        "https://handbook.gitlab.com/handbook/total-rewards/benefits/general-and-entity-benefits/bv-benefits-netherlands"
+      ],
+      "retrieval_ms": 55.0,
+      "hit": true,
+      "all_sources": true,
+      "reciprocal_rank": 0.3333333333333333,
+      "answer": "No, team members are not allowed to substitute PTO for sick time [3]. If you are taking time off for medical needs or sick time (whether physical or mental-health-related), you must follow the Sick Time Policy [3]. Additionally, all time away requests, including being out sick, must be logged in Workday [2].",
+      "refused": false,
+      "uncited": false,
+      "cited": [
+        2,
+        3
+      ],
+      "total_ms": 777.2,
+      "cost_usd": 0.00043019999999999994,
+      "prompt_tokens": 859,
+      "completion_tokens": 69,
+      "token_source": "provider",
+      "faithfulness": 1.0,
+      "answer_correctness": 0.8337
+    },
+    {
+      "id": "g05",
+      "type": "factual",
+      "access_group": "general",
+      "question": "What is the minimum amount of time off the company recommends I take each year?",
+      "retrieved_urls": [
+        "https://handbook.gitlab.com/handbook/people-group/time-off-and-absence/time-off-types",
+        "https://handbook.gitlab.com/handbook/total-rewards/benefits/general-and-entity-benefits/bv-benefits-netherlands",
+        "https://handbook.gitlab.com/handbook/total-rewards/benefits/general-and-entity-benefits/global-expansion",
+        "https://handbook.gitlab.com/handbook/entity/israel-ltd",
+        "https://handbook.gitlab.com/handbook/people-group/time-off-and-absence/time-off-types"
+      ],
+      "retrieval_ms": 53.6,
+      "hit": true,
+      "all_sources": true,
+      "reciprocal_rank": 1.0,
+      "answer": "GitLab strongly recommends taking at least two consecutive weeks of time off and a minimum of 25 days total throughout the year [5].",
+      "refused": false,
+      "uncited": false,
+      "cited": [
+        5
+      ],
+      "total_ms": 563.2,
+      "cost_usd": 0.00030460000000000003,
+      "prompt_tokens": 782,
+      "completion_tokens": 28,
+      "token_source": "provider",
+      "faithfulness": 1.0,
+      "answer_correctness": 0.9535
+    }
+  ]
+}
