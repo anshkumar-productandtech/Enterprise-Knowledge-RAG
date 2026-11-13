@@ -1,2 +1,2 @@
-API peak memory after the recording: 675 MB (embedding model + reranker + app)
-API peak memory without the reranker, after one question: 427 MB
+API peak memory after the recording: 683 MB (embedding model + reranker + app)
+API peak memory without the reranker, after one question: 429 MB
